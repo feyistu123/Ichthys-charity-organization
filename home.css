@@ -28,7 +28,7 @@ button {
 #background {
   position: relative;
   padding: 120px 0px;
-  background-image: url("/Images/mother2.jpg");
+  background-image: url("Images/mother2.jpg");
   background-size: cover;
   background-position: center;
   height: 600px;
@@ -708,3 +708,4 @@ a {
   }
 
 }
+

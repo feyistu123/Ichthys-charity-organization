@@ -2,7 +2,9 @@
 This repository documents the evolution of the Ichthys Charity Management System, moving from a static prototype to a fully functional, secure MERN-style application.
 
 📂 Project Structure
+
 Phase 1: The Foundation 🏗️
+
 Phase 1 focused on building the core structural elements and user interface prototypes.
 
 Static UI Development: Created the initial landing pages, donation forms, and volunteer application layouts using HTML/CSS and basic JavaScript.
@@ -12,6 +14,7 @@ Local Storage: Initial data handling was performed client-side to simulate how i
 Routing Logic: Established the basic site architecture and navigation flow for donors and volunteers.
 
 Phase 2: The Full-Stack Transformation 🚀
+
 Phase 2 introduced the robust backend infrastructure and security layers you see in the current version.
 
 🏗️ Architecture Overview

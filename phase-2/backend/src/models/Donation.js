@@ -14,6 +14,10 @@ const DonationSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    projectId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Project', default: null 
+    },
     amount: { 
         type: Number, 
         required: true 

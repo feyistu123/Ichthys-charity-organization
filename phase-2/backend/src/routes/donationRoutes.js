@@ -65,6 +65,8 @@ const handleDonationRoutes = (req, res) => {
                     donorName: data.donorName,
                     amount: data.amount,
                     email: data.email,
+                    projectId: data.projectId || null,
+                    currency: data.currency,
                     paymentMethod: data.paymentMethod
                 });
 

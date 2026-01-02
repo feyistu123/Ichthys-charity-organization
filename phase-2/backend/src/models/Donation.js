@@ -28,6 +28,17 @@ const DonationSchema = new mongoose.Schema({
         enum: ['ETB', 'USD'],
         default: 'ETB'
     },
+    paymentMethod: { 
+        type: String, 
+        required: true,
+        enum: ['Credit Card', 'Bank Transfer', 'Mobile Payment'],
+    },
+    donationType: { 
+        type: String, 
+        required: true,
+        enum: ['One-Time', 'monthly'],
+        default: 'One-Time'
+    },
     date: { 
         type: Date, 
         default: Date.now 

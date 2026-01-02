@@ -3,6 +3,7 @@ const http = require('http');
 const connectDB = require('./config/db');
 const volunteerRoutes = require('./routes/volunteerRoutes');
 const donationRoutes = require('./routes/donationRoutes');
+const programRoutes = require('./routes/programRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const server = http.createServer((req, res) => {
@@ -26,15 +27,16 @@ const server = http.createServer((req, res) => {
     const handledUser = userRoutes(req, res);
     const handledVolunteer = volunteerRoutes(req, res);
     const handledDonation = donationRoutes(req, res);
+    const handledProgram = programRoutes(req, res);
 
     /**
      * 3. 404 Handler
      * If neither route handler returned 'true', the page doesn't exist.
      */
-    if (!handledUser && !handledVolunteer && !handledDonation) {
+    if (!handledUser && !handledVolunteer && !handledDonation && !handledProgram) {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ 
-            message: "Route not found. Try /api/volunteers, /api/donations, or /api/register" 
+            message: "Route not found. Try /api/volunteers, /api/donations, /api/register or /api/projects" 
         }));
     }
 });

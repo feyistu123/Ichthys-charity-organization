@@ -1,5 +1,6 @@
 const Donation = require('../models/Donation');
 const User = require('../models/User');
+const Project = require('../models/Project');
 const jwt = require('jsonwebtoken');
 
 const handleDonationRoutes = (req, res) => {
@@ -30,9 +31,12 @@ const handleDonationRoutes = (req, res) => {
 
             try {
                 // Fetch donations and populate donor details
-                const donations = await Donation.find().populate('donorId', 'fullName email');
+                const donations = await Donation.find()
+                .populate('projectId', 'title category');
+
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify(donations));
+                
             } catch (error) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ error: error.message }));
@@ -58,6 +62,10 @@ const handleDonationRoutes = (req, res) => {
                         message: "Donation failed: You must register an account first!" 
                     }));
                 }
+                let project = null;
+                if (data.projectId && data.projectId.length === 24) {
+                    project = await Project.findById(data.projectId);
+                }
 
                 // 2. Create the donation linked to the User ID
                 const newDonation = new Donation({
@@ -65,12 +73,21 @@ const handleDonationRoutes = (req, res) => {
                     donorName: data.donorName,
                     amount: data.amount,
                     email: data.email,
-                    projectId: data.projectId || null,
+                    projectId: project ? project._id : null,
                     currency: data.currency,
-                    paymentMethod: data.paymentMethod
+                    paymentMethod: data.paymentMethod,
+                    donationType: data.donationType
                 });
 
                 await newDonation.save();
+
+                // 2. Conditional Progress Update
+                if (project) {
+                    await Project.findByIdAndUpdate(project._id, {
+                    $inc: { raisedAmount: data.amount }
+                    });
+                }
+
                 res.writeHead(201, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ message: "Thank you for your donation!" }));
 

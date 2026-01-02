@@ -12,10 +12,10 @@ const ProjectSchema = new mongoose.Schema({
     endDate: { type: Date, required: true },
     status: { 
         type: String, 
-        enum: ['Active', 'Completed', 'Upcoming'], 
+        enum: ['Active', 'Completed'], 
         default: 'Active' 
     },
-    image: { type: String } // URL for the project thumbnail
+    image: { type: String, required: true } // URL for the project thumbnail
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);

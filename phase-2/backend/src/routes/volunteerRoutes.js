@@ -13,7 +13,6 @@ const handleVolunteerRoutes = (req, res) => {
             return res.end(JSON.stringify({ message: "Token missing!" }));
         }
 
-        // Use the EXACT same logic that worked for donations
         jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
             if (err) {
                 console.log("Volunteer JWT Error:", err.message);

@@ -24,11 +24,12 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashBoard from "./AdminPage/AdminDashBoard";
 import CreateProject from "./components/CreateProject";
+import AdminProjects from "./AdminPage/AdminProjects";
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route index element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="/donation" element={<DonationForm />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -52,18 +53,19 @@ const App = () => {
           <Route path="program" element={<Projects />} />
           <Route path="complete" element={<Completed />} />
           <Route path="active" element={<ActiveProjects />} />
-        </Route> */}
-        {/* <Route path="adminDashboard" element={<AdminDashBoard />}> */}
-        {/* <Route index element={<Projects />} /> */}
-        {/* <Route path="projects" />
+        </Route>
+        <Route path="adminDashboard" element={<AdminDashBoard />}>
+          <Route path="projects" element={<AdminProjects />} />
           <Route path="events" />
           <Route path="volunteer-approval" />
           <Route path="posts" />
-          <Route path="donation-management" /> */}
-        {/* </Route> */}
+          <Route path="donation-management" />
+        </Route>
       </Routes>
-      <CreateProject />
-      <AdminDashBoard />
+
+      {/* <CreateProject /> */}
+      <AdminProjects />
+      {/* <AdminDashBoard /> */}
     </BrowserRouter>
   );
 };

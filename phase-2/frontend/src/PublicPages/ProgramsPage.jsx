@@ -2,302 +2,188 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import { Link, Outlet } from "react-router-dom";
 import "../style.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useData } from "../context/DataContext";
 
 export const Projects = () => {
+  const { projects } = useData();
   return (
     <div className="project-cards">
-      <div className="project-card">
-        <img className="project-image" />
+      {projects.length === 0 ? (
+        <h3>there are no new projects</h3>
+      ) : (
+        projects.map((p) => (
+          <div key={p.id} className="project-card">
+            <img className="project-image" alt={p.title} />
 
-        <div className="project-tags">
-          <p className="project-field">Education</p>
-          <p className="project-status active">Active</p>
-        </div>
+            <div className="project-tags">
+              <p className="project-field">{p.category}</p>
+              <p className="project-status active">{p.status}</p>
+            </div>
 
-        <div className="project-description">
-          <h4>Build Schools in Rural Communities</h4>
-          <p>
-            Constructing sustainable schools to provide quality education for
-            children in underserved rural areas.
-          </p>
-        </div>
+            <div className="project-description">
+              <h4>{p.title}</h4>
+              <p>{p.description}</p>
+            </div>
 
-        <div className="project-location">
-          <i className="bi bi-geo-alt"></i>
-          <h3>Rural Kenya</h3>
-        </div>
+            <div className="project-location">
+              <i className="bi bi-geo-alt"></i>
+              <h3>{p.location}</h3>
+            </div>
 
-        <div className="project-stats">
-          <div className="stat-box">
-            <h3>Raised</h3>
-            <p>$65,000</p>
+            <div className="project-stats">
+              <div className="stat-box">
+                <h3>Raised</h3>
+                <p>{p.raisedAmount}</p>
+              </div>
+
+              <div className="stat-box">
+                <h3>Goal</h3>
+                <p>{p.goalAmount}</p>
+              </div>
+            </div>
+
+            <div className="project-footer">
+              <div className="impact-info">
+                <i class="bi bi-people"></i>
+                <p>impacted people : {p.peopleImpacted}</p>
+              </div>
+
+              <div className="date-info">
+                <i class="bi bi-calendar-date"></i>
+                <p className="project-date">
+                  {" "}
+                  {p.startDate} - {p.endDate}
+                </p>
+              </div>
+
+              <button className="support-btn">Support This Project</button>
+            </div>
           </div>
-
-          <div className="stat-box">
-            <h3>Goal</h3>
-            <p>$100,000</p>
-          </div>
-        </div>
-
-        <div className="project-footer">
-          <div className="impact-info">
-            <i class="bi bi-people"></i>
-            <p>500 people impacted</p>
-          </div>
-
-          <div className="date-info">
-            <i class="bi bi-calendar-date"></i>
-            <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-          </div>
-
-          <button className="support-btn">Support This Project</button>
-        </div>
-      </div>
-      <div className="project-card">
-        <img className="project-image" />
-
-        <div className="project-tags">
-          <p className="project-field">Education</p>
-          <p className="project-status active">Active</p>
-        </div>
-
-        <div className="project-description">
-          <h4>Build Schools in Rural Communities</h4>
-          <p>
-            Constructing sustainable schools to provide quality education for
-            children in underserved rural areas.
-          </p>
-        </div>
-
-        <div className="project-location">
-          <i className="bi bi-geo-alt"></i>
-          <h3>Rural Kenya</h3>
-        </div>
-
-        <div className="project-stats">
-          <div className="stat-box">
-            <h3>Raised</h3>
-            <p>$65,000</p>
-          </div>
-
-          <div className="stat-box">
-            <h3>Goal</h3>
-            <p>$100,000</p>
-          </div>
-        </div>
-
-        <div className="project-footer">
-          <div className="impact-info">
-            <i class="bi bi-people"></i>
-            <p>500 people impacted</p>
-          </div>
-
-          <div className="date-info">
-            <i class="bi bi-calendar-date"></i>
-            <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-          </div>
-
-          <button className="support-btn">Support This Project</button>
-        </div>
-      </div>
-      <div className="project-card">
-        <img className="project-image" />
-
-        <div className="project-tags">
-          <p className="project-field">Education</p>
-          <p className="project-status active">Active</p>
-        </div>
-
-        <div className="project-description">
-          <h4>Build Schools in Rural Communities</h4>
-          <p>
-            Constructing sustainable schools to provide quality education for
-            children in underserved rural areas.
-          </p>
-        </div>
-
-        <div className="project-location">
-          <i className="bi bi-geo-alt"></i>
-          <h3>Rural Kenya</h3>
-        </div>
-
-        <div className="project-stats">
-          <div className="stat-box">
-            <h3>Raised</h3>
-            <p>$65,000</p>
-          </div>
-
-          <div className="stat-box">
-            <h3>Goal</h3>
-            <p>$100,000</p>
-          </div>
-        </div>
-
-        <div className="project-footer">
-          <div className="impact-info">
-            <i class="bi bi-people"></i>
-            <p>500 people impacted</p>
-          </div>
-
-          <div className="date-info">
-            <i class="bi bi-calendar-date"></i>
-            <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-          </div>
-
-          <button className="support-btn">Support This Project</button>
-        </div>
-      </div>
-      <div className="project-card">
-        <img className="project-image" />
-
-        <div className="project-tags">
-          <p className="project-field">Education</p>
-          <p className="project-status active">Active</p>
-        </div>
-
-        <div className="project-description">
-          <h4>Build Schools in Rural Communities</h4>
-          <p>
-            Constructing sustainable schools to provide quality education for
-            children in underserved rural areas.
-          </p>
-        </div>
-
-        <div className="project-location">
-          <i className="bi bi-geo-alt"></i>
-          <h3>Rural Kenya</h3>
-        </div>
-
-        <div className="project-stats">
-          <div className="stat-box">
-            <h3>Raised</h3>
-            <p>$65,000</p>
-          </div>
-
-          <div className="stat-box">
-            <h3>Goal</h3>
-            <p>$100,000</p>
-          </div>
-        </div>
-
-        <div className="project-footer">
-          <div className="impact-info">
-            <i class="bi bi-people"></i>
-            <p>500 people impacted</p>
-          </div>
-          <div className="date-info">
-            <i class="bi bi-calendar-date"></i>
-            <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-          </div>
-
-          <button className="support-btn">Support This Project</button>
-        </div>
-      </div>
+        ))
+      )}
     </div>
   );
 };
 export const Completed = () => {
+  const { projects } = useData();
+  const completedProjects = projects.filter((p) => p.status === "completed");
+
   return (
-    <div className="project-card">
-      <img className="project-image" />
+    <div className="project-cards">
+      {completedProjects.length === 0 ? (
+        <h3>There are no completed projects</h3>
+      ) : (
+        completedProjects.map((p) => (
+          <div key={p.id} className="project-card">
+            <img className="project-image" alt={p.title} />
 
-      <div className="project-tags">
-        <p className="project-field">Education</p>
-        <p className="project-status active">completed</p>
-      </div>
+            <div className="project-tags">
+              <p className="project-field">{p.category}</p>
+              <p className="project-status completed">{p.status}</p>
+            </div>
 
-      <div className="project-description">
-        <h4>Build Schools in Rural Communities</h4>
-        <p>
-          Constructing sustainable schools to provide quality education for
-          children in underserved rural areas.
-        </p>
-      </div>
+            <div className="project-description">
+              <h4>{p.title}</h4>
+              <p>{p.description}</p>
+            </div>
 
-      <div className="project-location">
-        <i class="bi bi-people"></i>
-        <h3>Rural Kenya</h3>
-      </div>
+            <div className="project-location">
+              <i className="bi bi-geo-alt"></i>
+              <h3>{p.location}</h3>
+            </div>
 
-      <div className="project-stats">
-        <div className="stat-box">
-          <h3>Raised</h3>
-          <p>$65,000</p>
-        </div>
+            <div className="project-stats">
+              <div className="stat-box">
+                <h3>Raised</h3>
+                <p>{p.raisedAmount}</p>
+              </div>
 
-        <div className="stat-box">
-          <h3>Goal</h3>
-          <p>$100,000</p>
-        </div>
-      </div>
+              <div className="stat-box">
+                <h3>Goal</h3>
+                <p>{p.goalAmount}</p>
+              </div>
+            </div>
 
-      <div className="project-footer">
-        <div className="impact-info">
-          <i class="bi bi-people"></i>
-          <p>500 people impacted</p>
-        </div>
+            <div className="project-footer">
+              <div className="impact-info">
+                <i className="bi bi-people"></i>
+                <p>Impacted people: {p.peopleImpacted}</p>
+              </div>
 
-        <div className="date-info">
-          <i class="bi bi-calendar-date"></i>
-          <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-        </div>
+              <div className="date-info">
+                <i className="bi bi-calendar-date"></i>
+                <p className="project-date">
+                  {p.startDate} – {p.endDate}
+                </p>
+              </div>
 
-        <button className="support-btn">Support This Project</button>
-      </div>
+              <button className="support-btn">Support This Project</button>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };
 
 export const ActiveProjects = () => {
+  const { projects } = useData();
+  const activeProjects = projects.filter((p) => p.status === "active");
   return (
     <div className="project-card">
-      <img className="project-image" />
+      {activeProjects.length === 0 ? (
+        <h3>There are no Active projects</h3>
+      ) : (
+        activeProjects.map((p) => (
+          <div key={p.id} className="project-card">
+            <img className="project-image" alt={p.title} />
 
-      <div className="project-tags">
-        <p className="project-field">Education</p>
-        <p className="project-status active">active</p>
-      </div>
+            <div className="project-tags">
+              <p className="project-field">{p.category}</p>
+              <p className="project-status completed">{p.status}</p>
+            </div>
 
-      <div className="project-description">
-        <h4>Build Schools in Rural Communities</h4>
-        <p>
-          Constructing sustainable schools to provide quality education for
-          children in underserved rural areas.
-        </p>
-      </div>
+            <div className="project-description">
+              <h4>{p.title}</h4>
+              <p>{p.description}</p>
+            </div>
 
-      <div className="project-location">
-        <i className="bi bi-geo-alt"></i>
-        <h3>Rural Kenya</h3>
-      </div>
+            <div className="project-location">
+              <i className="bi bi-geo-alt"></i>
+              <h3>{p.location}</h3>
+            </div>
 
-      <div className="project-stats">
-        <div className="stat-box">
-          <h3>Raised</h3>
-          <p>$65,000</p>
-        </div>
+            <div className="project-stats">
+              <div className="stat-box">
+                <h3>Raised</h3>
+                <p>{p.raisedAmount}</p>
+              </div>
 
-        <div className="stat-box">
-          <h3>Goal</h3>
-          <p>$100,000</p>
-        </div>
-      </div>
+              <div className="stat-box">
+                <h3>Goal</h3>
+                <p>{p.goalAmount}</p>
+              </div>
+            </div>
 
-      <div className="project-footer">
-        <div className="impact-info">
-          <i class="bi bi-people"></i>
-          <p>500 people impacted</p>
-        </div>
+            <div className="project-footer">
+              <div className="impact-info">
+                <i className="bi bi-people"></i>
+                <p>Impacted people: {p.peopleImpacted}</p>
+              </div>
 
-        <div className="date-info">
-          <i class="bi bi-calendar-date"></i>
-          <p className="project-date"> 6/1/2024 - 12/31/2025</p>
-        </div>
+              <div className="date-info">
+                <i className="bi bi-calendar-date"></i>
+                <p className="project-date">
+                  {p.startDate} – {p.endDate}
+                </p>
+              </div>
 
-        <button className="support-btn">Support This Project</button>
-      </div>
+              <button className="support-btn">Support This Project</button>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };

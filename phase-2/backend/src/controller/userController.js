@@ -28,14 +28,16 @@ exports.handleLogin = (req, res) => {
     req.on('end', async () => {
         try {
             const data = JSON.parse(body);
-            const user = await userLogic.findUserByEmail(data.email);
+            
+            // Use the loginUser logic that handles BCRYPT comparison
+            const user = await userLogic.loginUser(data); 
 
-            if (!user || user.password !== data.password) {
+            if (!user) {
                 res.writeHead(401, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ message: "Invalid email or password" }));
             }
 
-            if (data.loginAs === 'Admin' && user.role !== 'admin') {
+            if (data.loginAs === 'admin' && user.role !== 'admin') {
                 res.writeHead(403, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ message: "Access Denied: You are not an admin!" }));
             }

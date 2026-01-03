@@ -24,6 +24,27 @@ exports.addProject = (req, res) => {
     });
 };
 
+exports.createProjectWithImage = async (req, res) => {
+    try {
+        // Construct the full URL for the frontend
+        const image = `http://localhost:5000/uploads/${req.file.filename}`;
+        
+        // req.body contains text fields like title and goalAmount
+        const projectData = {
+            ...req.body,
+            image: image
+        };
+
+        const newProject = await projectLogic.saveProject(projectData);
+        
+        res.writeHead(201, { 'Content-Type': 'application/jso n' });
+        res.end(JSON.stringify({ message: "Project created with image!", project: newProject }));
+    } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+    }
+};
+
 // --- ADMIN: TOGGLE STATUS ---
 exports.changeStatus = async (req, res, id) => {
     const project = await projectLogic.toggleStatus(id);

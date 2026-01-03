@@ -7,6 +7,8 @@ const programRoutes = require('./routes/programRoutes');
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const fs = require('fs');
+const path = require('path');
 
 const server = http.createServer((req, res) => {
     // 1. Set CORS Headers - Vital for React to talk to this backend
@@ -21,6 +23,17 @@ const server = http.createServer((req, res) => {
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
+        return;
+    }
+    if (req.url.startsWith('/uploads/')) {
+        const filePath = path.join(__dirname, '..', req.url);
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.writeHead(404);
+                return res.end();
+            }
+            res.end(data);
+        });
         return;
     }
 

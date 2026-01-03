@@ -1,5 +1,6 @@
 const projectController = require('../controller/projectController');
 const { verifyAdmin } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const handleProgramRoutes = (req, res) => {
     // 1. GET ALL PROJECTS (Public)
@@ -11,6 +12,19 @@ const handleProgramRoutes = (req, res) => {
     // 2. POST NEW PROJECT (Admin Only)
     if (req.url === '/api/projects/add' && req.method === 'POST') {
         verifyAdmin(req, res, () => projectController.addProject(req, res));
+        return true;
+    }
+
+    if (req.url === '/api/projects/upload' && req.method === 'POST') {
+        verifyAdmin(req, res, () => {
+            upload(req, res, (err) => {
+                if (err) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ error: err.message }));
+                }
+                projectController.createProjectWithImage(req, res);
+            });
+        });
         return true;
     }
 

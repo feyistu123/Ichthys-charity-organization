@@ -28,6 +28,22 @@ exports.publishPost = (req, res) => {
         }
     });
 };
+exports.publishWithImage = async (req, res) => {
+    try {
+        // With Multer, text fields are in req.body, file is in req.file
+        const blogData = {
+            ...req.body, // title, category, author, etc.
+            imageUrl: `http://localhost:5000/${req.file.path.replace(/\\/g, "/")}`
+        };
+
+        const newBlog = await blogLogic.createBlogPost(blogData);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: "Upload success!", blog: newBlog }));
+    } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+    }
+};
 
 // --- ADMIN: EDIT BLOG DETAILS ---
 exports.editBlog = (req, res, id) => {

@@ -8,7 +8,11 @@ exports.createProject = async (data) => {
     const newProject = new Project(data);
     return await newProject.save();
 };
-
+exports.saveProject = async (data) => {
+    const Project = require('../models/Project');
+    const project = new Project(data);
+    return await project.save();
+};
 exports.toggleStatus = async (id) => {
     const project = await Project.findById(id);
     if (!project) return null;

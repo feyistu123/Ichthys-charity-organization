@@ -30,6 +30,24 @@ exports.addEvent = (req, res) => {
     });
 };
 
+exports.publishWithImage = async (req, res) => {
+    try {
+        // req.file.filename comes from Multer
+        const image = `http://localhost:5000/uploads/${req.file.filename}`;
+        
+        const newEvent = await eventLogic.createEvent({
+            ...req.body,
+            image: image,
+        });
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: "Upload success!", event: newEvent }));
+    } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+    }
+};
+
 // --- ADMIN: MOVE TO PAST ---
 exports.archiveEvent = async (req, res, id) => {
     try {

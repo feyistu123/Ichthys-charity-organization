@@ -1,5 +1,6 @@
 const blogController = require('../controller/blogController');
 const { verifyAdmin } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const handleBlogRoutes = (req, res) => {
     // 1. PUBLIC: GET ARTICLES
@@ -14,6 +15,23 @@ const handleBlogRoutes = (req, res) => {
         return true;
     }
 
+// Inside your handleBlogRoutes function
+if (req.url === '/api/blogs/upload' && req.method === 'POST') {
+    verifyAdmin(req, res, () => {
+        // Use multer to process the file
+        upload(req, res, (err) => {
+            if (err) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                return res.end(JSON.stringify({ error: err.message }));
+            }
+            
+            // The file path is now available as req.file.path
+            blogController.publishWithImage(req, res);
+        });
+    });
+    return true;
+}
+
     // --- ADMIN: EDIT BLOG POST ---
     if (req.url.startsWith('/api/blogs/') && req.method === 'PATCH') {
         const id = req.url.split('/').pop();
@@ -22,7 +40,7 @@ const handleBlogRoutes = (req, res) => {
         });
         return true;
     }
-    
+
     // 3. ADMIN: DELETE ARTICLE
     if (req.url.startsWith('/api/blogs/') && req.method === 'DELETE') {
         const id = req.url.split('/').pop();

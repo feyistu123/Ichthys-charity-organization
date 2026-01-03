@@ -1,5 +1,6 @@
 const eventController = require('../controller/eventController');
 const { verifyAdmin } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
 
 const handleEventRoutes = (req, res) => {
     // 1. PUBLIC: GET EVENTS (View upcoming/past)
@@ -12,6 +13,21 @@ const handleEventRoutes = (req, res) => {
     if (req.url === '/api/events/add' && req.method === 'POST') {
         verifyAdmin(req, res, () => {
             eventController.addEvent(req, res);
+        });
+        return true;
+    }
+    // Inside your handleEventRoutes function
+    if (req.url === '/api/events/upload' && req.method === 'POST') {
+        verifyAdmin(req, res, () => {
+            // Use multer to process the file
+            upload(req, res, (err) => {
+                if (err) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ error: err.message }));
+                }
+                // The file path is now available as req.file.path
+                eventController.publishWithImage(req, res);
+            });
         });
         return true;
     }

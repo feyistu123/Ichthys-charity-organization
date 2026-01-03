@@ -3,78 +3,88 @@ import { images } from "../assets/Images/images";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { Link, Outlet } from "react-router-dom";
+import { useData } from "../context/DataContext";
 
-const NewsCard = () => {
+const NewsCard = ({ post }) => {
   return (
     <div className="news-card">
-      <img className="news-image" src={images.image6} alt="News" />
+      <img className="news-image" src={images.image6} alt="post Image" />
 
-      <p className="news-category">Health</p>
+      <p className="news-category">{post.category}</p>
 
       <div className="news-highlight">
         <a href="#" className="news-title-link">
-          <h3 className="news-title">Transforming Lives Through Education</h3>
+          <h3 className="news-title">{post.title}</h3>
         </a>
-        <p className="news-excerpt">
-          How education initiatives are empowering children and families in
-          underserved communities.
-        </p>
+        <p className="news-excerpt">{post.content}</p>
       </div>
 
       <div className="news-meta">
         <p>
           <i className="bi bi-person"></i>
-          <span> Sarah Johnson</span>
-        </p>
-        <p>
-          <i className="bi bi-clock"></i>
-          <span> 5 min read</span>
+          <span>{post.author}</span>
         </p>
         <p>
           <i className="bi bi-calendar-date"></i>
-          <span> 12/15/2024</span>
+          <span> {post.publishedDate}</span>
         </p>
       </div>
-
-      <a href="#" className="read-more">
-        Read More →
-      </a>
     </div>
   );
 };
 
 export const AllNews = () => {
+  const { posts } = useData();
   return (
     <div className="news-grid all-news">
-      <NewsCard />
-      <NewsCard />
-      <NewsCard />
+      {posts.length === 0 ? (
+        <h3>There are no news</h3>
+      ) : (
+        posts.map((p) => <NewsCard key={p.id} post={p} />)
+      )}
     </div>
   );
 };
 
 export const EducationNews = () => {
+  const { posts } = useData();
+  const educationNews = posts.filter((p) => p.category === "Education");
   return (
     <div className="news-grid education-news">
-      <NewsCard />
+      {educationNews.length === 0 ? (
+        <h3>There are no news</h3>
+      ) : (
+        educationNews.map((p) => <NewsCard key={p.id} post={p} />)
+      )}
     </div>
   );
 };
 
 export const HealthNews = () => {
+  const { posts } = useData();
+  const healthNews = posts.filter((p) => p.category === "Health");
+
   return (
     <div className="news-grid health-news">
-      <NewsCard />
-      <NewsCard />
+      {HealthNews.length === 0 ? (
+        <h3>There are no news</h3>
+      ) : (
+        HealthNews.map((p) => <NewsCard key={p.id} post={p} />)
+      )}
     </div>
   );
 };
 
 export const EmergencyNews = () => {
+  const { posts } = useData();
+  const emergencyNews = posts.filter((p) => p.category === "Emergency");
   return (
     <div className="news-grid emergency-news">
-      <NewsCard />
-      <NewsCard />
+      {EmergencyNews.length === 0 ? (
+        <h3>There are no news</h3>
+      ) : (
+        emergencyNews.map((p) => <NewsCard key={p.id} post={p} />)
+      )}
     </div>
   );
 };

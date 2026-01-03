@@ -27,13 +27,6 @@ const CreateProject = ({ onClose }) => {
     }
     setProject({ ...project, [e.target.name]: value });
   };
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setImageFile(file);
-    setPreview(URL.createObjectURL(file));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -130,19 +123,18 @@ const CreateProject = ({ onClose }) => {
               <option value="active">Active</option>
               <option value="completed">Completed</option>
             </select>
-            <input
+            {/* <input
               type="file"
               name="avatar"
               id="image"
               accept="image/*"
               onChange={handleImageChange}
-            />
+            /> */}
           </div>
+          <button type="submit" className="project-submit-btn">
+            Add Project
+          </button>
         </div>
-
-        <button type="submit" className="project-submit-btn">
-          Add Project
-        </button>
       </form>
     </div>
   );

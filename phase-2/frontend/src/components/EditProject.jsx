@@ -20,94 +20,96 @@ const EditProject = ({ projectData, onClose }) => {
     e.preventDefault();
     await editProject({ id: projectData.id, upDatedData: project });
     console.log("Project edited:", project);
-    onClose(); // close modal
+    onClose();
   };
 
   return (
     <div className="create-project-container">
       <h2 className="form-title">Edit Project</h2>
-      <form className="project-form" onSubmit={handleSubmit}>
+      <form className="event-form" onSubmit={handleSubmit}>
         <input
-          className="project-input"
-          placeholder="Title"
+          className="event-input"
+          placeholder="Event Title"
           type="text"
-          name="title"
+          name="eventTitle"
           onChange={handleChange}
-          value={project.title}
+          value={event.eventTitle}
           required
         />
+
         <textarea
-          className="project-input textarea"
-          placeholder="Description"
-          name="description"
+          className="event-input textarea"
+          placeholder="Event Description"
+          name="eventDescription"
           onChange={handleChange}
-          value={project.description}
+          value={event.eventDescription}
           required
         />
+
         <input
-          className="project-input"
-          placeholder="Category"
+          className="event-input"
+          placeholder="Event Category"
           type="text"
-          list="category-list"
-          name="category"
+          name="eventCategory"
+          list="event-list"
           onChange={handleChange}
-          value={project.category}
+          value={event.eventCategory}
           required
         />
-        <datalist id="category-list">
-          <option value="Education" />
-          <option value="Health" />
-          <option value="Environment" />
-          <option value="Community" />
+        <datalist id="event-list">
+          <option value="Fundraising" />
+          <option value="Training" />
+          <option value="Awareness" />
         </datalist>
+
         <input
-          className="project-input"
+          className="event-input"
           placeholder="Location"
           type="text"
           name="location"
           onChange={handleChange}
-          value={project.location}
+          value={event.location}
           required
         />
-        <input
-          className="project-input"
-          placeholder="Goal Amount"
-          type="number"
-          name="goalAmount"
-          onChange={handleChange}
-          value={project.goalAmount}
-          required
-        />
-        <div className="date-status">
+
+        <div className="event-grid">
           <input
-            className="project-input"
-            placeholder="Start Date"
+            className="event-input"
             type="date"
-            name="startDate"
+            name="date"
             onChange={handleChange}
-            value={project.startDate}
+            value={event.date}
             required
           />
+
           <input
-            className="project-input"
-            placeholder="End Date"
-            type="date"
-            name="endDate"
+            className="event-input"
+            type="time"
+            name="time"
             onChange={handleChange}
-            value={project.endDate}
+            value={event.time}
+          />
+
+          <input
+            className="event-input"
+            placeholder="Total Spots"
+            type="number"
+            name="TotalSpot"
+            onChange={handleChange}
+            value={event.TotalSpot}
             required
           />
+
           <div className="status-field">
-            <label htmlFor="status">Status:</label>
+            <label>Status</label>
             <select
-              className="project-input"
+              className="event-input"
               name="status"
-              id="status"
               onChange={handleChange}
-              value={project.status}
+              value={event.status}
             >
-              <option value="active">Active</option>
-              <option value="completed">Completed</option>
+              <option value="upcoming">Upcoming Event</option>
+              <option value="completed">Past Event</option>
             </select>
           </div>
         </div>

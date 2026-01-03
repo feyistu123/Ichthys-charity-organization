@@ -10,7 +10,6 @@ export const DataProvider = ({ children }) => {
     let res = await fetch("http://localhost:3000/projects");
     let data = await res.json();
     setProjects(data);
-    console.log(data);
   };
   useEffect(() => {
     allProjects();
@@ -26,7 +25,6 @@ export const DataProvider = ({ children }) => {
 
       if (!res.ok) throw new Error("New Project is not Created");
       alert("Successfully created new project");
-      console.log("Succeed");
       allProjects();
     } catch (err) {
       console.log(err.message);
@@ -47,7 +45,6 @@ export const DataProvider = ({ children }) => {
       );
 
       alert("Successfully edited project");
-      console.log("Edit succeeded", updatedProject);
     } catch (err) {
       console.error(err.message);
     }
@@ -60,11 +57,18 @@ export const DataProvider = ({ children }) => {
       if (!res.ok) throw new Error("Project is not Deleted");
       allProjects();
       alert("Successfully deleted project");
-      console.log("Edit succeeded", filtered);
     } catch (err) {
       console.error(err.message);
     }
   };
+  const allEvents = async () => {
+    let res = await fetch("http://localhost:3000/events");
+    let data = await res.json();
+    setEvents(data);
+  };
+  useEffect(() => {
+    allEvents();
+  }, []);
   const createEvent = async (newEvent) => {
     try {
       let res = await fetch("http://localhost:3000/events", {
@@ -75,9 +79,96 @@ export const DataProvider = ({ children }) => {
 
       if (!res.ok) throw new Error("New Event is not Created");
       alert("Successfully created new event");
-      console.log("Succeed");
+      allEvents();
     } catch (err) {
       console.log(err.message);
+    }
+  };
+  const editEvent = async ({ id, upDatedData }) => {
+    try {
+      const res = await fetch(`http://localhost:3000/events/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(upDatedData),
+      });
+
+      if (!res.ok) throw new Error("Project is not Edited");
+      const updatedEvent = await res.json();
+      setEvents((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updatedEvent } : p))
+      );
+
+      alert("Successfully edited Event");
+      console.log("Edit succeeded", updatedEvent);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+  const deleteEvent = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/events/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Event is not Deleted");
+      allEvents();
+      alert("Successfully deleted event");
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+  const allPosts = async () => {
+    let res = await fetch("http://localhost:3000/posts");
+    let data = await res.json();
+    setPosts(data);
+  };
+  useEffect(() => {
+    allEvents();
+  }, []);
+  const createPost = async (newPost) => {
+    try {
+      let res = await fetch("http://localhost:3000/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPost),
+      });
+
+      if (!res.ok) throw new Error("New Post is not Created");
+      alert("Successfully created new Post");
+      allPosts();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+  const editPost = async ({ id, upDatedData }) => {
+    try {
+      const res = await fetch(`http://localhost:3000/posts/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(upDatedData),
+      });
+
+      if (!res.ok) throw new Error("posts is not Edited");
+      const updatedPosts = await res.json();
+      setEvents((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updatedPosts } : p))
+      );
+
+      alert("Successfully edited Event");
+      console.log("Edit succeeded", updatedPosts);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+  const deletePost = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/posts/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Event is not Deleted");
+      allPosts();
+      alert("Successfully deleted event");
+    } catch (err) {
+      console.error(err.message);
     }
   };
   return (
@@ -89,6 +180,12 @@ export const DataProvider = ({ children }) => {
         deleteProject,
         events,
         createEvent,
+        editEvent,
+        deleteEvent,
+        posts,
+        createPost,
+        editPost,
+        deletePost,
       }}
     >
       {children}

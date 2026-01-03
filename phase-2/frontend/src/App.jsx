@@ -25,6 +25,9 @@ import Signup from "./components/Signup";
 import AdminDashBoard from "./AdminPage/AdminDashBoard";
 import CreateProject from "./components/CreateProject";
 import AdminProjects from "./AdminPage/AdminProjects";
+import CreateEvent from "./components/CreateEvent";
+import Events from "./AdminPage/Events";
+import Blogs from "./AdminPage/Blogs";
 const App = () => {
   return (
     <BrowserRouter>
@@ -55,17 +58,22 @@ const App = () => {
           <Route path="active" element={<ActiveProjects />} />
         </Route>
         <Route path="adminDashboard" element={<AdminDashBoard />}>
+          <Route index element={<AdminProjects />} />
           <Route path="projects" element={<AdminProjects />} />
-          <Route path="events" />
+          <Route path="events" element={<Events />} />
           <Route path="volunteer-approval" />
-          <Route path="posts" />
+          <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" />
         </Route>
       </Routes>
 
       {/* <CreateProject /> */}
-      <AdminProjects />
+      {/* <AdminProjects /> */}
+      {/* <CreateEvent />
+      <Events /> */}
       {/* <AdminDashBoard /> */}
+      {/* <Blogs /> */}
+      {/* <DonationForm /> */}
     </BrowserRouter>
   );
 };

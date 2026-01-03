@@ -5,6 +5,7 @@ const volunteerRoutes = require('./routes/volunteerRoutes');
 const donationRoutes = require('./routes/donationRoutes');
 const programRoutes = require('./routes/programRoutes');
 const userRoutes = require('./routes/userRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 const server = http.createServer((req, res) => {
     // 1. Set CORS Headers - Vital for React to talk to this backend
@@ -28,15 +29,16 @@ const server = http.createServer((req, res) => {
     const handledVolunteer = volunteerRoutes(req, res);
     const handledDonation = donationRoutes(req, res);
     const handledProgram = programRoutes(req, res);
+    const handledEvent = eventRoutes(req, res);
 
     /**
      * 3. 404 Handler
      * If neither route handler returned 'true', the page doesn't exist.
      */
-    if (!handledUser && !handledVolunteer && !handledDonation && !handledProgram) {
+    if (!handledUser && !handledVolunteer && !handledDonation && !handledProgram && !handledEvent) {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ 
-            message: "Route not found. Try /api/volunteers, /api/donations, /api/register or /api/projects" 
+            message: "Route not found. Try /api/volunteers, /api/donations, /api/register, /api/projects, or /api/events" 
         }));
     }
 });

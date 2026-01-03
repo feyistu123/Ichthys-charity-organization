@@ -35,23 +35,45 @@ exports.changeStatus = async (req, res, id) => {
     res.end(JSON.stringify({ message: `Project is now ${project.status}` }));
 };
 
-// --- ADMIN: UPDATE IMPACT ---
-exports.editImpact = (req, res, id) => {
+// Handles general project updates
+exports.updateProject = (req, res, id) => {
     let body = '';
     req.on('data', chunk => { body += chunk.toString(); });
     req.on('end', async () => {
         try {
             const data = JSON.parse(body);
-            const updated = await projectLogic.updateImpact(id, data.peopleImpacted);
-            if (!updated) {
+            const updatedProject = await projectLogic.modifyProject(id, data);
+            
+            if (!updatedProject) {
                 res.writeHead(404, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ message: "Project not found" }));
             }
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: "Impact updated successfully!", updatedCount: updated.peopleImpacted }));
+            res.end(JSON.stringify({ 
+                message: "Project updated successfully!", 
+                project: updatedProject 
+            }));
         } catch (e) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: "Invalid data format" }));
         }
     });
+};
+// --- ADMIN: DELETE PROJECT ---
+exports.removeProject = async (req, res, id) => {
+    try {
+        const deleted = await projectLogic.deleteProjectById(id);
+        
+        if (!deleted) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ message: "Project not found" }));
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: "Project deleted successfully!" }));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: error.message }));
+    }
 };

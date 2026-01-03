@@ -14,6 +14,15 @@ const handleBlogRoutes = (req, res) => {
         return true;
     }
 
+    // --- ADMIN: EDIT BLOG POST ---
+    if (req.url.startsWith('/api/blogs/') && req.method === 'PATCH') {
+        const id = req.url.split('/').pop();
+        verifyAdmin(req, res, () => {
+            blogController.editBlog(req, res, id);
+        });
+        return true;
+    }
+    
     // 3. ADMIN: DELETE ARTICLE
     if (req.url.startsWith('/api/blogs/') && req.method === 'DELETE') {
         const id = req.url.split('/').pop();

@@ -10,8 +10,7 @@ const eventSchema = new mongoose.Schema({
     date: { type: String, required: true },
     time: { type: String },
     location: { type: String },
-    totalSpots: { type: Number, default: 0 },
-    filledSpots: { type: Number, default: 0 },
+    totalSpots: { type: Number },
     isPast: { type: Boolean, default: false }
 }, { timestamps: true });
 

@@ -15,6 +15,16 @@ exports.createEvent = async (eventData) => {
 exports.moveToPast = async (eventId) => {
     return await Event.findByIdAndUpdate(eventId, { isPast: true }, { new: true });
 };
+
+// Updates any event field dynamically
+exports.updateEventData = async (id, updateData) => {
+    return await Event.findByIdAndUpdate(
+        id, 
+        { $set: updateData },
+        { new: true, runValidators: true }
+    );
+};
+
 // Permanently remove an event
 exports.deleteEventById = async (eventId) => {
     return await Event.findByIdAndDelete(eventId);

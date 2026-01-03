@@ -21,14 +21,22 @@ const handleProgramRoutes = (req, res) => {
         return true;
     }
 
-    // 4. PATCH IMPACT (Admin Only)
-    if (req.url.startsWith('/api/projects/impact/') && req.method === 'PATCH') {
+    // 4. UPDATE PROJECT DETAILS (Admin Only)
+    if (req.url.startsWith('/api/projects/') && req.method === 'PATCH') {
         const id = req.url.split('/').pop();
-        verifyAdmin(req, res, () => projectController.editImpact(req, res, id));
+        verifyAdmin(req, res, () => projectController.updateProject(req, res, id));
+        return true;
+    }
+
+    // 5. DELETE PROJECT (Admin Only)
+    if (req.url.startsWith('/api/projects/') && req.method === 'DELETE') {
+        const id = req.url.split('/').pop();
+        verifyAdmin(req, res, () => projectController.removeProject(req, res, id));
         return true;
     }
 
     return false;
 };
+
 
 module.exports = handleProgramRoutes;

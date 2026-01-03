@@ -3,13 +3,11 @@ const mongoose = require('mongoose');
 const blogSchema = new mongoose.Schema({
     title: { type: String, required: true },
     category: { 
-        type: String, 
-        enum: ['Education', 'Health', 'Emergency', 'Success Story'], 
+        type: String,
         required: true 
     },
     content: { type: String, required: true },
-    author: { type: String, required: true }, // e.g., "Sarah Johnson"
-    readTime: { type: String }, // e.g., "5 min read"
+    author: { type: String, required: true },
     imageUrl: { type: String },
     publishedDate: { type: String, default: () => new Date().toISOString().split('T')[0] }
 }, { timestamps: true });

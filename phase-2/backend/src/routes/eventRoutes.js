@@ -24,8 +24,15 @@ const handleEventRoutes = (req, res) => {
         });
         return true;
     }
-
-    // 4. ADMIN: DELETE EVENT
+    // 4. ADMIN: EDIT EVENT (General Update)
+    if (req.url.startsWith('/api/events/') && req.method === 'PATCH') {
+        const id = req.url.split('/').pop();
+        verifyAdmin(req, res, () => {
+            eventController.editEvent(req, res, id);
+        });
+        return true;
+    }
+    // 5. ADMIN: DELETE EVENT
     if (req.url.startsWith('/api/events/') && req.method === 'DELETE') {
         const id = req.url.split('/').pop();
         verifyAdmin(req, res, () => {

@@ -16,10 +16,14 @@ exports.toggleStatus = async (id) => {
     return await project.save();
 };
 
-exports.updateImpact = async (id, count) => {
+exports.modifyProject = async (id, updateData) => {
     return await Project.findByIdAndUpdate(
         id, 
-        { peopleImpacted: count }, 
-        { new: true }
+        { $set: updateData }, 
+        { new: true, runValidators: true }
     );
+};
+
+exports.deleteProjectById = async (id) => {
+    return await Project.findByIdAndDelete(id);
 };

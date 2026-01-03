@@ -9,7 +9,7 @@ const handleEventRoutes = (req, res) => {
     }
 
     // 2. ADMIN: POST NEW EVENT
-    if (req.url === '/api/events' && req.method === 'POST') {
+    if (req.url === '/api/events/add' && req.method === 'POST') {
         verifyAdmin(req, res, () => {
             eventController.addEvent(req, res);
         });

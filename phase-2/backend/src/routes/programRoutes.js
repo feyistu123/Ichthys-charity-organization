@@ -9,7 +9,7 @@ const handleProgramRoutes = (req, res) => {
     }
 
     // 2. POST NEW PROJECT (Admin Only)
-    if (req.url === '/api/projects' && req.method === 'POST') {
+    if (req.url === '/api/projects/add' && req.method === 'POST') {
         verifyAdmin(req, res, () => projectController.addProject(req, res));
         return true;
     }

@@ -3,227 +3,486 @@ import "./GetInvolved.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { images } from "../assets/Images/images";
-export const DonationForm = () => {
-  return (
-    <div class="donation-amounts">
-      <input id="amount" type="text" placeholder="Full Name" />
-      <br />
-      <input id="amount" type="email" placeholder="Email" />
-      <br />
+import { useUserData } from "../context/UserContext";
+import { useDonation } from "../context/DonationContext";
+import { useNavigate } from "react-router-dom";
+// import { useDonation } from "../context/DonationContext";
+export const DonationForm = ({ onClose }) => {
+  const presetAmounts = ["$25", "$50", "$100", "$250"];
 
-      <input id="amount" type="text" placeholder="Custom amount" />
-      <select name="money-type" required>
-        <option disabled>money type</option>
-        <option value="etb">ETB</option>
-        <option value="dollar">USD</option>
-      </select>
-      <button>Donate Now</button>
-      <button>Give Monthly</button>
+  const [donationType, setDonationType] = useState("monthly");
+  const [amount, setAmount] = useState("");
+  const [cause, setCause] = useState("general");
+  //  const { amountt, setAmountt } = useDonation();
+
+  const [donor, setDonor] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "",
+  });
+
+  const { createDonation } = useDonation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const donationData = {
+      donationType,
+      amount: amount.startsWith("$") ? Number(amount.slice(1)) : Number(amount),
+      cause,
+      ...donor,
+    };
+
+    await createDonation(donationData);
+  };
+
+  return (
+    <form className="donation-page" onSubmit={handleSubmit}>
+      {/* INTRO */}
+      <div className="donation-intro">
+        <h3>Make a Donation</h3>
+        <p>
+          Your generosity helps us continue our mission to create positive
+          change. Every donation makes an impact.
+        </p>
+      </div>
+
+      {/* DONATION TYPE */}
+      <section className="donation-section">
+        <h3 className="section-title">Donation Type</h3>
+
+        <label className="donation-card">
+          <input
+            type="radio"
+            name="donationType"
+            value="one-time"
+            checked={donationType === "one-time"}
+            onChange={() => setDonationType("one-time")}
+          />
+          <div className="donation-content">
+            <h4>One-Time Donation</h4>
+            <p>Make a single contribution</p>
+          </div>
+        </label>
+
+        <label className="donation-card recommended">
+          <input
+            type="radio"
+            name="donationType"
+            value="monthly"
+            checked={donationType === "monthly"}
+            onChange={() => setDonationType("monthly")}
+          />
+          <div className="donation-content">
+            <h4>Monthly Donation</h4>
+            <p>Ongoing support every month</p>
+          </div>
+          <span className="recommended-badge">Recommended</span>
+        </label>
+      </section>
+
+      {/* AMOUNT */}
+      <section className="donation-section">
+        <h3 className="section-title">Choose Your Donation Amount</h3>
+
+        <div className="donation-grid">
+          {presetAmounts.map((amt) => (
+            <button
+              key={amt}
+              type="button"
+              className={amount === amt ? "active" : ""}
+              onClick={() => setAmount(amt)}
+            >
+              {amt}
+            </button>
+          ))}
+        </div>
+
+        <input
+          type="number"
+          className="custom-amount-input"
+          placeholder="Custom amount"
+          value={amount && amount.startsWith("$") ? "" : amount || ""}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+      </section>
+
+      {/* CAUSE */}
+      <section className="donation-section">
+        <h3 className="section-title">Choose Where to Help</h3>
+
+        {[
+          { value: "general", label: "Where needed most (General Fund)" },
+          { value: "schools", label: "Build Schools in Rural Communities" },
+          { value: "health", label: "Mobile Health Clinics" },
+          { value: "food", label: "Emergency Food Relief" },
+        ].map((item) => (
+          <label key={item.value} className="donation-card">
+            <input
+              type="radio"
+              name="cause"
+              value={item.value}
+              checked={cause === item.value}
+              onChange={() => setCause(item.value)}
+            />
+            <div className="donation-content">
+              <p>{item.label}</p>
+            </div>
+          </label>
+        ))}
+      </section>
+
+      {/* DONOR INFO */}
+      <section className="donation-section donor-information">
+        <h3 className="section-title">Your Information</h3>
+
+        <label>Full Name *</label>
+        <input
+          required
+          onChange={(e) => setDonor({ ...donor, fullName: e.target.value })}
+        />
+
+        <label>Email *</label>
+        <input
+          type="email"
+          required
+          onChange={(e) => setDonor({ ...donor, email: e.target.value })}
+        />
+
+        <label>Phone</label>
+        <input
+          onChange={(e) => setDonor({ ...donor, phone: e.target.value })}
+        />
+
+        <label>Country</label>
+        <input
+          onChange={(e) => setDonor({ ...donor, country: e.target.value })}
+        />
+      </section>
+
+      {/* PAYMENT */}
+      <section className="donation-section donation-card">
+        <h3 className="section-title">Payment Method</h3>
+
+        <div className="form-group">
+          <label>Card Number *</label>
+          <input placeholder="1234 5678 9012 3456" />
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>Expiry *</label>
+            <input placeholder="MM/YY" />
+          </div>
+          <div className="form-group">
+            <label>CVV *</label>
+            <input placeholder="123" />
+          </div>
+        </div>
+
+        <p className="secure-text">
+          Secured by Stripe. Your payment is encrypted.
+        </p>
+
+        <button type="submit" className="main-btn">
+          Donate Now
+        </button>
+      </section>
+    </form>
+  );
+};
+
+export const GetInvolvedDonation = () => {
+  const presetAmounts = ["$25", "$50", "$100", "$250"];
+  const { amount, setAmount } = useDonation();
+  const navigate = useNavigate();
+
+  const handleDonate = () => {
+    if (!amount) {
+      alert("Please select or enter an amount");
+      return;
+    }
+    navigate("/donate");
+  };
+
+  return (
+    <section className="donation-section">
+      <h3 className="section-title">Choose Your Donation Amount</h3>
+
+      <div className="donation-grid">
+        {presetAmounts.map((amt) => (
+          <button
+            key={amt}
+            type="button"
+            className={amount === amt ? "active" : ""}
+            onClick={() => setAmount(amt)}
+          >
+            {amt}
+          </button>
+        ))}
+      </div>
+
+      <input
+        type="number"
+        className="custom-amount-input"
+        placeholder="Custom amount"
+        value={amount && amount.startsWith("$") ? "" : amount || ""}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+
+      <button className="donate-btn" onClick={handleDonate}>
+        Donate
+      </button>
+    </section>
+  );
+};
+
+export const VolunteerApplication = () => {
+  const initialValues = {
+    fulName: "",
+    email: "",
+    phoneNumber: "",
+    location: "",
+    areaOfInterest: "",
+    availability: "",
+    description: "",
+    status: "pending",
+  };
+
+  const [form, setForm] = useState(initialValues);
+  const { signUpVolunteer } = useUserData();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signUpVolunteer(form);
+      alert("Application submitted successfully!");
+      setForm(initialValues);
+    } catch (error) {
+      console.error("Submission failed", error);
+    }
+  };
+
+  return (
+    <div className="signup">
+      <h2>Volunteer Application</h2>
+      <p>
+        Ready to make a difference? Fill out the form below and we'll get in
+        touch with you soon.
+      </p>
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <div className="input">
+          <label>Full Name *</label>
+          <input
+            type="text"
+            name="fulName"
+            value={form.fulName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input">
+          <label>Email Address *</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input">
+          <label>Phone Number</label>
+          <input
+            type="tel"
+            name="phoneNumber"
+            value={form.phoneNumber}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="input">
+          <label>Location</label>
+          <input
+            type="text"
+            name="location"
+            value={form.location}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="select-input full-width">
+          <label>Area of Interest *</label>
+          <select
+            name="areaOfInterest"
+            value={form.areaOfInterest}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>
+              Select an option
+            </option>
+            <option value="education tutor">education tutor</option>
+            <option value="event coordinator">event coordinator</option>
+            <option value="mentorship program">mentorship program</option>
+            <option value="administrative support">
+              administrative support
+            </option>
+            <option value="health support">health support</option>
+            <option value="food support">food support</option>
+          </select>
+        </div>
+        <div className="select-input full-width">
+          <label>Availability *</label>
+          <select
+            name="availability"
+            value={form.availability}
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>
+              Select your availability
+            </option>
+            <option value="weekday mornings">weekday mornings</option>
+            <option value="weekday afternoons">weekday afternoons</option>
+            <option value="weekday evenings">weekday evenings</option>
+            <option value="weekends">weekends</option>
+            <option value="flexible">flexible</option>
+          </select>
+        </div>
+        <div className="textarea-input full-width">
+          <label>Tell us about yourself</label>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="Share your skills, experience..."
+          ></textarea>
+        </div>
+        <button type="submit">Submit Application</button>
+      </form>
     </div>
   );
 };
+
 const GetInvolved = () => {
   return (
     <div>
       <NavBar />
-      <div class="involved-section">
-        <div class="overlay">
+      <div className="involved-section">
+        <div className="overlay">
           <img src={images.involve} alt="Get Involved" />
         </div>
-        <div class="img-title">
+        <div className="img-title">
           <h1>Get Involved</h1>
-          <p class="impact-text">
+          <p className="impact-text">
             Meaningful change isn't just for experts. Any amount of time or
             resource you share fuels our success
           </p>
         </div>
       </div>
-      <section id="donation-form" class="donation-container">
-        <div class="donation-text">
+
+      <section id="donation-form" className="donation-container">
+        <div className="donation-text">
           <h2>Support Through Giving</h2>
           <p>
             Your donations help us provide essential services and create lasting
-            change for children in need. Every contribution, big or small, makes
-            a difference.
+            change for children in need.
           </p>
           <ul>
             <li>
-              <strong>100% tax-deductible:</strong> We provide receipts for your
-              records.
+              <strong>100% tax-deductible:</strong> We provide receipts.
             </li>
             <li>
-              <strong>Secure online processing:</strong> Your payment
-              information is protected.
+              <strong>Secure online processing:</strong> Protected data.
             </li>
             <li>
-              <strong>Monthly or one-time options:</strong> Flexible giving to
-              suit your budget.
+              <strong>Monthly or one-time options:</strong> Flexible giving.
             </li>
             <li>
-              <strong>Direct impact on communities:</strong> Donations go
-              straight to program delivery.
+              <strong>Direct impact:</strong> Straight to program delivery.
             </li>
           </ul>
         </div>
-        <div class="donation-site">
+        <div className="donation-site">
           <h3>Choose Your Donation Amount</h3>
-          <DonationForm />
-          <p class="microcopy">
-            You’ll receive an email receipt for tax purposes. Cancel or change
-            monthly gifts anytime.
+          <GetInvolvedDonation />
+          <p className="microcopy">
+            You’ll receive an email receipt for tax purposes.
           </p>
         </div>
       </section>
-      <article class="role">
+
+      <article className="role">
         <h2>Volunteer Roles Available</h2>
         <p>Find the perfect role that matches your skills and availability</p>
-        <div class="role-cards">
-          <div class="role-card">
-            <h3>Education Tutor</h3>
-            <div class="time-location">
-              <span>
-                <i class="fa-regular fa-clock"></i> 2-4 hours/week
-              </span>
-              <span>
-                <i class="fa fa-location-dot"></i> Community Learning Center
-              </span>
+        <div className="role-cards">
+          {[
+            {
+              title: "Education Tutor",
+              time: "2-4 hours/week",
+              loc: "Learning Center",
+              desc: "Support students with homework.",
+            },
+            {
+              title: "Event Coordinator",
+              time: "Flexible",
+              loc: "Various locations",
+              desc: "Plan community events.",
+            },
+            {
+              title: "Mentorship Program",
+              time: "1-2 hours/week",
+              loc: "Virtual/In-person",
+              desc: "Provide guidance to young adults.",
+            },
+            {
+              title: "Administrative Support",
+              time: "4-8 hours/week",
+              loc: "Office",
+              desc: "Help with data entry.",
+            },
+          ].map((role, index) => (
+            <div key={index} className="role-card">
+              <h3>{role.title}</h3>
+              <div className="time-location">
+                <span>
+                  <i className="fa-regular fa-clock"></i> {role.time}
+                </span>
+                <span>
+                  <i className="fa fa-location-dot"></i> {role.loc}
+                </span>
+              </div>
+              <p className="role-description">{role.desc}</p>
             </div>
-            <p id="description">
-              Support students with homework, reading, and academic
-              skill-building.
-            </p>
-          </div>
-          <div class="role-card">
-            <h3>Event Coordinator</h3>
-            <div class="time-location">
-              <span>
-                <i class="fa-regular fa-clock"></i> Flexible
-              </span>
-              <span>
-                <i class="fa fa-location-dot"></i> Various locations
-              </span>
-            </div>
-            <p id="description">
-              Assist in planning and executing community events.
-            </p>
-          </div>
-          <div class="role-card">
-            <h3>Mentorship Program</h3>
-            <div class="time-location">
-              <span>
-                <i class="fa-regular fa-clock"></i> 1-2 hours/week
-              </span>
-              <span>
-                <i class="fa fa-location-dot"></i> Virtual or In-person
-              </span>
-            </div>
-            <p id="description">
-              Provide guidance to young adults as they build life skills and
-              explore career opportunities.
-            </p>
-          </div>
-          <div class="role-card">
-            <h3>Administrative Support</h3>
-            <div class="time-location">
-              <span>
-                <i class="fa-regular fa-clock"></i> 4-8 hours/week
-              </span>
-              <span>
-                <i class="fa fa-location-dot"></i> Office
-              </span>
-            </div>
-            <p id="description">
-              Help with office tasks, data entry, and communications.
-            </p>
-          </div>
+          ))}
         </div>
       </article>
 
-      <div class="signup">
-        <h2>Volunteer Signup</h2>
-        <p>Ready to make a difference? Sign up to volunteer today!</p>
-        <form class="signup-form">
-          <div class="input">
-            <label>Full Name *</label>
-            <input type="text" name="name" required />
-          </div>
-          <div class="input">
-            <label>Email Address *</label>
-            <input type="email" name="email" required />
-          </div>
-          <div class="input">
-            <label>Phone Number</label>
-            <input type="tel" name="phone" />
-          </div>
-          <div class="input">
-            <label>Location</label>
-            <input type="text" name="location" />
-          </div>
-          <div class="select-input full-width">
-            <label>Area of Interest *</label>
-            <select name="role" required>
-              <option value="" disabled selected>
-                Select an option
-              </option>
-              <option value="education-tutor">Education Tutor</option>
-              <option value="event-coordinator">Event Coordinator</option>
-              <option value="mentorship-program">Mentorship Program</option>
-              <option value="administrative-support">
-                Administrative Support
-              </option>
-            </select>
-          </div>
-          <div class="select-input full-width">
-            <label>Availability *</label>
-            <select name="availability" required>
-              <option value="" disabled selected>
-                Select your availability
-              </option>
-              <option value="weekday-mornings">Weekday Mornings</option>
-              <option value="weekday-afternoons">Weekday Afternoons</option>
-              <option value="weekday-evenings">Weekday Evenings</option>
-              <option value="weekends">Weekends</option>
-              <option value="flexible">Flexible</option>
-            </select>
-          </div>
-          <div class="textarea-input full-width">
-            <label>Tell us about yourself</label>
-            <textarea placeholder="Share your skills, experience..."></textarea>
-          </div>
-          <button type="submit">Submit Aplication</button>
-        </form>
-      </div>
-      <div class="other-ways">
+      <VolunteerApplication />
+
+      <div className="other-ways">
         <h2>Other Ways to Support</h2>
-        <p>
-          Your involvement can take many forms. Explore additional ways to
-          contribute to our mission.
-        </p>
-        <div class="help-methods">
+        <div className="help-methods">
           <div>
             <h3>Fundraising</h3>
-            <p>Organize events or campaigns to raise funds.</p>
+            <p>Organize events or campaigns.</p>
           </div>
           <div>
             <h3>Spread the Word</h3>
-            <p>
-              Share our mission on social media and help us reach more people
-              who need support.
-            </p>
+            <p>Share our mission on social media.</p>
           </div>
           <div>
             <h3>Corporate Partners</h3>
-            <p>
-              Partner with us for employee volunteer programs and matching gift
-              campaigns.
-            </p>
+            <p>Partner for employee programs.</p>
           </div>
           <div>
             <h3>In-Kind Donations</h3>
-            <p>
-              Contribute supplies, equipment, or services that support our
-              programs.
-            </p>
+            <p>Contribute supplies or services.</p>
           </div>
         </div>
       </div>

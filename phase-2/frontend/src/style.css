@@ -714,3 +714,11 @@
   width: 400px;
   flex-shrink: 0;
 }
+.search-input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 300px;
+  font-size: 1rem;
+  margin-top: 10px;
+}

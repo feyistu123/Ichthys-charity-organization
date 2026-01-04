@@ -2,45 +2,54 @@ import React from "react";
 import { images } from "../assets/Images/images";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
+import { useData } from "../context/DataContext";
 
-const EventCard = () => {
+const EventCard = ({ event }) => {
   return (
     <div className="event-card">
       <img
         className="event-image"
-        src={images.children}
-        alt="Annual Charity Gala"
+        // src={images.children}
+        alt={event.eventTitle}
       />
-      <p>Fundraising</p>
-      <h4 className="event-title">Annual Charity Gala</h4>
+      <p>{event.eventCategory}</p>
+      <h4 className="event-title">{event.eventTitle}</h4>
       <p className="event-date">
         <i class="bi bi-calendar-event"></i>
-        <span> 2/15/2025</span>
+        <span> {event.date}</span>
+      </p>
+      <p className="event-time">
+        <i className="bi bi-clock"></i>
+        <span> {event.time}</span>
       </p>
       <p className="event-status completed">
         {" "}
         <i class="bi bi-calendar-check"></i>
-        <span>Event Completed</span>
+        <span>{event.status}</span>
       </p>
     </div>
   );
 };
 
 export const Events = () => {
-  let upComingEvents = [];
+  let { events } = useData();
+  let upcomingEvents = events.filter((e) => e.status === "upcomingEvent");
+  let pastEvents = events.filter((e) => e.status === "pastEvent");
 
   return (
     <section className="events-section">
       <div className="upcoming-events">
         <h3 className="events-heading">Upcoming Events</h3>
 
-        {upComingEvents.length === 0 ? (
+        {upcomingEvents.length === 0 ? (
           <div className="no-events">
-            <p>No upcoming events at the moment. Check back soon.</p>
+            <h3>No upcoming events at the moment. Check back soon.</h3>
           </div>
         ) : (
           <div className="events-grid">
-            <EventCard />
+            {upcomingEvents.map((e) => (
+              <EventCard key={e.id} event={e} />
+            ))}
           </div>
         )}
       </div>
@@ -48,9 +57,11 @@ export const Events = () => {
       <div className="past-events">
         <h3 className="events-heading">Past Events</h3>
         <div className="events-grid">
-          <EventCard />
-          <EventCard />
-          <EventCard />
+          {pastEvents.length === 0 ? (
+            <h3>No upcoming events at the moment. Check back soon.</h3>
+          ) : (
+            pastEvents.map((e) => <EventCard key={e.id} event={e} />)
+          )}
         </div>
       </div>
     </section>

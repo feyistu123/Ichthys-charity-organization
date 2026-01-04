@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Signup = () => {
+  const [form, setForm] = useState();
   return (
     <div className="signup-page">
       <div className="signup-card">

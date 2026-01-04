@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "../axios/api";
 export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
@@ -6,24 +7,43 @@ export const UserProvider = ({ children }) => {
 
   const RegisterUser = async (newUser) => {
     try {
-      const res = await api.post("/register", newUser);
+      const res = await api.post("/users/register", newUser);
+      const data = res.data;
+      alert(data.message);
     } catch (err) {
       console.log("error: ", err);
+    }
+  };
+
+  const loginUser = async (user) => {
+    try {
+      const res = await api.post("/users/login", user);
+      const data = res.data;
+      console.log("Login success:", data);
+      alert(data.message || "Logged in successfully!");
+      localStorage.setItem("token", data.token);
+      return data.user;
+    } catch (err) {
+      console.error("Login error:", err);
+      const message = err.response?.data?.message || "Login failed";
+      alert(message);
+
+      return null;
     }
   };
 
   const allVolunteers = async () => {
     try {
       let res = await fetch("http://localhost:3000/volunteers");
+      if (!res) throw new Error("not registered Successfully");
       let data = await res.json();
-      setVolunteers(data);
+      alert("You Registered");
+      alert(data.message);
     } catch (err) {
       console.log("error: ", err);
     }
   };
-  useEffect(() => {
-    allVolunteers();
-  }, []);
+  useEffect(() => {});
   const signUpVolunteer = async (newVolunteer) => {
     try {
       let res = await fetch("http://localhost:3000/volunteers", {
@@ -52,7 +72,15 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ signUpVolunteer, sendFeedBack, volunteers }}>
+    <UserContext.Provider
+      value={{
+        RegisterUser,
+        loginUser,
+        signUpVolunteer,
+        sendFeedBack,
+        volunteers,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

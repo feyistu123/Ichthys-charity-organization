@@ -15,7 +15,7 @@ const ProjectSchema = new mongoose.Schema({
         enum: ['Active', 'Completed'], 
         default: 'Active' 
     },
-    image: { type: String, required: true } // URL for the project thumbnail
+    image: { type: String } // URL for the project thumbnail
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);

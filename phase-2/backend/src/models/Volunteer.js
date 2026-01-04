@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const VolunteerSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
     fullName: { 
         type: String, 
         required: true 
@@ -39,13 +34,18 @@ const VolunteerSchema = new mongoose.Schema({
         enum: [
             'Weekday Mornings',
             'Weekday Afternoons', 
-            'Weekend Evenings', 
+            'Weekday Evenings', 
             'Weekends', 
             'Flexible'
         ]
     },
     description: { 
         type: String
+    },
+    status: { 
+        type: String, 
+        enum: ['pending', 'approved', 'rejected'], 
+        default: 'pending' 
     },
     joinedDate: { 
         type: Date, 

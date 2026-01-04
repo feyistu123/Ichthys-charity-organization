@@ -1,7 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
+  const [users, setUsers] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
+
+  const RegisterUser = async (newUser) => {
+    try {
+      let res = etc;
+    } catch (err) {
+      console.log("error: ", err);
+    }
+  };
 
   const allVolunteers = async () => {
     try {

@@ -34,7 +34,7 @@ import VolunteerDashboard from "./VolunteerDashboard/VolunteerDashboard";
 const App = () => {
   return (
     <BrowserRouter>
-      {/* <Routes>
+      <Routes>
         <Route index element={<HomePage />} />
         <Route path="/donation" element={<DonationForm />} />
         <Route path="/home" element={<HomePage />} />
@@ -69,8 +69,8 @@ const App = () => {
           <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" element={<Donation />} />
         </Route>
-      </Routes> */}
-      <VolunteerDashboard />
+      </Routes>
+      {/* <VolunteerDashboard /> */}
     </BrowserRouter>
   );
 };

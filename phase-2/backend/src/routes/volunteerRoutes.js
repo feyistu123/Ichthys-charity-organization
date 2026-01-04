@@ -3,7 +3,7 @@ const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware');
 
 const handleVolunteerRoutes = (req, res) => {
     // POST VOLUNTEER APPLICATION (Public)
-    if (req.url === '/api/volunteers' && req.method === 'POST') {
+    if (req.url === '/api/volunteers/signup' && req.method === 'POST') {
         volunteerController.submitApplication(req, res);
         return true;
     }
@@ -13,7 +13,7 @@ const handleVolunteerRoutes = (req, res) => {
         verifyToken(req, res, () => {
             volunteerController.handleGetDashboard(req, res);
         });
-        return true; // Ensure this returns true to stop the route handle
+        return true;
     }
 
     // ADMIN ONLY: Get list of people waiting for approval
@@ -25,9 +25,9 @@ const handleVolunteerRoutes = (req, res) => {
     }
 
     // ADMIN ONLY: Approve or Reject a volunteer
-    if (req.url === '/api/volunteers/approve' && req.method === 'PATCH') {
+    if (req.url.startsWith('/api/admin/approve/') && req.method === 'PATCH') {
         verifyAdmin(req, res, () => {
-            volunteerController.handleAdminApproval(req, res);
+            volunteerController.handleApproveVolunteer(req, res);
         });
         return true;
     }

@@ -40,7 +40,7 @@ const server = http.createServer((req, res) => {
     // 3. Sequential Route Handling
     // If any route handler returns 'true', we 'return' to stop execution.
     if (req.url.startsWith('/api/users') && userRoutes(req, res)) return;
-    if (req.url.startsWith('/api/volunteers') && volunteerRoutes(req, res)) return;
+    if ((req.url.startsWith('/api/volunteers') || req.url.startsWith('/api/admin')) && volunteerRoutes(req, res)) { return; }
     if (req.url.startsWith('/api/donations') && donationRoutes(req, res)) return;
     if (req.url.startsWith('/api/programs') && programRoutes(req, res)) return;
     if (req.url.startsWith('/api/events') && eventRoutes(req, res)) return;

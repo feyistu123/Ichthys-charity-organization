@@ -8,14 +8,16 @@ exports.submitApplication = (req, res) => {
     req.on('end', async () => {
         try {
             const data = JSON.parse(body);
-            await volunteerLogic.applyAsVolunteer(data);
+            await volunteerLogic.registerVolunteerApplication(data); 
             
             res.writeHead(201, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: "Volunteer application submitted!" }));
+            return res.end(JSON.stringify({ 
+                message: "Application submitted! Please wait for admin approval and your login credentials via email." 
+            }));
         } catch (err) {
-            const statusCode = err.message.includes("register") ? 404 : 400;
+            const statusCode = err.message.includes("exists") ? 409 : 400; 
             res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: err.message }));
+            return res.end(JSON.stringify({ error: err.message }));
         }
     });
 };
@@ -68,30 +70,29 @@ exports.handleGetPending = async (req, res) => {
 };
 
 // --- 3. HANDLE APPROVAL ACTION ---
-exports.handleAdminApproval = (req, res) => {
-    let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
-    req.on('end', async () => {
-        try {
-            // The 'volunteerId' comes from the frontend/Postman
-            const { volunteerId, newStatus } = JSON.parse(body); 
+exports.handleApproveVolunteer = async (req, res) => {
+    try {
+        // 1. Extract the volunteer ID from the URL (e.g., /api/admin/approve/:id)
+        const volunteerId = req.url.split('/').pop();
 
-            // Logic to update the status in the Volunteer model
-            const updatedVolunteer = await volunteerLogic.approveVolunteer(volunteerId, newStatus);
+        // 2. Call the logic to approve and create the User account
+        const result = await volunteerLogic.approveAndCreateAccount(volunteerId);
 
-            if (!updatedVolunteer) {
-                res.writeHead(404, { 'Content-Type': 'application/json' });
-                return res.end(JSON.stringify({ error: "Volunteer record not found" }));
-            }
+        // 3. Respond with success and the temporary password
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({
+            message: "Volunteer approved and account created!",
+            email: result.email,
+            temporaryPassword: result.temporaryPassword, // You will send this to them
+            status: "approved"
+        }));
 
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ 
-                message: `Volunteer status updated to ${newStatus}`, 
-                data: updatedVolunteer 
-            }));
-        } catch (err) {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: "Invalid data provided" }));
-        }
-    });
+    } catch (err) {
+        console.error("APPROVAL_ERROR:", err.message);
+        
+        // Handle cases where volunteer might already have an account or ID is invalid
+        const statusCode = err.message === "Volunteer not found" ? 404 : 500;
+        res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.message }));
+    }
 };

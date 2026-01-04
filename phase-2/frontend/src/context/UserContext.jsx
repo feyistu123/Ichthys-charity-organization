@@ -6,7 +6,7 @@ export const UserProvider = ({ children }) => {
 
   const RegisterUser = async (newUser) => {
     try {
-      let res = etc;
+      const res = await api.post("/register", newUser);
     } catch (err) {
       console.log("error: ", err);
     }

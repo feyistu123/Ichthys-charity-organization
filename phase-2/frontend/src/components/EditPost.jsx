@@ -1,33 +1,24 @@
-import React, { useState } from "react";
-import { useData } from "../context/DataContext";
+import React from "react";
 
-const CreatePost = ({ onClose }) => {
-  const initials = {
-    title: "",
-    content: "",
-    category: "",
-    author: "",
-    publishedDate: "",
-  };
+const EditPost = ({ postData, onClose }) => {
+  const { editPost } = useData();
 
-  const [post, setPost] = useState(initials);
-  const { createPost } = useData();
+  const [post, setPost] = useState({ ...projectData });
 
   const handleChange = (e) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
+    let value = e.target.value;
+    setPost({ ...post, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createPost(post);
-    setPost(initials);
-    onClose && onClose();
+    await editPost({ id: postData.id, upDatedData: postData });
+    console.log("Post edited:", postData);
+    onClose();
   };
-
   return (
-    <div className="create-post-container">
+    <div>
       <h2 className="form-title">Create New Post</h2>
-
       <form className="post-form" onSubmit={handleSubmit}>
         <input
           className="post-input"
@@ -38,16 +29,14 @@ const CreatePost = ({ onClose }) => {
           value={post.title}
           required
         />
-
         <textarea
-          className="post-input post-textarea"
-          placeholder="Content"
+          className="post-input textarea"
+          placeholder="Description"
           name="content"
           onChange={handleChange}
           value={post.content}
           required
         />
-
         <input
           className="post-input"
           placeholder="Category"
@@ -58,13 +47,12 @@ const CreatePost = ({ onClose }) => {
           value={post.category}
           required
         />
-
         <datalist id="category-list">
           <option value="Education" />
           <option value="Health" />
-          <option value="Emergency" />
+          <option value="Environment" />
+          <option value="Community" />
         </datalist>
-
         <input
           className="post-input"
           placeholder="Author"
@@ -74,13 +62,9 @@ const CreatePost = ({ onClose }) => {
           value={post.author}
           required
         />
-
-        <button type="submit" className="post-submit-btn">
-          Publish Post
-        </button>
       </form>
     </div>
   );
 };
 
-export default CreatePost;
+export default EditPost;

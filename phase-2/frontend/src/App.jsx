@@ -24,17 +24,25 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashBoard from "./AdminPage/AdminDashBoard";
 import CreateProject from "./components/CreateProject";
+import AdminProjects from "./AdminPage/AdminProjects";
+import CreateEvent from "./components/CreateEvent";
+import Events from "./AdminPage/Events";
+import Blogs from "./AdminPage/Blogs";
+import Donation from "./AdminPage/Donation";
+import Volunteer from "./AdminPage/Volunteer";
+import VolunteerDashboard from "./VolunteerDashboard/VolunteerDashboard";
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* <Route index element={<HomePage />} />
+      {/* <Routes>
+        <Route index element={<HomePage />} />
         <Route path="/donation" element={<DonationForm />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/get-involved" element={<GetInvolved />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/events" element={<EventPage />} />
+        <Route path="/donate" element={<DonationForm />} />
         <Route path="/accounts" element={<RegisterPage />}>
           <Route index element={<Login />} />
           <Route path="login" element={<Login />} />
@@ -52,18 +60,17 @@ const App = () => {
           <Route path="program" element={<Projects />} />
           <Route path="complete" element={<Completed />} />
           <Route path="active" element={<ActiveProjects />} />
-        </Route> */}
-        {/* <Route path="adminDashboard" element={<AdminDashBoard />}> */}
-        {/* <Route index element={<Projects />} /> */}
-        {/* <Route path="projects" />
-          <Route path="events" />
+        </Route>
+        <Route path="adminDashboard" element={<AdminDashBoard />}>
+          <Route index element={<AdminProjects />} />
+          <Route path="projects" element={<AdminProjects />} />
+          <Route path="events" element={<Events />} />
           <Route path="volunteer-approval" />
-          <Route path="posts" />
-          <Route path="donation-management" /> */}
-        {/* </Route> */}
-      </Routes>
-      <CreateProject />
-      <AdminDashBoard />
+          <Route path="posts" element={<Blogs />} />
+          <Route path="donation-management" element={<Donation />} />
+        </Route>
+      </Routes> */}
+      <VolunteerDashboard />
     </BrowserRouter>
   );
 };

@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Volunteer = require('../models/Volunteer');
 const bcrypt = require('bcryptjs');
 
 // Business logic for registering a new user
@@ -23,19 +24,28 @@ exports.registerUser = async (data) => {
 
 // userLogic.js
 exports.loginUser = async (data) => {
-    console.log("Login Attempt for:", data.email);
-    const user = await User.findOne({ email: data.email });
+    const { email, password } = data;
     
-    if (!user) {
-        console.log("User not found in DB");
-        return null;
+    // 1. Find user in the Users table
+    const user = await User.findOne({ email });
+    if (!user) return null;
+
+    // 2. Compare hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return null;
+
+    // 3. ONLY check Volunteer status if they are NOT an admin
+    if (user.role !== 'admin') {
+        const volunteerRecord = await Volunteer.findOne({ email: email });
+        
+        // If no record exists or they aren't approved, block them
+        if (!volunteerRecord || volunteerRecord.status !== 'approved') {
+            throw new Error("UNAPPROVED_VOLUNTEER");
+        }
     }
 
-    const isMatch = await bcrypt.compare(data.password, user.password);
-    console.log("Password Match Result:", isMatch); // Should be true
-
-    if (!isMatch) return null;
-    return user;
+    // Admins (role: 'admin') bypass the check above and return here
+    return user; 
 };
 
 // Logic for finding a user by email

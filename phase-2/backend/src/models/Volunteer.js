@@ -47,6 +47,11 @@ const VolunteerSchema = new mongoose.Schema({
     description: { 
         type: String
     },
+    status: { 
+        type: String, 
+        enum: ['pending', 'approved', 'rejected'], 
+        default: 'pending' 
+    },
     joinedDate: { 
         type: Date, 
         default: Date.now 

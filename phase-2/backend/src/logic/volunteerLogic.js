@@ -1,11 +1,6 @@
 const Volunteer = require('../models/Volunteer');
 const User = require('../models/User');
 
-// Logic to fetch all volunteers and populate user info
-exports.getVolunteersList = async () => {
-    return await Volunteer.find();
-};
-
 // Logic to process a volunteer application
 exports.applyAsVolunteer = async (data) => {
     // Check if the user exists
@@ -27,4 +22,23 @@ exports.applyAsVolunteer = async (data) => {
     });
 
     return await newVolunteer.save();
+};
+
+// 1. Get the volunteers waiting to be checked
+exports.getPendingApplications = async () => {
+    return await Volunteer.find({ status: 'pending' });
+};
+
+// 2. Logic to approve a volunteer
+exports.approveVolunteer = async (volunteerId, status) => {
+    return await Volunteer.findByIdAndUpdate(
+        volunteerId, 
+        { status: status }, 
+        { new: true }
+    );
+};
+
+// 3. Logic for the Dashboard (only shows approved ones)
+exports.getDashboardVolunteers = async () => {
+    return await Volunteer.find({ status: 'approved' });
 };

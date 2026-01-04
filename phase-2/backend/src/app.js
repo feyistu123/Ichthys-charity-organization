@@ -37,6 +37,18 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    if (req.url.startsWith('/api/users')) {
+        return userRoutes(req, res); // <--- Use RETURN
+    }
+
+    // 2. Handle Volunteer Routes (Approve/Dashboard)
+    if (req.url.startsWith('/api/volunteers')) {
+        return volunteerRoutes(req, res); // <--- Use RETURN
+    }
+    // If NO routes matched above, this code runs:
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: "Route not found" })); 
+
     // 2. Route Handling Logic
     // This checks if the request matches any of our defined routes
     const handledUser = userRoutes(req, res);

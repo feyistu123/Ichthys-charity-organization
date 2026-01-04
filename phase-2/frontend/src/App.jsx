@@ -28,10 +28,13 @@ import AdminProjects from "./AdminPage/AdminProjects";
 import CreateEvent from "./components/CreateEvent";
 import Events from "./AdminPage/Events";
 import Blogs from "./AdminPage/Blogs";
+import Donation from "./AdminPage/Donation";
+import Volunteer from "./AdminPage/Volunteer";
+import VolunteerDashboard from "./VolunteerDashboard/VolunteerDashboard";
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
+      {/* <Routes>
         <Route index element={<HomePage />} />
         <Route path="/donation" element={<DonationForm />} />
         <Route path="/home" element={<HomePage />} />
@@ -39,6 +42,7 @@ const App = () => {
         <Route path="/get-involved" element={<GetInvolved />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/events" element={<EventPage />} />
+        <Route path="/donate" element={<DonationForm />} />
         <Route path="/accounts" element={<RegisterPage />}>
           <Route index element={<Login />} />
           <Route path="login" element={<Login />} />
@@ -63,17 +67,10 @@ const App = () => {
           <Route path="events" element={<Events />} />
           <Route path="volunteer-approval" />
           <Route path="posts" element={<Blogs />} />
-          <Route path="donation-management" />
+          <Route path="donation-management" element={<Donation />} />
         </Route>
-      </Routes>
-
-      {/* <CreateProject /> */}
-      {/* <AdminProjects /> */}
-      {/* <CreateEvent />
-      <Events /> */}
-      {/* <AdminDashBoard /> */}
-      {/* <Blogs /> */}
-      {/* <DonationForm /> */}
+      </Routes> */}
+      <VolunteerDashboard />
     </BrowserRouter>
   );
 };

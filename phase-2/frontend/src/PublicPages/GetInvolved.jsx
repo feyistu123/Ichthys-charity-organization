@@ -4,16 +4,41 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { images } from "../assets/Images/images";
 import { useUserData } from "../context/UserContext";
-
-export const DonationForm = () => {
+import { useDonation } from "../context/DonationContext";
+import { useNavigate } from "react-router-dom";
+// import { useDonation } from "../context/DonationContext";
+export const DonationForm = ({ onClose }) => {
   const presetAmounts = ["$25", "$50", "$100", "$250"];
 
   const [donationType, setDonationType] = useState("monthly");
   const [amount, setAmount] = useState("");
   const [cause, setCause] = useState("general");
+  //  const { amountt, setAmountt } = useDonation();
+
+  const [donor, setDonor] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "",
+  });
+
+  const { createDonation } = useDonation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const donationData = {
+      donationType,
+      amount: amount.startsWith("$") ? Number(amount.slice(1)) : Number(amount),
+      cause,
+      ...donor,
+    };
+
+    await createDonation(donationData);
+  };
 
   return (
-    <div className="donation-page">
+    <form className="donation-page" onSubmit={handleSubmit}>
       {/* INTRO */}
       <div className="donation-intro">
         <h3>Make a Donation</h3>
@@ -78,7 +103,7 @@ export const DonationForm = () => {
           type="number"
           className="custom-amount-input"
           placeholder="Custom amount"
-          value={amount.startsWith("$") ? "" : amount}
+          value={amount && amount.startsWith("$") ? "" : amount || ""}
           onChange={(e) => setAmount(e.target.value)}
         />
       </section>
@@ -112,17 +137,28 @@ export const DonationForm = () => {
       <section className="donation-section donor-information">
         <h3 className="section-title">Your Information</h3>
 
-        <label htmlFor="fullName">Full Name *</label>
-        <input id="fullName" required />
+        <label>Full Name *</label>
+        <input
+          required
+          onChange={(e) => setDonor({ ...donor, fullName: e.target.value })}
+        />
 
-        <label htmlFor="email">Email *</label>
-        <input id="email" type="email" required />
+        <label>Email *</label>
+        <input
+          type="email"
+          required
+          onChange={(e) => setDonor({ ...donor, email: e.target.value })}
+        />
 
-        <label htmlFor="phone">Phone *</label>
-        <input id="phone" />
+        <label>Phone</label>
+        <input
+          onChange={(e) => setDonor({ ...donor, phone: e.target.value })}
+        />
 
-        <label htmlFor="country">Country *</label>
-        <input id="country" />
+        <label>Country</label>
+        <input
+          onChange={(e) => setDonor({ ...donor, country: e.target.value })}
+        />
       </section>
 
       {/* PAYMENT */}
@@ -149,37 +185,56 @@ export const DonationForm = () => {
           Secured by Stripe. Your payment is encrypted.
         </p>
 
-        <button className="main-btn">Donate Now</button>
+        <button type="submit" className="main-btn">
+          Donate Now
+        </button>
       </section>
-    </div>
+    </form>
   );
 };
 
-const getInvolvedDonation = () => {
+export const GetInvolvedDonation = () => {
   const presetAmounts = ["$25", "$50", "$100", "$250"];
-  const [customAmount, setCustomAmount] = useState("");
+  const { amount, setAmount } = useDonation();
+  const navigate = useNavigate();
+
+  const handleDonate = () => {
+    if (!amount) {
+      alert("Please select or enter an amount");
+      return;
+    }
+    navigate("/donate");
+  };
+
   return (
-    <div className="donation-card">
-      <h3 className="donation-title">Choose Your Donation Amount</h3>
+    <section className="donation-section">
+      <h3 className="section-title">Choose Your Donation Amount</h3>
 
       <div className="donation-grid">
-        {presetAmounts.map((amount) => (
-          <button key={amount} type="button">
-            {amount}
+        {presetAmounts.map((amt) => (
+          <button
+            key={amt}
+            type="button"
+            className={amount === amt ? "active" : ""}
+            onClick={() => setAmount(amt)}
+          >
+            {amt}
           </button>
         ))}
       </div>
-      <div>
-        <input
-          type="text"
-          className="custom-amount-input"
-          placeholder="Custom amount"
-          value={customAmount}
-        />
-        <button className="donate-now-btn">Donate Now</button>
-        <p className="secure-text">Secure payment powered by Stripe</p>
-      </div>
-    </div>
+
+      <input
+        type="number"
+        className="custom-amount-input"
+        placeholder="Custom amount"
+        value={amount && amount.startsWith("$") ? "" : amount || ""}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+
+      <button className="donate-btn" onClick={handleDonate}>
+        Donate
+      </button>
+    </section>
   );
 };
 
@@ -192,6 +247,7 @@ export const VolunteerApplication = () => {
     areaOfInterest: "",
     availability: "",
     description: "",
+    status: "pending",
   };
 
   const [form, setForm] = useState(initialValues);
@@ -354,7 +410,7 @@ const GetInvolved = () => {
         </div>
         <div className="donation-site">
           <h3>Choose Your Donation Amount</h3>
-          <getInvolvedDonation />
+          <GetInvolvedDonation />
           <p className="microcopy">
             You’ll receive an email receipt for tax purposes.
           </p>

@@ -2,6 +2,19 @@ import { createContext, useContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [volunteers, setVolunteers] = useState([]);
+
+  const allVolunteers = async () => {
+    try {
+      let res = await fetch("http://localhost:3000/volunteers");
+      let data = await res.json();
+      setVolunteers(data);
+    } catch (err) {
+      console.log("error: ", err);
+    }
+  };
+  useEffect(() => {
+    allVolunteers();
+  }, []);
   const signUpVolunteer = async (newVolunteer) => {
     try {
       let res = await fetch("http://localhost:3000/volunteers", {
@@ -30,7 +43,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ signUpVolunteer, sendFeedBack }}>
+    <UserContext.Provider value={{ signUpVolunteer, sendFeedBack, volunteers }}>
       {children}
     </UserContext.Provider>
   );

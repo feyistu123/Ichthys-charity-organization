@@ -822,3 +822,149 @@
     flex-direction: column;
   }
 }
+/* Container */
+.volunteer-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: Arial, sans-serif;
+}
+
+.volunteer-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.no-volunteers {
+  text-align: center;
+  color: #999;
+}
+
+/* Volunteer List */
+.volunteer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Volunteer Card */
+.volunteer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.volunteer-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Info Section */
+.volunteer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.volunteer-details {
+  margin-bottom: 0.5rem;
+}
+
+.volunteer-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.volunteer-status {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.volunteer-contact .volunteer-email {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Buttons */
+.volunteer-actions button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.approve-btn {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.approve-btn:hover {
+  background-color: #45a049;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.reject-btn:hover {
+  background-color: #e53935;
+}
+/* Donation Card - Matching Volunteer Style */
+.donation-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd; /* light gray border */
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  background-color: #fff; /* white background */
+  color: #333; /* dark text */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.donation-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Donation Head */
+.donation-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.donation-icon {
+  font-size: 1.5rem;
+  color: #4caf50; /* green icon */
+}
+
+.donation-amount {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.donation-type {
+  font-size: 0.9rem;
+  color: #777; /* lighter text for secondary info */
+}
+
+/* Donor Info */
+.donor-info .donor-details {
+  font-size: 0.9rem;
+  color: #555;
+}

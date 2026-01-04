@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { Link, Outlet } from "react-router-dom";
 import { useData } from "../context/DataContext";
-
+import { useState } from "react";
 const NewsCard = ({ post }) => {
   return (
     <div className="news-card">
@@ -33,14 +33,22 @@ const NewsCard = ({ post }) => {
   );
 };
 
-export const AllNews = () => {
+export const AllNews = ({ searchTerm }) => {
   const { posts } = useData();
+
+  // Filter posts by search term (title or content)
+  const filteredPosts = posts.filter(
+    (p) =>
+      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="news-grid all-news">
-      {posts.length === 0 ? (
+      {filteredPosts.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        posts.map((p) => <NewsCard key={p.id} post={p} />)
+        filteredPosts.map((p) => <NewsCard key={p.id} post={p} />)
       )}
     </div>
   );
@@ -90,6 +98,8 @@ export const EmergencyNews = () => {
 };
 
 const BlogPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <div className="blogs-page">
       <NavBar />
@@ -105,6 +115,8 @@ const BlogPage = () => {
           className="search-input"
           type="text"
           placeholder="Search articles"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </header>
 
@@ -124,7 +136,8 @@ const BlogPage = () => {
       </nav>
 
       <section className="blogs-content">
-        <Outlet />
+        {/* Pass searchTerm to child routes via context or Outlet context */}
+        <Outlet context={{ searchTerm }} />
       </section>
 
       <Footer />

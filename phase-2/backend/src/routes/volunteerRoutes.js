@@ -1,5 +1,5 @@
 const volunteerController = require('../controller/volunteerController');
-const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware'); // Import verifyToken
+const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware'); 
 
 const handleVolunteerRoutes = (req, res) => {
     // POST VOLUNTEER APPLICATION (Public)

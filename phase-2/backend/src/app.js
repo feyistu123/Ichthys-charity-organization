@@ -8,6 +8,7 @@ const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const taskAnnouncementRoutes = require('./routes/taskAnnouncementRoutes');
 
 const fs = require('fs');
 const path = require('path');
@@ -45,8 +46,9 @@ const server = http.createServer((req, res) => {
     if (req.url.startsWith('/api/events') && eventRoutes(req, res)) return;
     if (req.url.startsWith('/api/blogs') && blogRoutes(req, res)) return;
     if (req.url.startsWith('/api/contact') && contactRoutes(req, res)) return;
+    if ((req.url.startsWith('/api/admin') || req.url.startsWith('/api/volunteers')) && taskAnnouncementRoutes(req, res)) { return; }
 
-    // 4. Final 404 Handler (Only runs if NO route above matched)
+    // 4. Only runs if NO route above matched
     res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: "Route not found" }));
 });

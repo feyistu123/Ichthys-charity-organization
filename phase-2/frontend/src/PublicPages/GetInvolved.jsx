@@ -240,7 +240,7 @@ export const GetInvolvedDonation = () => {
 
 export const VolunteerApplication = () => {
   const initialValues = {
-    fulName: "",
+    fullName: "",
     email: "",
     phoneNumber: "",
     location: "",
@@ -281,8 +281,8 @@ export const VolunteerApplication = () => {
           <label>Full Name *</label>
           <input
             type="text"
-            name="fulName"
-            value={form.fulName}
+            name="fullName"
+            value={form.fullName}
             onChange={handleChange}
             required
           />

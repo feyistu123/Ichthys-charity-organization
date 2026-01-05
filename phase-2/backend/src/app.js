@@ -27,6 +27,32 @@ const server = http.createServer((req, res) => {
     res.writeHead(204);
     return res.end();
   }
+  // --- NEW: BODY PARSING LOGIC ---
+  let body = "";
+  req.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+
+  req.on("end", async () => {
+    try {
+      // Parse body if it exists, otherwise provide empty object
+      req.body = body ? JSON.parse(body) : {};
+    } catch (err) {
+      req.body = {}; 
+    }
+
+    // 2. Static Files (Uploads)
+    if (req.url.startsWith("/uploads/")) {
+      const filePath = path.join(__dirname, "..", req.url);
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          return res.end();
+        }
+        res.end(data);
+      });
+      return;
+    }
 
   // 2. Static Files (Uploads)
   if (req.url.startsWith("/uploads/")) {
@@ -67,6 +93,7 @@ const server = http.createServer((req, res) => {
   // 4. Only runs if NO route above matched
   res.writeHead(404, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ message: "Route not found" }));
+});
 });
 
 // const server = http.createServer((req, res) => {

@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
 
   userType: {
     type: String,
-    enum: ["Donor", "Staff"],
+    enum: ["Donor", "Volunteer", "Staff"],
     required: true,
   },
   role: {
@@ -29,6 +29,8 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  resetCode: { type: String, default: null },
+  resetCodeExpires: { type: Date, default: null }
 });
 
 module.exports = mongoose.model("User", UserSchema);

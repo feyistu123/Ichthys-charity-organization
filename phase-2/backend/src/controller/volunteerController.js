@@ -72,26 +72,36 @@ exports.handleGetPending = async (req, res) => {
 // --- 3. HANDLE APPROVAL ACTION ---
 exports.handleApproveVolunteer = async (req, res) => {
     try {
-        // 1. Extract the volunteer ID from the URL (e.g., /api/admin/approve/:id)
-        const volunteerId = req.url.split('/').pop();
+        // 1. Extract ID from URL (Assumes URL like: /api/admin/approve/65a123...)
+        const urlParts = req.url.split('/');
+        const volunteerId = urlParts[urlParts.length - 1];
 
-        // 2. Call the logic to approve and create the User account
+        if (!volunteerId) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: "Volunteer ID is required" }));
+        }
+
+        // 2. Run Approval Logic
         const result = await volunteerLogic.approveAndCreateAccount(volunteerId);
 
-        // 3. Respond with success and the temporary password
+        // 3. Success Response
         res.writeHead(200, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({
-            message: "Volunteer approved and account created!",
-            email: result.email,
-            temporaryPassword: result.temporaryPassword, // You will send this to them
-            status: "approved"
+            message: "Volunteer approved successfully and notification sent.",
+            data: {
+                email: result.email,
+                status: "approved"
+            }
         }));
 
     } catch (err) {
-        console.error("APPROVAL_ERROR:", err.message);
-        
-        // Handle cases where volunteer might already have an account or ID is invalid
-        const statusCode = err.message === "Volunteer not found" ? 404 : 500;
+        console.error("CONTROLLER_ERROR:", err.message);
+
+        // 4. Error Handling
+        let statusCode = 500;
+        if (err.message === "Volunteer not found") statusCode = 404;
+        if (err.message.includes("already been approved")) statusCode = 400;
+
         res.writeHead(statusCode, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify({ error: err.message }));
     }

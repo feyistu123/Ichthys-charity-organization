@@ -65,12 +65,11 @@ const App = () => {
           <Route index element={<AdminProjects />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="events" element={<Events />} />
-          <Route path="volunteer-approval" />
+          <Route path="volunteer-approval" element={<Volunteer />} />
           <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" element={<Donation />} />
         </Route>
       </Routes>
-      {/* <VolunteerDashboard /> */}
     </BrowserRouter>
   );
 };

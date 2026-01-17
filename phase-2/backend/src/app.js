@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PATCH, DELETE"
+    "GET, POST, OPTIONS, PATCH, DELETE",
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
@@ -38,7 +38,7 @@ const server = http.createServer((req, res) => {
       // Parse body if it exists, otherwise provide empty object
       req.body = body ? JSON.parse(body) : {};
     } catch (err) {
-      req.body = {}; 
+      req.body = {};
     }
 
     // 2. Static Files (Uploads)
@@ -54,46 +54,47 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-  // 2. Static Files (Uploads)
-  if (req.url.startsWith("/uploads/")) {
-    const filePath = path.join(__dirname, "..", req.url);
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        res.writeHead(404);
-        return res.end();
-      }
-      res.end(data);
-    });
-    return;
-  }
+    // 2. Static Files (Uploads)
+    if (req.url.startsWith("/uploads/")) {
+      const filePath = path.join(__dirname, "..", req.url);
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          return res.end();
+        }
+        res.end(data);
+      });
+      return;
+    }
 
-  // 3. Sequential Route Handling
-  // If any route handler returns 'true', we 'return' to stop execution.
-  if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
-  if (
-    (req.url.startsWith("/api/volunteers") ||
-      req.url.startsWith("/api/admin")) &&
-    volunteerRoutes(req, res)
-  ) {
-    return;
-  }
-  if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
-  if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
-  if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
-  if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
-  if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
-  if (
-    (req.url.startsWith("/api/admin") ||
-      req.url.startsWith("/api/volunteers")) &&
-    taskAnnouncementRoutes(req, res)
-  ) {
-    return;
-  }
+    // 3. Sequential Route Handling
+    // If any route handler returns 'true', we 'return' to stop execution.
+    if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
+    if (
+      (req.url.startsWith("/api/volunteers") ||
+        req.url.startsWith("/api/admin")) &&
+      volunteerRoutes(req, res)
+    ) {
+      return;
+    }
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res))
+      return;
+    if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
+    if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
+    if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
+    if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
+    if (
+      (req.url.startsWith("/api/admin") ||
+        req.url.startsWith("/api/volunteers")) &&
+      taskAnnouncementRoutes(req, res)
+    ) {
+      return;
+    }
 
-  // 4. Only runs if NO route above matched
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message: "Route not found" }));
-});
+    // 4. Only runs if NO route above matched
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Route not found" }));
+  });
 });
 
 // const server = http.createServer((req, res) => {

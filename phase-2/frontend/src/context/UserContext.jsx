@@ -9,7 +9,6 @@ export const UserProvider = ({ children }) => {
     try {
       const res = await api.post("/users/register", newUser);
       const data = res.data;
-
       alert(data.message);
     } catch (err) {
       console.log("error: ", err);
@@ -33,19 +32,19 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const allVolunteers = async () => {
-    try {
-      let res = await fetch("http://localhost:3000/volunteers");
-      if (!res) throw new Error("not registered Successfully");
-      let data = await res.json();
-      setVolunteers(data);
-    } catch (err) {
-      console.log("error: ", err);
-    }
-  };
-  useEffect(() => {
-    allVolunteers();
-  }, []);
+  // const allVolunteers = async () => {
+  //   try {
+  //     let res = await fetch("http://localhost:3000/volunteers");
+  //     if (!res) throw new Error("not registered Successfully");
+  //     let data = await res.json();
+  //     setVolunteers(data);
+  //   } catch (err) {
+  //     console.log("error: ", err);
+  //   }
+  // };
+  // useEffect(() => {
+  //   allVolunteers();
+  // }, []);
   const signUpVolunteer = async (newVolunteer) => {
     try {
       const res = await api.post("/volunteers/signup", newVolunteer);

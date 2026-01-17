@@ -48,13 +48,10 @@ export const UserProvider = ({ children }) => {
   }, []);
   const signUpVolunteer = async (newVolunteer) => {
     try {
-      let res = await fetch("http://localhost:3000/volunteers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newVolunteer),
-      });
-      if (!res.ok) throw new Error("signup Failed");
-      alert("You Signed Up Successfully");
+      const res = await api.post("/volunteers/signup", newVolunteer);
+      const data = res.data;
+      alert(data.message);
+      console.log("you registered");
     } catch (err) {
       console.log("error: ", err);
     }

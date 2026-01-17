@@ -6,14 +6,12 @@ import { images } from "../assets/Images/images";
 import { useUserData } from "../context/UserContext";
 import { useDonation } from "../context/DonationContext";
 import { useNavigate } from "react-router-dom";
-// import { useDonation } from "../context/DonationContext";
 export const DonationForm = ({ onClose }) => {
   const presetAmounts = ["$25", "$50", "$100", "$250"];
 
   const [donationType, setDonationType] = useState("monthly");
   const [amount, setAmount] = useState("");
   const [cause, setCause] = useState("general");
-  //  const { amountt, setAmountt } = useDonation();
 
   const [donor, setDonor] = useState({
     fullName: "",

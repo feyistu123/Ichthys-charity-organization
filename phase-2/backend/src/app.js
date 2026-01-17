@@ -27,7 +27,56 @@ const server = http.createServer((req, res) => {
     res.writeHead(204);
     return res.end();
   }
-  // --- NEW: BODY PARSING LOGIC ---
+
+  // 2. Static Files (Uploads) - Handle before body parsing
+  if (req.url.startsWith("/uploads/")) {
+    const filePath = path.join(__dirname, "..", req.url);
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        return res.end();
+      }
+      res.end(data);
+    });
+    return;
+  }
+
+  // 3. Handle GET requests immediately (no body parsing needed)
+  if (req.method === "GET") {
+    req.body = {};
+    
+    if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
+    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res)) return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
+    if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
+    if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
+    if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
+    if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
+    
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Route not found" }));
+    return;
+  }
+
+  // 4. Handle multipart form data immediately (no body parsing)
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.includes('multipart/form-data')) {
+    req.body = {};
+    
+    if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
+    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res)) return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
+    if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
+    if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
+    if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
+    if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
+    
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Route not found" }));
+    return;
+  }
+
+  // 5. Body parsing for JSON POST/PATCH/DELETE requests
   let body = "";
   req.on("data", (chunk) => {
     body += chunk.toString();
@@ -35,40 +84,12 @@ const server = http.createServer((req, res) => {
 
   req.on("end", async () => {
     try {
-      // Parse body if it exists, otherwise provide empty object
       req.body = body ? JSON.parse(body) : {};
     } catch (err) {
       req.body = {};
     }
 
-    // 2. Static Files (Uploads)
-    if (req.url.startsWith("/uploads/")) {
-      const filePath = path.join(__dirname, "..", req.url);
-      fs.readFile(filePath, (err, data) => {
-        if (err) {
-          res.writeHead(404);
-          return res.end();
-        }
-        res.end(data);
-      });
-      return;
-    }
-
-    // 2. Static Files (Uploads)
-    if (req.url.startsWith("/uploads/")) {
-      const filePath = path.join(__dirname, "..", req.url);
-      fs.readFile(filePath, (err, data) => {
-        if (err) {
-          res.writeHead(404);
-          return res.end();
-        }
-        res.end(data);
-      });
-      return;
-    }
-
-    // 3. Sequential Route Handling
-    // If any route handler returns 'true', we 'return' to stop execution.
+    // 6. Route handling for requests with body
     if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
     if (
       (req.url.startsWith("/api/volunteers") ||
@@ -77,8 +98,7 @@ const server = http.createServer((req, res) => {
     ) {
       return;
     }
-    if (req.url.startsWith("/api/donations") && donationRoutes(req, res))
-      return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
     if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
     if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
     if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
@@ -91,7 +111,6 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    // 4. Only runs if NO route above matched
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Route not found" }));
   });

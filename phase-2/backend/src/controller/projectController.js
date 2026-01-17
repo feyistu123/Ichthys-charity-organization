@@ -11,6 +11,12 @@ exports.getProjects = async (req, res) => {
 exports.addProject = async (req, res) => {
     try {
         const data = req.body;
+        
+        // Handle image if uploaded
+        if (req.file) {
+            data.image = `http://localhost:5000/uploads/${req.file.filename}`;
+        }
+        
         if (!data.title || !data.description || !data.category) {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Missing required fields' }));

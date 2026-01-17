@@ -15,17 +15,28 @@ exports.fetchBlogs = async (req, res) => {
 // --- ADMIN: PUBLISH POST ---
 exports.publishPost = async (req, res) => {
     try {
+        console.log('Blog creation request body:', req.body);
+        console.log('Blog creation file:', req.file);
+        
         const data = req.body;
+        
+        // Handle image if uploaded
+        if (req.file) {
+            data.imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+        }
+        
         if (!data.title || !data.content || !data.category || !data.author) {
+            console.log('Missing fields:', { title: !!data.title, content: !!data.content, category: !!data.category, author: !!data.author });
             res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Missing required fields' }));
+            res.end(JSON.stringify({ error: 'Missing required fields: title, content, category, author' }));
             return;
         }
         
-        await blogLogic.createBlogPost(data);
+        const newBlog = await blogLogic.createBlogPost(data);
         res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: "Blog published successfully!" }));
+        res.end(JSON.stringify({ message: "Blog published successfully!", blog: newBlog }));
     } catch (err) {
+        console.error('Blog creation error:', err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: err.message }));
     }

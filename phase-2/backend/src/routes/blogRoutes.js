@@ -11,7 +11,15 @@ const handleBlogRoutes = (req, res) => {
 
     // 2. ADMIN: POST NEW ARTICLE
     if (req.url === '/api/blogs/add' && req.method === 'POST') {
-        verifyAdmin(req, res, () => blogController.publishPost(req, res));
+        verifyAdmin(req, res, () => {
+            upload(req, res, (err) => {
+                if (err) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ error: err.message }));
+                }
+                blogController.publishPost(req, res);
+            });
+        });
         return true;
     }
 

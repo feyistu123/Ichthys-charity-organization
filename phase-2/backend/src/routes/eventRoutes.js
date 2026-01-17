@@ -12,7 +12,13 @@ const handleEventRoutes = (req, res) => {
     // 2. ADMIN: POST NEW EVENT
     if (req.url === '/api/events/add' && req.method === 'POST') {
         verifyAdmin(req, res, () => {
-            eventController.addEvent(req, res);
+            upload(req, res, (err) => {
+                if (err) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ error: err.message }));
+                }
+                eventController.addEvent(req, res);
+            });
         });
         return true;
     }

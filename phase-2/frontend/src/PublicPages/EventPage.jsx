@@ -9,13 +9,13 @@ const EventCard = ({ event }) => {
     <div className="event-card">
       <img
         className="event-image"
-        // src={images.children}
-        alt={event.eventTitle}
+        src={event.image || images.children}
+        alt={event.title}
       />
-      <p>{event.eventCategory}</p>
-      <h4 className="event-title">{event.eventTitle}</h4>
+      <p>{event.category}</p>
+      <h4 className="event-title">{event.title}</h4>
       <p className="event-date">
-        <i class="bi bi-calendar-event"></i>
+        <i className="bi bi-calendar-event"></i>
         <span> {event.date}</span>
       </p>
       <p className="event-time">
@@ -24,8 +24,8 @@ const EventCard = ({ event }) => {
       </p>
       <p className="event-status completed">
         {" "}
-        <i class="bi bi-calendar-check"></i>
-        <span>{event.status}</span>
+        <i className="bi bi-calendar-check"></i>
+        <span>{event.isPast ? "Past Event" : "Upcoming Event"}</span>
       </p>
     </div>
   );
@@ -33,8 +33,8 @@ const EventCard = ({ event }) => {
 
 export const Events = () => {
   let { events } = useData();
-  let upcomingEvents = events.filter((e) => e.status === "upcomingEvent");
-  let pastEvents = events.filter((e) => e.status === "pastEvent");
+  let upcomingEvents = events.filter((e) => !e.isPast);
+  let pastEvents = events.filter((e) => e.isPast);
 
   return (
     <section className="events-section">
@@ -48,7 +48,7 @@ export const Events = () => {
         ) : (
           <div className="events-grid">
             {upcomingEvents.map((e) => (
-              <EventCard key={e.id} event={e} />
+              <EventCard key={e._id} event={e} />
             ))}
           </div>
         )}
@@ -60,7 +60,7 @@ export const Events = () => {
           {pastEvents.length === 0 ? (
             <h3>No upcoming events at the moment. Check back soon.</h3>
           ) : (
-            pastEvents.map((e) => <EventCard key={e.id} event={e} />)
+            pastEvents.map((e) => <EventCard key={e._id} event={e} />)
           )}
         </div>
       </div>

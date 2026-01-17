@@ -11,6 +11,7 @@ const CreateEvent = ({ onClose }) => {
     totalSpots: 0,
     time: "",
     isPast: false,
+    image: null,
   };
 
   const [event, setEvent] = useState(initials);
@@ -27,11 +28,24 @@ const CreateEvent = ({ onClose }) => {
     setEvent({ ...event, [e.target.name]: value });
   };
 
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setEvent({ ...event, image: file });
+    } else {
+      setEvent({ ...event, image: null });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createEvent(event);
-    setEvent(initials);
-    onClose?.();
+    try {
+      await createEvent(event);
+      setEvent(initials);
+      onClose?.();
+    } catch (error) {
+      console.error('Error creating event:', error);
+    }
   };
 
   return (
@@ -125,6 +139,14 @@ const CreateEvent = ({ onClose }) => {
             </select>
           </div>
         </div>
+        
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="event-input"
+        />
         <button type="submit" className="event-submit-btn">
           Add Event
         </button>

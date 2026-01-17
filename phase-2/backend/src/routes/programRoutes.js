@@ -11,7 +11,15 @@ const handleProgramRoutes = (req, res) => {
 
   // 2. POST NEW PROGRAM (Admin Only)
   if (req.url === "/api/programs/add" && req.method === "POST") {
-    verifyAdmin(req, res, () => projectController.addProject(req, res));
+    verifyAdmin(req, res, () => {
+      upload(req, res, (err) => {
+        if (err) {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          return res.end(JSON.stringify({ error: err.message }));
+        }
+        projectController.addProject(req, res);
+      });
+    });
     return true;
   }
 

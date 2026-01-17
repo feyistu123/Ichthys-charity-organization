@@ -8,6 +8,7 @@ const CreatePost = ({ onClose }) => {
     category: "",
     author: "",
     publishedDate: "",
+    image: null,
   };
 
   const [post, setPost] = useState(initials);
@@ -15,6 +16,11 @@ const CreatePost = ({ onClose }) => {
 
   const handleChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    setPost({ ...post, image: file });
   };
 
   const handleSubmit = async (e) => {
@@ -73,6 +79,14 @@ const CreatePost = ({ onClose }) => {
           onChange={handleChange}
           value={post.author}
           required
+        />
+
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="post-input"
         />
 
         <button type="submit" className="post-submit-btn">

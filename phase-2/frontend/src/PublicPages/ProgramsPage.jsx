@@ -14,7 +14,7 @@ export const Projects = () => {
       ) : (
         projects.map((p) => (
           <div key={p._id} className="project-card">
-            <img className="project-image" alt={p.title} />
+            <img className="project-image" src={p.image} alt={p.title} />
 
             <div className="project-tags">
               <p className="project-field">{p.category}</p>
@@ -67,7 +67,7 @@ export const Projects = () => {
 };
 export const Completed = () => {
   const { projects } = useData();
-  const completedProjects = projects.filter((p) => p.status === "completed");
+  const completedProjects = projects.filter((p) => p.status === "Completed");
 
   return (
     <div className="project-cards">
@@ -75,8 +75,8 @@ export const Completed = () => {
         <h3>There are no completed projects</h3>
       ) : (
         completedProjects.map((p) => (
-          <div key={p.id} className="project-card">
-            <img className="project-image" alt={p.title} />
+          <div key={p._id} className="project-card">
+            <img className="project-image" src={p.image} alt={p.title} />
 
             <div className="project-tags">
               <p className="project-field">{p.category}</p>
@@ -129,15 +129,15 @@ export const Completed = () => {
 
 export const ActiveProjects = () => {
   const { projects } = useData();
-  const activeProjects = projects.filter((p) => p.status === "active");
+  const activeProjects = projects.filter((p) => p.status === "Active");
   return (
-    <div className="project-card">
+    <div className="project-cards">
       {activeProjects.length === 0 ? (
         <h3>There are no Active projects</h3>
       ) : (
         activeProjects.map((p) => (
-          <div key={p.id} className="project-card">
-            <img className="project-image" alt={p.title} />
+          <div key={p._id} className="project-card">
+            <img className="project-image" src={p.image} alt={p.title} />
 
             <div className="project-tags">
               <p className="project-field">{p.category}</p>

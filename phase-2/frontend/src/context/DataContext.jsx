@@ -23,7 +23,18 @@ export const DataProvider = ({ children }) => {
 
   const createProject = async (newProject) => {
     try {
-      await api.post("/programs/add", newProject);
+      const formData = new FormData();
+      Object.keys(newProject).forEach(key => {
+        if (newProject[key] != null) {
+          formData.append(key, newProject[key]);
+        }
+      });
+      
+      await api.post("/programs/add", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       alert("Successfully created new project");
       allProjects();
     } catch (err) {
@@ -66,7 +77,18 @@ export const DataProvider = ({ children }) => {
   }, []);
   const createEvent = async (newEvent) => {
     try {
-      await api.post("/events/add", newEvent);
+      const formData = new FormData();
+      Object.keys(newEvent).forEach(key => {
+        if (newEvent[key] != null) {
+          formData.append(key, newEvent[key]);
+        }
+      });
+      
+      await api.post("/events/add", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       alert("Successfully created new event");
       allEvents();
     } catch (err) {
@@ -109,7 +131,18 @@ export const DataProvider = ({ children }) => {
   }, []);
   const createPost = async (newPost) => {
     try {
-      await api.post("/blogs/add", newPost);
+      const formData = new FormData();
+      Object.keys(newPost).forEach(key => {
+        if (newPost[key] != null) {
+          formData.append(key, newPost[key]);
+        }
+      });
+      
+      await api.post("/blogs/add", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       alert("Successfully created new Post");
       allPosts();
     } catch (err) {

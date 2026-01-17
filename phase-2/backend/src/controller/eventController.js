@@ -14,20 +14,22 @@ exports.getPublicEvents = async (req, res) => {
 };
 
 // --- ADMIN: CREATE EVENT ---
-exports.addEvent = (req, res) => {
-    let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
-    req.on('end', async () => {
-        try {
-            const data = JSON.parse(body);
-            const event = await eventLogic.createEvent(data);
-            res.writeHead(201, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: "Event created!", event }));
-        } catch (error) {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: "Invalid event data" }));
+exports.addEvent = async (req, res) => {
+    try {
+        const data = req.body;
+        
+        // Handle image if uploaded
+        if (req.file) {
+            data.image = `http://localhost:5000/uploads/${req.file.filename}`;
         }
-    });
+        
+        const event = await eventLogic.createEvent(data);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: "Event created!", event }));
+    } catch (error) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: "Invalid event data" }));
+    }
 };
 
 exports.publishWithImage = async (req, res) => {

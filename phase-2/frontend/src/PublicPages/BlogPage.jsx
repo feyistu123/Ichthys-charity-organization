@@ -8,7 +8,7 @@ import { useState } from "react";
 const NewsCard = ({ post }) => {
   return (
     <div className="news-card">
-      <img className="news-image" src={images.image6} alt="post Image" />
+      <img className="news-image" src={post.imageUrl || images.image6} alt="post Image" />
 
       <p className="news-category">{post.category}</p>
 
@@ -33,14 +33,14 @@ const NewsCard = ({ post }) => {
   );
 };
 
-export const AllNews = ({ searchTerm }) => {
+export const AllNews = ({ searchTerm = "" }) => {
   const { posts } = useData();
 
   // Filter posts by search term (title or content)
   const filteredPosts = posts.filter(
     (p) =>
-      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.content.toLowerCase().includes(searchTerm.toLowerCase())
+      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (p?.content || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -62,7 +62,7 @@ export const EducationNews = () => {
       {educationNews.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        educationNews.map((p) => <NewsCard key={p.id} post={p} />)
+        educationNews.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );
@@ -74,10 +74,10 @@ export const HealthNews = () => {
 
   return (
     <div className="news-grid health-news">
-      {HealthNews.length === 0 ? (
+      {healthNews.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        HealthNews.map((p) => <NewsCard key={p.id} post={p} />)
+        healthNews.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );
@@ -88,10 +88,10 @@ export const EmergencyNews = () => {
   const emergencyNews = posts.filter((p) => p.category === "Emergency");
   return (
     <div className="news-grid emergency-news">
-      {EmergencyNews.length === 0 ? (
+      {emergencyNews.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        emergencyNews.map((p) => <NewsCard key={p.id} post={p} />)
+        emergencyNews.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );

@@ -12,7 +12,8 @@ const CreateProject = ({ onClose }) => {
     peopleImpacted: 0,
     startDate: "",
     endDate: "",
-    status: "active",
+    status: "Active",
+    image: null,
   };
 
   const [project, setProject] = useState(initials);
@@ -28,12 +29,20 @@ const CreateProject = ({ onClose }) => {
     setProject({ ...project, [e.target.name]: value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    setProject({ ...project, image: file });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createProject(project);
-    console.log("Project created:", project);
-    setProject(initials);
-    onClose();
+    try {
+      await createProject(project);
+      setProject(initials);
+      onClose?.();
+    } catch (error) {
+      console.error('Error creating project:', error);
+    }
   };
 
   return (
@@ -91,6 +100,15 @@ const CreateProject = ({ onClose }) => {
           value={project.goalAmount}
           required
         />
+        <input
+          className="project-input"
+          placeholder="Number of People Impacted"
+          type="number"
+          name="peopleImpacted"
+          onChange={handleChange}
+          value={project.peopleImpacted}
+          required
+        />
         <div className="date-status">
           <input
             className="project-input"
@@ -120,8 +138,8 @@ const CreateProject = ({ onClose }) => {
               onChange={handleChange}
               value={project.status}
             >
-              <option value="active">Active</option>
-              <option value="completed">Completed</option>
+              <option value="Active">Active</option>
+              <option value="Completed">Completed</option>
             </select>
             {/* <input
               type="file"
@@ -130,6 +148,14 @@ const CreateProject = ({ onClose }) => {
               accept="image/*"
               onChange={handleImageChange}
             /> */}
+            <input
+              type="file"
+              name="image"
+              id="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="project-input"
+            />
           </div>
           <button type="submit" className="project-submit-btn">
             Add Project

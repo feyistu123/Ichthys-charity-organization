@@ -51,7 +51,6 @@ export const UserProvider = ({ children }) => {
       const res = await api.post("/volunteers/signup", newVolunteer);
       const data = res.data;
       alert(data.message);
-      console.log("you registered");
     } catch (err) {
       console.log("error: ", err);
     }

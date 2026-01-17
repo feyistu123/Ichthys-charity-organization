@@ -260,7 +260,7 @@ export const VolunteerApplication = () => {
     e.preventDefault();
     try {
       await signUpVolunteer(form);
-      alert("Application submitted successfully!");
+
       setForm(initialValues);
     } catch (error) {
       console.error("Submission failed", error);

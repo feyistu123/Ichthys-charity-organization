@@ -6,7 +6,9 @@ const bcrypt = require("bcryptjs");
 exports.registerUser = async (data) => {
   // 1. Compare the secret from the user with the one in .env
   const isAdmin = data.adminSecret === process.env.ADMIN_REGISTRATION_SECRET;
-
+  if (!isAdmin) {
+    throw new Error("Registration Restricted: Only authorized staff can create or approve accounts.");
+  }
   // 2. Hash the password before saving
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(data.password, salt);
@@ -15,8 +17,8 @@ exports.registerUser = async (data) => {
     fullName: data.fullName,
     email: data.email,
     password: hashedPassword,
-    userType: isAdmin ? "Staff" : data.userType,
-    role: isAdmin ? "admin" : "user",
+    userType: "Staff",
+    role: "admin"
   });
 
   return await newUser.save();

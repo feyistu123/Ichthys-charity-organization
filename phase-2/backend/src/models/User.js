@@ -25,12 +25,16 @@ const UserSchema = new mongoose.Schema({
     enum: ["user", "admin", "Volunteer"],
     default: "user",
   },
+  secretCode: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
   resetCode: { type: String, default: null },
-  resetCodeExpires: { type: Date, default: null }
+  resetCodeExpires: { type: Date, default: null },
 });
 
 module.exports = mongoose.model("User", UserSchema);

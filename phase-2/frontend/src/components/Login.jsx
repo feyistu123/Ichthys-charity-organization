@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUserData } from "../context/UserContext";
 
 const Login = () => {
@@ -6,12 +7,23 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("Donor");
   const { loginUser } = useUserData();
+  const navigate = useNavigate();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = { email, password, role };
     const loggedInUser = await loginUser(user);
     if (loggedInUser) {
       console.log("User logged in:", loggedInUser);
+      
+      // Redirect based on user role
+      if (loggedInUser.role === 'admin') {
+        navigate('/adminDashboard');
+      } else if (loggedInUser.role === 'user' && loggedInUser.userType === 'Volunteer') {
+        navigate('/volunteer-dashboard');
+      } else {
+        navigate('/');
+      }
     }
   };
 

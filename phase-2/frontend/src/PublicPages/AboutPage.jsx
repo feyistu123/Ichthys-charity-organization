@@ -38,8 +38,8 @@ const AboutPage = () => {
         </div>
 
         <div id="principles">
-          <div class="values-one">
-            <i class="bi bi-bullseye"></i>
+          <div className="values-one">
+            <i className="bi bi-bullseye"></i>
             <h3>Our Mission</h3>
             <p>
               At Ichthys (ἰχθύς) Charity, our mission is to reflect the love of
@@ -50,8 +50,8 @@ const AboutPage = () => {
               integrity, and unconditional love.
             </p>
           </div>
-          <div class="values-two">
-            <i class="bi bi-eye"></i>
+          <div className="values-two">
+            <i className="bi bi-eye"></i>
             <h3>Our vision</h3>
             <p>
               A world where every person, regardless of their background or
@@ -65,24 +65,24 @@ const AboutPage = () => {
               <p>The principles that guide our work and define who we are</p>
             </div>
             <div id="core-values">
-              <div class="core-value-one">
-                <i class="bi bi-heart"></i>
+              <div className="core-value-one">
+                <i className="bi bi-heart"></i>
                 <h3>Compassion</h3>
                 <p>We lead with empathy and understanding in all we do.</p>
               </div>
-              <div class="core-value-two">
-                <i class="bi bi-people"></i>
+              <div className="core-value-two">
+                <i className="bi bi-people"></i>
                 <h3>Community</h3>
                 <p>Together, we are stronger and can achieve more.</p>
               </div>
 
-              <div class="core-value-three">
-                <i class="bi bi-trophy"></i>
+              <div className="core-value-three">
+                <i className="bi bi-trophy"></i>
                 <h3>Excellence</h3>
                 <p>We strive for the highest quality in our programs.</p>
               </div>
-              <div class="core-value-four">
-                <i class="bi bi-globe"></i>
+              <div className="core-value-four">
+                <i className="bi bi-globe"></i>
                 <h3>Inclusivity</h3>
                 <p>Everyone deserves opportunity, regardless of background.</p>
               </div>
@@ -109,24 +109,24 @@ const AboutPage = () => {
         </div>
         <div id="impacts-list">
           <div>
-            <i class="bi bi-lightning-charge"></i>
+            <i className="bi bi-lightning-charge"></i>
             <h3>50,000</h3>
             <p>Lives Impacted</p>
           </div>
 
           <div>
-            <i class="bi bi-person-raised-hand"></i>
+            <i className="bi bi-person-raised-hand"></i>
 
             <h3>1,200 +</h3>
             <p>Active Volunteers</p>
           </div>
           <div>
-            <i class="bi bi-check-circle-fill text-success"></i>
+            <i className="bi bi-check-circle-fill text-success"></i>
             <h3>85 %</h3>
             <p>Success Rate</p>
           </div>
           <div>
-            <i class="bi bi-people"></i>
+            <i className="bi bi-people"></i>
             <h3>30 +</h3>
             <p>Communities</p>
           </div>

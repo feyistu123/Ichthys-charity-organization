@@ -10,10 +10,10 @@ const Footer = () => {
             compassion.
           </p>
           <div>
-            <i class="bi bi-facebook"></i>
-            <i class="bi bi-twitter"></i>
-            <i class="bi bi-instagram"></i>
-            <i class="bi bi-linkedin"></i>
+            <i className="bi bi-facebook"></i>
+            <i className="bi bi-twitter"></i>
+            <i className="bi bi-instagram"></i>
+            <i className="bi bi-linkedin"></i>
           </div>
         </div>
 
@@ -28,13 +28,13 @@ const Footer = () => {
         <div>
           <h3>Contact Us</h3>
           <p>
-            <i class="bi bi-geo-alt-fill"></i> Bole, Community Center
+            <i className="bi bi-geo-alt-fill"></i> Bole, Community Center
           </p>
           <p>
-            <i class="bi bi-phone-fill"></i> (011) 724-4937
+            <i className="bi bi-phone-fill"></i> (011) 724-4937
           </p>
           <p>
-            <i class="bi bi-envelope-fill"></i> info@ichthys.org
+            <i className="bi bi-envelope-fill"></i> info@ichthys.org
           </p>
         </div>
 

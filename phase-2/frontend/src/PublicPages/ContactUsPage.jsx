@@ -8,9 +8,9 @@ const ContactUsPage = () => {
     fullName: "",
     email: "",
     phoneNumber: "",
-    comment: "",
+    message: "",
   };
-  const [feedback, setFeedback] = useState([initials]);
+  const [feedback, setFeedback] = useState(initials);
   const { sendFeedBack } = useUserData();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +21,6 @@ const ContactUsPage = () => {
     e.preventDefault();
     try {
       await sendFeedBack(feedback);
-      alert("feedback submitted successfully!");
       setFeedback(initials);
     } catch (error) {
       console.error("Submission failed", error);
@@ -38,27 +37,33 @@ const ContactUsPage = () => {
             placeholder="Full Name"
             id="nameInput"
             name="fullName"
+            value={feedback.fullName}
             onChange={handleChange}
+            required
           />
           <input
             type="email"
-            placeholder="exampel@gmail.com"
+            placeholder="example@gmail.com"
             id="emailInput"
             name="email"
+            value={feedback.email}
             onChange={handleChange}
+            required
           />
           <input
             type="tel"
             placeholder="Phone number"
             id="phone-input"
             name="phoneNumber"
+            value={feedback.phoneNumber}
             onChange={handleChange}
           />
           <textarea
-            type="text"
-            name="comment"
-            placeholder="Give us Comment or Feed Back "
+            name="message"
+            placeholder="Give us Comment or Feed Back"
+            value={feedback.message}
             onChange={handleChange}
+            required
           ></textarea>
           <button id="sendBut" type="submit">
             Send Feed Back

@@ -3,14 +3,14 @@ import { useData } from "../context/DataContext";
 
 const CreateEvent = ({ onClose }) => {
   const initials = {
-    eventTitle: "",
-    eventDescription: "",
+    title: "",
+    description: "",
     location: "",
-    eventCategory: "",
+    category: "",
     date: "",
     totalSpots: 0,
     time: "",
-    status: "upcomingEvent",
+    isPast: false,
   };
 
   const [event, setEvent] = useState(initials);
@@ -19,7 +19,10 @@ const CreateEvent = ({ onClose }) => {
   const handleChange = (e) => {
     let value = e.target.value;
     if (e.target.name === "totalSpots") {
-      value = Number(value);
+      value = Number(value) || 0;
+    }
+    if (e.target.name === "isPast") {
+      value = value === "true";
     }
     setEvent({ ...event, [e.target.name]: value });
   };
@@ -40,18 +43,18 @@ const CreateEvent = ({ onClose }) => {
           className="event-input"
           placeholder="Event Title"
           type="text"
-          name="eventTitle"
+          name="title"
           onChange={handleChange}
-          value={event.eventTitle}
+          value={event.title || ""}
           required
         />
 
         <textarea
           className="event-input textarea"
           placeholder="Event Description"
-          name="eventDescription"
+          name="description"
           onChange={handleChange}
-          value={event.eventDescription}
+          value={event.description || ""}
           required
         />
 
@@ -59,10 +62,10 @@ const CreateEvent = ({ onClose }) => {
           className="event-input"
           placeholder="Event Category"
           type="text"
-          name="eventCategory"
+          name="category"
           list="event-list"
           onChange={handleChange}
-          value={event.eventCategory}
+          value={event.category || ""}
           required
         />
         <datalist id="event-list">
@@ -113,12 +116,12 @@ const CreateEvent = ({ onClose }) => {
             <label>Status</label>
             <select
               className="event-input"
-              name="status"
+              name="isPast"
               onChange={handleChange}
-              value={event.status}
+              value={event.isPast}
             >
-              <option value="upcomingEvent">upcomingEvent</option>
-              <option value="pastEvent">pastEvent</option>
+              <option value="false">Upcoming Event</option>
+              <option value="true">Past Event</option>
             </select>
           </div>
         </div>

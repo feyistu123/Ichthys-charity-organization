@@ -48,7 +48,7 @@ export const AllNews = ({ searchTerm }) => {
       {filteredPosts.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        filteredPosts.map((p) => <NewsCard key={p.id} post={p} />)
+        filteredPosts.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );

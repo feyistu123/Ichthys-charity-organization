@@ -1,5 +1,7 @@
 const Volunteer = require("../models/Volunteer");
 const User = require("../models/User");
+const TaskAnnouncement = require("../models/TaskAnnouncement");
+const Report = require("../models/Report");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
@@ -12,18 +14,6 @@ exports.registerVolunteerApplication = async (data) => {
   });
   return await newVolunteer.save();
 };
-// exports.submitApplication = async (req, res) => {
-//   try {
-//     const volunteer = await exports.registerVolunteerApplication(req.body);
-//     res.status(201).json({
-//       message: "Volunteer application submitted successfully",
-//       volunteer,
-//     });
-//   } catch (error) {
-//     console.error("Volunteer signup error:", error);
-//     res.status(500).json({ message: "Failed to submit application" });
-//   }
-// };
 
 // 1. Configure Nodemailer Transporter
 const transporter = nodemailer.createTransport({
@@ -59,6 +49,7 @@ exports.approveAndCreateAccount = async (volunteerId) => {
     fullName: volunteer.fullName,
     userType: "Volunteer",
     role: "user",
+    secretCode: "volunteer", // Default secret code for approved volunteers
   });
   await newUser.save();
 
@@ -102,4 +93,197 @@ exports.getPendingApplications = async () => {
 // Logic for the Dashboard (only shows approved ones)
 exports.getDashboardVolunteers = async () => {
   return await Volunteer.find({ status: "approved" });
+};
+
+// Send announcement to all approved volunteers
+exports.sendAnnouncementToAll = async (message) => {
+  // Save announcement to database
+  const announcement = new TaskAnnouncement({
+    type: "announcement",
+    message: message,
+  });
+  await announcement.save();
+  
+  const approvedVolunteers = await Volunteer.find({ status: "approved" });
+  
+  const mailPromises = approvedVolunteers.map(volunteer => {
+    const mailOptions = {
+      from: `"Ichthys Charity" <${process.env.EMAIL_USER}>`,
+      to: volunteer.email,
+      subject: "Important Announcement from Ichthys Charity",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #eee; padding: 20px;">
+          <h2 style="color: #2c3e50;">Announcement</h2>
+          <p>Dear ${volunteer.fullName},</p>
+          <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p>${message}</p>
+          </div>
+          <p>Thank you for your continued support!</p>
+          <p>Best regards,<br>Ichthys Charity Team</p>
+        </div>
+      `,
+    };
+    
+    return transporter.sendMail(mailOptions);
+  });
+  
+  await Promise.all(mailPromises);
+};
+
+// Send message to specific volunteer
+exports.sendMessageToVolunteer = async (volunteerId, message) => {
+  const volunteer = await Volunteer.findById(volunteerId);
+  if (!volunteer) throw new Error("Volunteer not found");
+  
+  // Save message to database
+  const taskMessage = new TaskAnnouncement({
+    type: "announcement",
+    message: message,
+    volunteerId: volunteerId,
+    volunteerName: volunteer.fullName,
+  });
+  await taskMessage.save();
+  
+  const mailOptions = {
+    from: `"Ichthys Charity" <${process.env.EMAIL_USER}>`,
+    to: volunteer.email,
+    subject: "Personal Message from Ichthys Charity",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #eee; padding: 20px;">
+        <h2 style="color: #2c3e50;">Personal Message</h2>
+        <p>Dear ${volunteer.fullName},</p>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p>${message}</p>
+        </div>
+        <p>Best regards,<br>Ichthys Charity Team</p>
+      </div>
+    `,
+  };
+  
+  await transporter.sendMail(mailOptions);
+};
+
+// Get all volunteers for admin dashboard
+exports.getAllVolunteers = async () => {
+  return await Volunteer.find({}).sort({ joinedDate: -1 });
+};
+// Assign project to volunteer
+exports.assignProjectToVolunteer = async (volunteerId, projectTitle) => {
+  const volunteer = await Volunteer.findById(volunteerId);
+  if (!volunteer) throw new Error("Volunteer not found");
+  
+  // Save task assignment to database
+  const taskAssignment = new TaskAnnouncement({
+    type: "task",
+    message: `You have been assigned to project: ${projectTitle}`,
+    volunteerId: volunteerId,
+    volunteerName: volunteer.fullName,
+    projectTitle: projectTitle,
+  });
+  await taskAssignment.save();
+  
+  // Send email notification
+  const mailOptions = {
+    from: `"Ichthys Charity" <${process.env.EMAIL_USER}>`,
+    to: volunteer.email,
+    subject: "New Project Assignment",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #eee; padding: 20px;">
+        <h2 style="color: #2c3e50;">New Project Assignment</h2>
+        <p>Dear ${volunteer.fullName},</p>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p><strong>Project:</strong> ${projectTitle}</p>
+          <p>You have been assigned to this project. Please log in to your dashboard for more details.</p>
+        </div>
+        <p>Best regards,<br>Ichthys Charity Team</p>
+      </div>
+    `,
+  };
+  
+  await transporter.sendMail(mailOptions);
+};
+
+// Get announcements and tasks for specific volunteer
+exports.getVolunteerTasksAnnouncements = async (userId) => {
+  console.log('Getting tasks for user ID:', userId);
+  
+  // First find the volunteer record using the user ID
+  const user = await User.findById(userId);
+  if (!user) {
+    console.log('User not found');
+    return [];
+  }
+  
+  const volunteer = await Volunteer.findOne({ email: user.email });
+  if (!volunteer) {
+    console.log('Volunteer record not found for email:', user.email);
+    return [];
+  }
+  
+  console.log('Found volunteer:', volunteer._id);
+  
+  // Get general announcements (for all volunteers) and specific messages/tasks
+  const generalAnnouncements = await TaskAnnouncement.find({ 
+    type: "announcement", 
+    volunteerId: null 
+  }).sort({ createdAt: -1 });
+  
+  const personalItems = await TaskAnnouncement.find({ 
+    volunteerId: volunteer._id 
+  }).sort({ createdAt: -1 });
+  
+  console.log('General announcements:', generalAnnouncements.length);
+  console.log('Personal items:', personalItems.length);
+  
+  return [...generalAnnouncements, ...personalItems];
+};
+// Submit volunteer report
+exports.submitVolunteerReport = async (userId, reportText) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  
+  const volunteer = await Volunteer.findOne({ email: user.email });
+  if (!volunteer) throw new Error("Volunteer record not found");
+  
+  const report = new Report({
+    volunteerId: volunteer._id,
+    volunteerName: volunteer.fullName,
+    report: reportText,
+  });
+  
+  await report.save();
+  return report;
+};
+
+// Get all reports for admin
+exports.getAllReports = async () => {
+  return await Report.find({}).sort({ submittedAt: -1 });
+};
+
+// Get all announcements and assignments for admin
+exports.getAllAnnouncementsAssignments = async () => {
+  return await TaskAnnouncement.find({}).sort({ createdAt: -1 });
+};
+
+// Edit announcement or assignment
+exports.editAnnouncementAssignment = async (itemId, message, projectTitle) => {
+  const item = await TaskAnnouncement.findById(itemId);
+  if (!item) throw new Error("Item not found");
+  
+  item.message = message;
+  if (projectTitle !== undefined) {
+    item.projectTitle = projectTitle;
+  }
+  
+  await item.save();
+  return item;
+};
+
+// Delete announcement or assignment
+exports.deleteAnnouncementAssignment = async (itemId) => {
+  const item = await TaskAnnouncement.findById(itemId);
+  if (!item) throw new Error("Item not found");
+  
+  await TaskAnnouncement.findByIdAndDelete(itemId);
+  return { message: "Deleted successfully" };
 };

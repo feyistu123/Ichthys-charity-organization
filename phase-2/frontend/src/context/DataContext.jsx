@@ -1,174 +1,140 @@
 import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
+import { api } from "../axios/api";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [events, setEvents] = useState([]);
   const [posts, setPosts] = useState([]);
+
   const allProjects = async () => {
-    let res = await fetch("http://localhost:3000/projects");
-    let data = await res.json();
-    setProjects(data);
+    try {
+      const res = await api.get("/programs");
+      setProjects(res.data);
+    } catch (err) {
+      console.error("Error fetching projects:", err);
+    }
   };
+
   useEffect(() => {
     allProjects();
   }, []);
 
   const createProject = async (newProject) => {
     try {
-      let res = await fetch("http://localhost:3000/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newProject),
-      });
-
-      if (!res.ok) throw new Error("New Project is not Created");
+      await api.post("/programs/add", newProject);
       alert("Successfully created new project");
       allProjects();
     } catch (err) {
-      console.log(err.message);
+      console.error("Error creating project:", err);
+      alert("Failed to create project");
     }
   };
   const editProject = async ({ id, upDatedData }) => {
     try {
-      const res = await fetch(`http://localhost:3000/projects/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(upDatedData),
-      });
-
-      if (!res.ok) throw new Error("Project is not Edited");
-      const updatedProject = await res.json();
-      setProjects((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...updatedProject } : p))
-      );
-
+      await api.patch(`/programs/${id}`, upDatedData);
       alert("Successfully edited project");
+      allProjects();
     } catch (err) {
-      console.error(err.message);
+      console.error("Error editing project:", err);
+      alert("Failed to edit project");
     }
   };
   const deleteProject = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/projects/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Project is not Deleted");
-      allProjects();
+      await api.delete(`/programs/${id}`);
       alert("Successfully deleted project");
+      allProjects();
     } catch (err) {
-      console.error(err.message);
+      console.error("Error deleting project:", err);
+      alert("Failed to delete project");
     }
   };
   const allEvents = async () => {
-    let res = await fetch("http://localhost:3000/events");
-    let data = await res.json();
-    setEvents(data);
+    try {
+      const res = await api.get("/events");
+      const { upcoming, past } = res.data;
+      setEvents([...upcoming, ...past]);
+    } catch (err) {
+      console.error("Error fetching events:", err);
+    }
   };
+
   useEffect(() => {
     allEvents();
   }, []);
   const createEvent = async (newEvent) => {
     try {
-      let res = await fetch("http://localhost:3000/events", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newEvent),
-      });
-
-      if (!res.ok) throw new Error("New Event is not Created");
+      await api.post("/events/add", newEvent);
       alert("Successfully created new event");
       allEvents();
     } catch (err) {
-      console.log(err.message);
+      console.error("Error creating event:", err);
+      alert("Failed to create event");
     }
   };
   const editEvent = async ({ id, upDatedData }) => {
     try {
-      const res = await fetch(`http://localhost:3000/events/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(upDatedData),
-      });
-
-      if (!res.ok) throw new Error("Project is not Edited");
-      const updatedEvent = await res.json();
-      setEvents((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...updatedEvent } : p))
-      );
-
+      await api.patch(`/events/${id}`, upDatedData);
       alert("Successfully edited Event");
-      console.log("Edit succeeded", updatedEvent);
+      allEvents();
     } catch (err) {
-      console.error(err.message);
+      console.error("Error editing event:", err);
+      // amazonq-ignore-next-line
+      alert("Failed to edit event");
     }
   };
   const deleteEvent = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/events/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Event is not Deleted");
-      allEvents();
+      await api.delete(`/events/${id}`);
       alert("Successfully deleted event");
+      allEvents();
     } catch (err) {
-      console.error(err.message);
+      console.error("Error deleting event:", err);
+      // alert("Failed to delete event");
     }
   };
   const allPosts = async () => {
-    let res = await fetch("http://localhost:3000/posts");
-    let data = await res.json();
-    setPosts(data);
+    try {
+      const res = await api.get("/blogs");
+      setPosts(res.data);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+    }
   };
+
   useEffect(() => {
-    allEvents();
+    allPosts();
   }, []);
   const createPost = async (newPost) => {
     try {
-      let res = await fetch("http://localhost:3000/posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPost),
-      });
-
-      if (!res.ok) throw new Error("New Post is not Created");
+      await api.post("/blogs/add", newPost);
       alert("Successfully created new Post");
       allPosts();
     } catch (err) {
-      console.log(err.message);
+      console.error("Error creating post:", err);
+      // alert("Failed to create post");
     }
   };
   const editPost = async ({ id, upDatedData }) => {
     try {
-      const res = await fetch(`http://localhost:3000/posts/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(upDatedData),
-      });
-
-      if (!res.ok) throw new Error("posts is not Edited");
-      const updatedPosts = await res.json();
-      setEvents((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...updatedPosts } : p))
-      );
-
-      alert("Successfully edited Event");
-      console.log("Edit succeeded", updatedPosts);
+      await api.patch(`/blogs/${id}`, upDatedData);
+      // alert("Successfully edited Post");
+      allPosts();
     } catch (err) {
-      console.error(err.message);
+      console.error("Error editing post:", err);
+      // alert("Failed to edit post");
     }
   };
   const deletePost = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/posts/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Event is not Deleted");
+      await api.delete(`/blogs/${id}`);
+      // alert("Successfully deleted post");
       allPosts();
-      alert("Successfully deleted event");
     } catch (err) {
-      console.error(err.message);
+      console.error("Error deleting post:", err);
+      // alert("Failed to delete post");
     }
   };
   return (

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "../axios/api";
 
 const DonationContext = createContext();
 
@@ -8,30 +9,30 @@ export const DonationProvider = ({ children }) => {
 
   const getAllDonations = async () => {
     try {
-      let res = await fetch("http://localhost:3000/donations");
-      let data = await res.json();
-      setDonations(data);
+      const token = localStorage.getItem("token");
+      if (!token) return; // Skip if not logged in
+      
+      const res = await api.get("/donations");
+      setDonations(res.data);
     } catch (err) {
-      console.log("error: ", err);
+      if (err.response?.status !== 403) {
+        console.error("Error fetching donations:", err);
+      }
     }
   };
+  
   useEffect(() => {
     getAllDonations();
   }, []);
 
   const createDonation = async (donationData) => {
     try {
-      const res = await fetch("http://localhost:3000/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(donationData),
-      });
-
-      if (!res.ok) throw new Error("Donation failed");
-
+      await api.post("/donations", donationData);
       alert("Thank you for your donation ❤️");
+      getAllDonations();
     } catch (error) {
-      console.error(error.message);
+      console.error("Donation error:", error);
+      alert("Donation failed. Please try again.");
     }
   };
 

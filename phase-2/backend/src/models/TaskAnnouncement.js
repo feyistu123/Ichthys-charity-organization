@@ -1,22 +1,32 @@
-// src/models/TaskAnnouncement.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const taskAnnouncementSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    type: { 
-        type: String, 
-        enum: ['Task', 'Announcement'], 
-        required: true 
-    },
-    areaOfInterest: { 
-        type: String, 
-        required: true,
-        enum: ['Education Tutor', 'Health Support', 'Environment', 'Social Work', 'Other'] 
-    }, // Matches registration categories
-    deadline: { type: Date },
-    postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    createdAt: { type: Date, default: Date.now }
+const TaskAnnouncementSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["announcement", "task"],
+    required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+  volunteerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Volunteer",
+    default: null, // null for announcements to all
+  },
+  volunteerName: {
+    type: String,
+    default: null, // volunteer name for easier display
+  },
+  projectTitle: {
+    type: String,
+    default: null, // only for task assignments
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model('TaskAnnouncement', taskAnnouncementSchema);
+module.exports = mongoose.model("TaskAnnouncement", TaskAnnouncementSchema);

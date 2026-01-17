@@ -16,7 +16,7 @@ const Blogs = () => {
         <h3>No blog posts available</h3>
       ) : (
         posts.map((post) => (
-          <div key={post.id} className="blog-card">
+          <div key={post._id} className="blog-card">
             <div className="blog-header">
               <h3 className="blog-title">{post.title}</h3>
               <span className="blog-badge">{post.category}</span>
@@ -41,7 +41,7 @@ const Blogs = () => {
               </button>
               <button
                 className="delete-btn"
-                onClick={() => deletePost(post.id)}
+                onClick={() => deletePost(post._id)}
               >
                 <i className="bi bi-trash"></i>
               </button>

@@ -16,13 +16,13 @@ const Events = () => {
         <h3>No upcoming events</h3>
       ) : (
         events.map((event) => (
-          <div key={event.id} className="event-card">
+          <div key={event._id} className="event-card">
             <div className="event-header">
-              <h3 className="event-title">{event.eventTitle}</h3>
-              <span className="event-badge">{event.eventCategory}</span>
+              <h3 className="event-title">{event.title}</h3>
+              <span className="event-badge">{event.category}</span>
             </div>
 
-            <p className="event-description">{event.eventDescription}</p>
+            <p className="event-description">{event.description}</p>
 
             <div className="event-meta">
               <span>📅 {event.date}</span>
@@ -45,7 +45,7 @@ const Events = () => {
 
               <button
                 className="delete-btn"
-                onClick={() => deleteEvent(event.id)}
+                onClick={() => deleteEvent(event._id)}
               >
                 <i className="bi bi-trash"></i>
               </button>

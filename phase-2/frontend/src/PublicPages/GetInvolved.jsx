@@ -324,14 +324,11 @@ export const VolunteerApplication = () => {
             <option value="" disabled>
               Select an option
             </option>
-            <option value="education tutor">education tutor</option>
-            <option value="event coordinator">event coordinator</option>
-            <option value="mentorship program">mentorship program</option>
-            <option value="administrative support">
-              administrative support
-            </option>
-            <option value="health support">health support</option>
-            <option value="food support">food support</option>
+            <option value="Education Tutor">Education Tutor</option>
+            <option value="Health Support">Health Support</option>
+            <option value="Environment">Environment</option>
+            <option value="Social Work">Social Work</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div className="select-input full-width">
@@ -345,11 +342,11 @@ export const VolunteerApplication = () => {
             <option value="" disabled>
               Select your availability
             </option>
-            <option value="weekday mornings">weekday mornings</option>
-            <option value="weekday afternoons">weekday afternoons</option>
-            <option value="weekday evenings">weekday evenings</option>
-            <option value="weekends">weekends</option>
-            <option value="flexible">flexible</option>
+            <option value="Weekday Mornings">Weekday Mornings</option>
+            <option value="Weekday Afternoons">Weekday Afternoons</option>
+            <option value="Weekday Evenings">Weekday Evenings</option>
+            <option value="Weekends">Weekends</option>
+            <option value="Flexible">Flexible</option>
           </select>
         </div>
         <div className="textarea-input full-width">

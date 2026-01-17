@@ -4,11 +4,24 @@ const bcrypt = require("bcryptjs");
 
 // Business logic for registering a new user
 exports.registerUser = async (data) => {
-  // 1. Compare the secret from the user with the one in .env
-  const isAdmin = data.adminSecret === process.env.ADMIN_REGISTRATION_SECRET;
-  if (!isAdmin) {
-    throw new Error("Registration Restricted: Only authorized staff can create or approve accounts.");
+  console.log('Registering user with email:', data.email);
+  
+  // Check if user already exists
+  const existingUser = await User.findOne({ email: data.email });
+  if (existingUser) {
+    throw new Error("User with this email already exists");
   }
+  
+  // 1. Compare the secret from the user with the one in .env
+  const isAdmin = data.secretCode === process.env.ADMIN_REGISTRATION_SECRET;
+  console.log('Secret code validation:', isAdmin ? 'passed' : 'failed');
+  
+  if (!isAdmin) {
+    throw new Error(
+      "Registration Restricted: Only authorized staff can create or approve accounts.",
+    );
+  }
+  
   // 2. Hash the password before saving
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(data.password, salt);
@@ -18,10 +31,15 @@ exports.registerUser = async (data) => {
     email: data.email,
     password: hashedPassword,
     userType: "Staff",
-    role: "admin"
+    role: "admin",
+    secretCode: data.secretCode,
   });
 
-  return await newUser.save();
+  console.log('Saving user to database...');
+  const savedUser = await newUser.save();
+  console.log('User saved successfully:', savedUser._id);
+  
+  return savedUser;
 };
 
 // userLogic.js

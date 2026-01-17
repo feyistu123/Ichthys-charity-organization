@@ -16,7 +16,7 @@ const AdminProjects = () => {
         <h3 className="no-projects">There are no active projects</h3>
       ) : (
         projects.map((project) => (
-          <div key={project.id} className="project-card">
+          <div key={project._id} className="project-card">
             <div className="project-header">
               <span className="project-category">{project.category}</span>
               <span className={`project-status ${project.status}`}>
@@ -55,7 +55,7 @@ const AdminProjects = () => {
               </button>
               <button
                 className="delete-btn"
-                onClick={() => deleteProject(project.id)}
+                onClick={() => deleteProject(project._id)}
               >
                 <i className="bi bi-trash"></i>
               </button>

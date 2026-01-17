@@ -23,7 +23,7 @@ const NavBar = () => {
           <Link to="/get-involved">Get Involved</Link>
           <Link to="/contact-us">Contact us</Link>
           <Link to="/accounts">Log in</Link>
-          <Link to="/adminDashboard">Admin Dashboard</Link>
+          {/* <Link to="/adminDashboard">Admin Dashboard</Link> */}
 
           <button className="donate" onClick={() => setShowDonateForm(true)}>
             Donate Now

@@ -21,11 +21,10 @@ const VolunteerSchema = new mongoose.Schema({
     required: true,
     enum: [
       "Education Tutor",
-      "Healthcare",
-      "Event Coordinator",
-      "Mentorship Program",
-      "Administrative Support",
-      "Food Bank",
+      "Health Support",
+      "Environment",
+      "Social Work",
+      "Other",
     ],
   },
   availability: {

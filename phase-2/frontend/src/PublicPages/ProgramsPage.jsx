@@ -13,7 +13,7 @@ export const Projects = () => {
         <h3>there are no new projects</h3>
       ) : (
         projects.map((p) => (
-          <div key={p.id} className="project-card">
+          <div key={p._id} className="project-card">
             <img className="project-image" alt={p.title} />
 
             <div className="project-tags">

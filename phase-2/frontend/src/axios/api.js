@@ -2,6 +2,14 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL: "http://localhost:5000/api",
+  timeout: 30000, // 30 second timeout
 });
-const token = localStorage.getItem("token");
-api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+// Add token to requests if available
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});

@@ -69,6 +69,7 @@ const App = () => {
           <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" element={<Donation />} />
         </Route>
+        <Route path="/volunteer-dashboard" element={<VolunteerDashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,6 +8,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
     userType: "",
+    secretCode: "",
   };
   const { RegisterUser } = useUserData();
   const [user, setUser] = useState(userInitial);
@@ -17,12 +18,23 @@ const Signup = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (user.password !== user.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    await RegisterUser(user);
-    setUser(userInitial);
+
+    if (!user.fullName || !user.email || !user.password || !user.secretCode) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    try {
+      await RegisterUser(user);
+      setUser(userInitial);
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
   return (
     <div className="signup-page">
@@ -40,6 +52,7 @@ const Signup = () => {
             className="signup-input name-input"
             placeholder="Enter Your Name"
             onChange={handleChange}
+            required
           />
 
           <label className="signup-label" htmlFor="email">
@@ -53,6 +66,7 @@ const Signup = () => {
             className="signup-input email-input"
             placeholder="email@example.com"
             onChange={handleChange}
+            required
           />
 
           <label className="signup-label" htmlFor="password">
@@ -66,6 +80,7 @@ const Signup = () => {
             className="signup-input password-input"
             placeholder="*****"
             onChange={handleChange}
+            required
           />
 
           <label className="signup-label" htmlFor="confirm-password">
@@ -90,11 +105,23 @@ const Signup = () => {
             name="userType"
             value={user.userType}
             onChange={handleChange}
+            required
           >
-            <option>Donor</option>
-            <option>Staff</option>
+            <option value="">Select User Type</option>
+            <option value="Staff">Staff</option>
           </select>
-
+          <label className="signup-label" htmlFor="secretCode">
+            Secret Code
+          </label>
+          <input
+            type="text"
+            id="secretCode"
+            name="secretCode"
+            value={user.secretCode}
+            className="signup-input secret-code-input"
+            onChange={handleChange}
+            required
+          />
           <button type="submit" className="signup-btn">
             Create Account
           </button>

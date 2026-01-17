@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { images } from "../assets/Images/images";
 import { DonationForm } from "../PublicPages/GetInvolved";
+import "./NavBar.css";
 
 const NavBar = () => {
   const [showDonateForm, setShowDonateForm] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -14,39 +24,39 @@ const NavBar = () => {
           Ichthys <em>(ἰχθύς)</em>
         </h1>
 
-        <nav className="navbar">
-          <Link to="/home">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/events">Events</Link>
-          <Link to="/blogs">Blog</Link>
-          <Link to="/programs">Programs</Link>
-          <Link to="/get-involved">Get Involved</Link>
-          <Link to="/contact-us">Contact us</Link>
-          <Link to="/accounts">Log in</Link>
-          {/* <Link to="/adminDashboard">Admin Dashboard</Link> */}
+        <nav className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}>
+          <Link to="/home" onClick={closeMenu}>Home</Link>
+          <Link to="/about" onClick={closeMenu}>About</Link>
+          <Link to="/events" onClick={closeMenu}>Events</Link>
+          <Link to="/blogs" onClick={closeMenu}>Blog</Link>
+          <Link to="/programs" onClick={closeMenu}>Programs</Link>
+          <Link to="/get-involved" onClick={closeMenu}>Get Involved</Link>
+          <Link to="/contact-us" onClick={closeMenu}>Contact us</Link>
+          <Link to="/accounts" onClick={closeMenu}>Log in</Link>
 
-          <button className="donate" onClick={() => setShowDonateForm(true)}>
+          <button 
+            className="donate" 
+            onClick={() => {
+              setShowDonateForm(true);
+              closeMenu();
+            }}
+          >
             Donate Now
           </button>
         </nav>
 
-        <div className="hamburger">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="hamburger-icon"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
+        <div className="hamburger" onClick={toggleMenu}>
+          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
+          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
+          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
         </div>
       </header>
+
+      {/* Mobile overlay */}
+      <div 
+        className={`mobile-overlay ${isMenuOpen ? 'active' : ''}`}
+        onClick={closeMenu}
+      ></div>
 
       {showDonateForm && (
         <DonationForm onClose={() => setShowDonateForm(false)} />

@@ -1,4 +1,5 @@
 const donationLogic = require('../logic/donationLogic');
+const bcrypt = require('bcryptjs');
 
 // --- ADMIN: VIEW ALL DONATIONS ---
 exports.fetchAllDonations = async (req, res) => {
@@ -13,21 +14,25 @@ exports.fetchAllDonations = async (req, res) => {
 };
 
 // --- PUBLIC: SUBMIT DONATION ---
-exports.submitDonation = (req, res) => {
-    let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
-    req.on('end', async () => {
-        try {
-            const data = JSON.parse(body);
-            await donationLogic.processDonation(data);
-            
-            res.writeHead(201, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: "Thank you for your donation!" }));
-        } catch (err) {
-            // Handle "User not found" or "Database errors"
-            const statusCode = err.message.includes("register") ? 404 : 400;
-            res.writeHead(statusCode, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: err.message }));
+exports.submitDonation = async (req, res) => {
+    try {
+        // Body is already parsed in app.js
+        const data = req.body;
+        
+        if (!data.fullName || !data.email || !data.amount) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Missing required fields: fullName, email, amount' }));
+            return;
         }
-    });
+        
+        await donationLogic.processDonation(data);
+        
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: "Thank you for your donation!" }));
+    } catch (err) {
+        console.error('Donation error:', err);
+        const statusCode = err.message.includes("register") ? 404 : 400;
+        res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+    }
 };

@@ -5,13 +5,14 @@ import Footer from "../components/Footer";
 import { images } from "../assets/Images/images";
 import { useUserData } from "../context/UserContext";
 import { useDonation } from "../context/DonationContext";
+import { useData } from "../context/DataContext";
 import { useNavigate } from "react-router-dom";
 export const DonationForm = ({ onClose }) => {
   const presetAmounts = ["$25", "$50", "$100", "$250"];
 
   const [donationType, setDonationType] = useState("monthly");
   const [amount, setAmount] = useState("");
-  const [cause, setCause] = useState("general");
+  const [selectedProject, setSelectedProject] = useState("");
 
   const [donor, setDonor] = useState({
     fullName: "",
@@ -21,15 +22,21 @@ export const DonationForm = ({ onClose }) => {
   });
 
   const { createDonation } = useDonation();
+  const { projects } = useData();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const donationData = {
+      fullName: donor.fullName,
+      email: donor.email,
+      phone: donor.phone,
+      country: donor.country,
       donationType,
       amount: amount.startsWith("$") ? Number(amount.slice(1)) : Number(amount),
-      cause,
-      ...donor,
+      projectId: selectedProject || null,
+      currency: "USD",
+      paymentMethod: "Credit Card"
     };
 
     await createDonation(donationData);
@@ -106,26 +113,35 @@ export const DonationForm = ({ onClose }) => {
         />
       </section>
 
-      {/* CAUSE */}
+      {/* PROJECT SELECTION */}
       <section className="donation-section">
         <h3 className="section-title">Choose Where to Help</h3>
 
-        {[
-          { value: "general", label: "Where needed most (General Fund)" },
-          { value: "schools", label: "Build Schools in Rural Communities" },
-          { value: "health", label: "Mobile Health Clinics" },
-          { value: "food", label: "Emergency Food Relief" },
-        ].map((item) => (
-          <label key={item.value} className="donation-card">
+        <label className="donation-card">
+          <input
+            type="radio"
+            name="project"
+            value=""
+            checked={selectedProject === ""}
+            onChange={() => setSelectedProject("")}
+          />
+          <div className="donation-content">
+            <p>General Organization Fund (Where needed most)</p>
+          </div>
+        </label>
+
+        {projects.map((project) => (
+          <label key={project._id} className="donation-card">
             <input
               type="radio"
-              name="cause"
-              value={item.value}
-              checked={cause === item.value}
-              onChange={() => setCause(item.value)}
+              name="project"
+              value={project._id}
+              checked={selectedProject === project._id}
+              onChange={() => setSelectedProject(project._id)}
             />
             <div className="donation-content">
-              <p>{item.label}</p>
+              <p>{project.title}</p>
+              <small style={{color: '#666'}}>{project.category}</small>
             </div>
           </label>
         ))}

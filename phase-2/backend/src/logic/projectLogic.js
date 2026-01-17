@@ -5,6 +5,11 @@ exports.getAllProjects = async () => {
 };
 
 exports.createProject = async (data) => {
+    // Normalize status to match schema enum
+    if (data.status) {
+        data.status = data.status.charAt(0).toUpperCase() + data.status.slice(1).toLowerCase();
+    }
+    
     const newProject = new Project(data);
     return await newProject.save();
 };

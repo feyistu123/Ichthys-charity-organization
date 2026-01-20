@@ -70,6 +70,12 @@
   margin-bottom: 1vw;
 }
 
+.values-one p,
+.values-two p {
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+
 #cors {
   grid-column: span 2;
   align-items: center;
@@ -105,6 +111,59 @@
   text-align: center;
   margin-bottom: 30px;
   color: #4a4a4a;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.slider-window {
+  overflow: hidden;
+  width: 100%;
+  max-width: 900px;
+}
+
+.slider-track {
+  display: flex;
+  gap: 15px;
+  transition: transform 0.3s ease;
+}
+
+.slider-image {
+  width: calc(33.333% - 10px);
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.slider-image:hover {
+  transform: scale(1.05);
+}
+
+.slider-btn {
+  background: linear-gradient(135deg, #ff7f50, #e7ad0e);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.slider-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 #images {
@@ -154,4 +213,117 @@ button {
   padding: 1rem;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.story-content {
+  position: relative;
+}
+
+.read-more-link {
+  display: none;
+  color: #ff7f50;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.read-more-link:hover {
+  color: #e7ad0e;
+  text-decoration: none;
+}
+
+/* Show read more link on smaller screens */
+@media (max-width: 768px) {
+  .read-more-link {
+    display: inline;
+  }
+  
+  #ngo-mission {
+    grid-template-columns: 1fr;
+    gap: 2vw;
+  }
+  
+  .story-text {
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  
+  #principles {
+    grid-template-columns: 1fr;
+    gap: 3vw;
+  }
+  
+  #core-values {
+    grid-template-columns: 1fr;
+  }
+  
+  .values-one,
+  .values-two {
+    width: 100%;
+    margin-bottom: 2vw;
+  }
+  
+  .slider-image {
+    width: 100%;
+  }
+  
+  .slider-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  #ngo-mission {
+    gap: 2vw;
+  }
+  
+  #principles {
+    gap: 3vw;
+  }
+  
+  .values-one,
+  .values-two {
+    width: 100%;
+  }
+  
+  .slider-image {
+    width: calc(33.333% - 10px);
+  }
+}
+
+/* Large screen adjustments */
+@media (min-width: 1025px) {
+  #ngo-mission {
+    max-width: 1200px;
+    margin: 4vw auto;
+  }
+  
+  #principles {
+    max-width: 1000px;
+  }
+  
+  .story-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+  
+  .values-one,
+  .values-two {
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  .values-one p,
+  .values-two p {
+    font-size: 1rem;
+  }
+  
+  .slider-image {
+    width: calc(33.333% - 10px);
+  }
 }

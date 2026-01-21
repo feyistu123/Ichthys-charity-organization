@@ -74,8 +74,7 @@ const HomePage = () => {
         <div id="core-head">
           <h2>Our Programs</h2>
           <p>
-            Comprehensive initiatives designed to create meaningful and lasting
-            change
+            Comprehensive initiatives designed to create meaningful and lasting change
           </p>
         </div>
         <div id="core-values">
@@ -83,8 +82,7 @@ const HomePage = () => {
             <i className="bi bi-heart"></i>
             <h3>Education Support</h3>
             <p>
-              Providing quality education resources and scholarships to
-              underserved communities.{" "}
+              Providing quality education resources and scholarships to underserved communities.{" "}
             </p>
           </div>
 
@@ -92,8 +90,7 @@ const HomePage = () => {
             <i className="bi bi-people"></i>
             <h3>Community Building</h3>
             <p>
-              Creating spaces and opportunities for <br />
-              communities to grow and thrive together.
+              Creating spaces and opportunities for communities to grow and thrive together.
             </p>
           </div>
 
@@ -101,9 +98,7 @@ const HomePage = () => {
             <i className="bi bi-trophy"></i>
             <h3>Skill Training</h3>
             <p>
-              Empowering individuals with practical skills for
-              <br />
-              sustainable livelihoods.
+              Empowering individuals with practical skills for sustainable livelihoods.
             </p>
           </div>
         </div>
@@ -125,7 +120,7 @@ const HomePage = () => {
 
         <div className="sec">
           <div id="range">
-            <h2>Where Your Donation Goes</h2>
+            <h3>Where Your Donation Goes</h3>
 
             <form>
               <label>Education Programs — 45%</label>
@@ -140,7 +135,6 @@ const HomePage = () => {
                 disabled
               />
               <br />
-              <br />
 
               <label>Healthy Eating — 30%</label>
               <br />
@@ -153,7 +147,6 @@ const HomePage = () => {
                 value="30"
                 disabled
               />
-              <br />
               <br />
 
               <label>Daily Operations — 25%</label>

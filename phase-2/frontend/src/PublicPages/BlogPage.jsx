@@ -2,7 +2,7 @@ import React from "react";
 import { images } from "../assets/Images/images";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useOutletContext } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { useState } from "react";
 const NewsCard = ({ post }) => {
@@ -33,14 +33,13 @@ const NewsCard = ({ post }) => {
   );
 };
 
-export const AllNews = ({ searchTerm = "" }) => {
+export const AllNews = () => {
   const { posts } = useData();
+  const { searchTerm = "" } = useOutletContext() || {};
 
-  // Filter posts by search term (title or content)
   const filteredPosts = posts.filter(
     (p) =>
-      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (p?.content || '').toLowerCase().includes(searchTerm.toLowerCase())
+      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -56,13 +55,21 @@ export const AllNews = ({ searchTerm = "" }) => {
 
 export const EducationNews = () => {
   const { posts } = useData();
-  const educationNews = posts.filter((p) => p.category === "Education");
+  const { searchTerm = "" } = useOutletContext() || {};
+  
+  const filteredPosts = posts.filter((p) => {
+    const matchesCategory = p.category === "Education";
+    const matchesSearch = searchTerm === "" || 
+      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+  
   return (
     <div className="news-grid education-news">
-      {educationNews.length === 0 ? (
+      {filteredPosts.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        educationNews.map((p) => <NewsCard key={p._id} post={p} />)
+        filteredPosts.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );
@@ -70,14 +77,21 @@ export const EducationNews = () => {
 
 export const HealthNews = () => {
   const { posts } = useData();
-  const healthNews = posts.filter((p) => p.category === "Health");
+  const { searchTerm = "" } = useOutletContext() || {};
+  
+  const filteredPosts = posts.filter((p) => {
+    const matchesCategory = p.category === "Health";
+    const matchesSearch = searchTerm === "" || 
+      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="news-grid health-news">
-      {healthNews.length === 0 ? (
+      {filteredPosts.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        healthNews.map((p) => <NewsCard key={p._id} post={p} />)
+        filteredPosts.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );
@@ -85,13 +99,21 @@ export const HealthNews = () => {
 
 export const EmergencyNews = () => {
   const { posts } = useData();
-  const emergencyNews = posts.filter((p) => p.category === "Emergency");
+  const { searchTerm = "" } = useOutletContext() || {};
+  
+  const filteredPosts = posts.filter((p) => {
+    const matchesCategory = p.category === "Emergency";
+    const matchesSearch = searchTerm === "" || 
+      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+  
   return (
     <div className="news-grid emergency-news">
-      {emergencyNews.length === 0 ? (
+      {filteredPosts.length === 0 ? (
         <h3>There are no news</h3>
       ) : (
-        emergencyNews.map((p) => <NewsCard key={p._id} post={p} />)
+        filteredPosts.map((p) => <NewsCard key={p._id} post={p} />)
       )}
     </div>
   );

@@ -224,3 +224,27 @@
 .mobile-overlay.active {
   display: none;
 }
+
+/* MOBILE DONATE BUTTON */
+.mobile-donate-btn {
+  display: none;
+  background: linear-gradient(135deg, #e7ad0e, #c87202);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.mobile-donate-btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .mobile-donate-btn {
+    display: block;
+  }
+}

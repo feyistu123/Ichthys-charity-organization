@@ -1,10 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./About.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { images } from "../assets/Images/images";
 import ImageSlider from "../components/ImageSlider";
+
 const AboutPage = () => {
+  const [showFullStory, setShowFullStory] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setShowFullStory(true);
+      }
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+  
+  const fullStory = `Ichthys began in 2015 with a simple but powerful idea: that every
+              community has untapped potential waiting to be unlocked. What
+              started as a small group of volunteers tutoring students after
+              school has grown into a comprehensive organization serving
+              thousands across multiple communities. We've seen firsthand how
+              access to quality education, skills training, and a supportive
+              community can transform lives. Our programs are designed not just
+              to provide immediate assistance, but to create sustainable,
+              long-term change. Today, we're proud to work alongside dedicated
+              volunteers, generous donors, and passionate community partners who
+              share our vision of a world where everyone has the opportunity to
+              thrive.`;
+  
+  const shortStory = `Ichthys began in 2015 with a simple but powerful idea: that every
+              community has untapped potential waiting to be unlocked. What
+              started as a small group of volunteers tutoring students after
+              school has grown into a comprehensive organization...`;
+
   return (
     <div>
       <NavBar />
@@ -20,20 +55,19 @@ const AboutPage = () => {
           <img src={images.children} alt="Children Image" id="children-pic" />
           <div>
             <h2>Our Story</h2>
-            <p>
-              Ichthys began in 2015 with a simple but powerful idea: that every
-              community has untapped potential waiting to be unlocked. What
-              started as a small group of volunteers tutoring students after
-              school has grown into a comprehensive organization serving
-              thousands across multiple communities. We've seen firsthand how
-              access to quality education, skills training, and a supportive
-              community can transform lives. Our programs are designed not just
-              to provide immediate assistance, but to create sustainable,
-              long-term change. Today, we're proud to work alongside dedicated
-              volunteers, generous donors, and passionate community partners who
-              share our vision of a world where everyone has the opportunity to
-              thrive.
-            </p>
+            <div className="story-content">
+              <p className="story-text">
+                {isMobile && !showFullStory ? shortStory : fullStory}
+              </p>
+              {isMobile && (
+                <span 
+                  className="read-more-link"
+                  onClick={() => setShowFullStory(!showFullStory)}
+                >
+                  {showFullStory ? 'Show less' : 'Read more'}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 

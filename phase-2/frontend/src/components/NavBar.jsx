@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { images } from "../assets/Images/images";
-import { DonationForm } from "../PublicPages/GetInvolved";
 import "./NavBar.css";
 
 const NavBar = () => {
-  const [showDonateForm, setShowDonateForm] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -37,7 +36,7 @@ const NavBar = () => {
           <button 
             className="donate" 
             onClick={() => {
-              setShowDonateForm(true);
+              navigate('/donate');
               closeMenu();
             }}
           >
@@ -50,6 +49,14 @@ const NavBar = () => {
           <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
           <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
         </div>
+
+        {/* Mobile donate button - shows only on small screens */}
+        <button 
+          className="mobile-donate-btn" 
+          onClick={() => navigate('/donate')}
+        >
+          Donate
+        </button>
       </header>
 
       {/* Mobile overlay */}
@@ -57,10 +64,6 @@ const NavBar = () => {
         className={`mobile-overlay ${isMenuOpen ? 'active' : ''}`}
         onClick={closeMenu}
       ></div>
-
-      {showDonateForm && (
-        <DonationForm onClose={() => setShowDonateForm(false)} />
-      )}
     </>
   );
 };

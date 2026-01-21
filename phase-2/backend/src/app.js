@@ -9,7 +9,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const taskAnnouncementRoutes = require("./routes/taskAnnouncementRoutes");
-console.log("Mongo URI:", process.env.MONGO_URI);
+console.log("Mongo URI:", process.env.MONGODB_URI);
 
 const fs = require("fs");
 const path = require("path");
@@ -44,33 +44,38 @@ const server = http.createServer((req, res) => {
   // 3. Handle GET requests immediately (no body parsing needed)
   if (req.method === "GET") {
     req.body = {};
-    
+
     if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
-    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res)) return;
-    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
+    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res))
+      return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res))
+      return;
+    if (req.url.startsWith("/api/admin") && donationRoutes(req, res)) return;
     if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
     if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
     if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
     if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
-    
+
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Route not found" }));
     return;
   }
 
   // 4. Handle multipart form data immediately (no body parsing)
-  const contentType = req.headers['content-type'] || '';
-  if (contentType.includes('multipart/form-data')) {
+  const contentType = req.headers["content-type"] || "";
+  if (contentType.includes("multipart/form-data")) {
     req.body = {};
-    
+
     if (req.url.startsWith("/api/users") && userRoutes(req, res)) return;
-    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res)) return;
-    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
+    if (req.url.startsWith("/api/volunteers") && volunteerRoutes(req, res))
+      return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res))
+      return;
     if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
     if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
     if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;
     if (req.url.startsWith("/api/contact") && contactRoutes(req, res)) return;
-    
+
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Route not found" }));
     return;
@@ -98,7 +103,8 @@ const server = http.createServer((req, res) => {
     ) {
       return;
     }
-    if (req.url.startsWith("/api/donations") && donationRoutes(req, res)) return;
+    if (req.url.startsWith("/api/donations") && donationRoutes(req, res))
+      return;
     if (req.url.startsWith("/api/programs") && programRoutes(req, res)) return;
     if (req.url.startsWith("/api/events") && eventRoutes(req, res)) return;
     if (req.url.startsWith("/api/blogs") && blogRoutes(req, res)) return;

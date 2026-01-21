@@ -8,9 +8,9 @@ export const UserProvider = ({ children }) => {
   // Fetch all volunteers for admin
   const fetchAllVolunteers = async () => {
     try {
-      console.log('Fetching all volunteers...');
+      console.log("Fetching all volunteers...");
       const res = await api.get("/volunteers/all");
-      console.log('Volunteers fetched:', res.data);
+      console.log("Volunteers fetched:", res.data);
       setVolunteers(res.data);
     } catch (err) {
       console.error("Error fetching volunteers:", err);
@@ -55,7 +55,9 @@ export const UserProvider = ({ children }) => {
   // Send message to specific volunteer
   const sendMessage = async (volunteerId, message) => {
     try {
-      const res = await api.post(`/volunteers/message/${volunteerId}`, { message });
+      const res = await api.post(`/volunteers/message/${volunteerId}`, {
+        message,
+      });
       alert(res.data.message);
     } catch (err) {
       console.error("Error sending message:", err);
@@ -66,7 +68,9 @@ export const UserProvider = ({ children }) => {
   // Assign project to volunteer
   const assignProject = async (volunteerId, projectTitle) => {
     try {
-      const res = await api.post(`/volunteers/assign/${volunteerId}`, { projectTitle });
+      const res = await api.post(`/volunteers/assign/${volunteerId}`, {
+        projectTitle,
+      });
       alert(res.data.message);
     } catch (err) {
       console.error("Error assigning project:", err);
@@ -77,9 +81,9 @@ export const UserProvider = ({ children }) => {
   // Get volunteer dashboard data
   const getVolunteerDashboard = async (volunteerId) => {
     try {
-      console.log('Fetching dashboard for volunteer:', volunteerId);
+      console.log("Fetching dashboard for volunteer:", volunteerId);
       const res = await api.get(`/volunteers/dashboard/${volunteerId}`);
-      console.log('Dashboard data received:', res.data);
+      console.log("Dashboard data received:", res.data);
       return res.data;
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
@@ -123,7 +127,10 @@ export const UserProvider = ({ children }) => {
   // Edit announcement or assignment
   const editAnnouncementAssignment = async (itemId, message, projectTitle) => {
     try {
-      const res = await api.put(`/volunteers/edit/${itemId}`, { message, projectTitle });
+      const res = await api.put(`/volunteers/edit/${itemId}`, {
+        message,
+        projectTitle,
+      });
       alert(res.data.message);
     } catch (err) {
       console.error("Error editing item:", err);
@@ -150,12 +157,12 @@ export const UserProvider = ({ children }) => {
     } catch (err) {
       console.error("Registration error:", err);
       if (err.code === "ERR_NETWORK") {
-        // alert(
-        //   "Cannot connect to server. Make sure the backend is running on port 5000.",
-        // );
+        alert(
+          "Cannot connect to server. Make sure the backend is running on port 5000.",
+        );
       } else {
         const message = err.response?.data?.error || "Registration failed";
-        // alert(message)
+        alert(message);
       }
     }
   };
@@ -177,19 +184,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // const allVolunteers = async () => {
-  //   try {
-  //     let res = await fetch("http://localhost:3000/volunteers");
-  //     if (!res) throw new Error("not registered Successfully");
-  //     let data = await res.json();
-  //     setVolunteers(data);
-  //   } catch (err) {
-  //     console.log("error: ", err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   allVolunteers();
-  // }, []);
   const signUpVolunteer = async (newVolunteer) => {
     try {
       const res = await api.post("/volunteers/signup", newVolunteer);
@@ -198,16 +192,56 @@ export const UserProvider = ({ children }) => {
     } catch (err) {
       console.error("Volunteer signup error:", err);
       const message = err.response?.data?.error || "Signup failed";
-      // alert(message);
+      alert(message);
     }
   };
   const sendFeedBack = async (newFeedBack) => {
     try {
       await api.post("/contact", newFeedBack);
-      // alert("Feedback sent successfully!");
+      alert("Feedback sent successfully!");
     } catch (err) {
       console.error("Error sending feedback:", err);
-      // alert("Failed to send feedback. Please try again.");
+      alert("Failed to send feedback. Please try again.");
+    }
+  };
+
+  const forgotPassword = async (email) => {
+    try {
+      const res = await api.post("/users/forgot-password", { email });
+      alert(res.data.message);
+      return true;
+    } catch (err) {
+      console.error("Forgot password error:", err);
+      alert(err.response?.data?.error || "Failed to send reset code");
+      return false;
+    }
+  };
+
+  const verifyResetCode = async (email, code) => {
+    try {
+      const res = await api.post("/users/verify-code", { email, code });
+      alert(res.data.message);
+      return true;
+    } catch (err) {
+      console.error("Verify code error:", err);
+      alert(err.response?.data?.error || "Invalid or expired code");
+      return false;
+    }
+  };
+
+  const resetPassword = async (email, code, newPassword) => {
+    try {
+      const res = await api.post("/users/reset-password", {
+        email,
+        code,
+        newPassword,
+      });
+      alert(res.data.message);
+      return true;
+    } catch (err) {
+      console.error("Reset password error:", err);
+      alert(err.response?.data?.error || "Failed to reset password");
+      return false;
     }
   };
 
@@ -231,6 +265,9 @@ export const UserProvider = ({ children }) => {
         getAllAnnouncementsAssignments,
         editAnnouncementAssignment,
         deleteAnnouncementAssignment,
+        forgotPassword,
+        verifyResetCode,
+        resetPassword,
       }}
     >
       {children}

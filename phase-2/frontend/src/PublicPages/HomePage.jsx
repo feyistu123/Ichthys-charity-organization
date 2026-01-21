@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { images } from "../assets/Images/images";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div id="home">
       <NavBar />
@@ -21,12 +23,8 @@ const HomePage = () => {
           </em>
         </p>
         <div className="button-group">
-          <a href="../GetInvolved/get_involved.html">
-            <button className="btn involved">Get Involved</button>
-          </a>
-          <a href="../About/About.html">
-            <button className="btn learn">Learn More</button>
-          </a>
+          <button className="btn involved" onClick={() => navigate('/get-involved')}>Get Involved</button>
+          <button className="btn learn" onClick={() => navigate('/about')}>Learn More</button>
         </div>
       </div>
       <div id="mission">
@@ -113,8 +111,8 @@ const HomePage = () => {
           </p>
 
           <div className="button-group">
-            <button className="donate-btn one-time">One-Time Donation</button>
-            <button className="donate-btn monthly">Monthly Giving</button>
+            <button className="donate-btn one-time" onClick={() => navigate('/donate')}>One-Time Donation</button>
+            <button className="donate-btn monthly" onClick={() => navigate('/donate')}>Monthly Giving</button>
           </div>
         </div>
 

@@ -43,7 +43,9 @@ export const DonationForm = ({ onClose }) => {
   };
 
   return (
-    <form className="donation-page" onSubmit={handleSubmit}>
+    <div>
+      <NavBar />
+      <form className="donation-page" onSubmit={handleSubmit}>
       {/* INTRO */}
       <div className="donation-intro">
         <h3>Make a Donation</h3>
@@ -203,7 +205,9 @@ export const DonationForm = ({ onClose }) => {
           Donate Now
         </button>
       </section>
-    </form>
+      </form>
+      <Footer />
+    </div>
   );
 };
 

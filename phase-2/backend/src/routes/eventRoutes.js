@@ -46,8 +46,9 @@ const handleEventRoutes = (req, res) => {
         });
         return true;
     }
+    
     // 4. ADMIN: EDIT EVENT (General Update)
-    if (req.url.startsWith('/api/events/') && req.method === 'PATCH') {
+    if (req.url.startsWith('/api/events/') && req.method === 'PATCH' && !req.url.includes('/archive/')) {
         const id = req.url.split('/').pop();
         verifyAdmin(req, res, () => {
             eventController.editEvent(req, res, id);

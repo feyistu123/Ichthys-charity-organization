@@ -15,14 +15,14 @@ exports.verifyToken = (req, res, next) => {
             res.writeHead(403, { 'Content-Type': 'application/json' });
             return res.end(JSON.stringify({ error: "Invalid token" }));
         }
-        req.user = decoded; // This fixes the 'undefined' error you had earlier
+        req.user = decoded;
         next();
     });
 };
 
 exports.verifyAdmin = (req, res, next) => {
     // We call verifyToken first to get the user data
-    this.verifyToken(req, res, () => {
+    exports.verifyToken(req, res, () => {
         if (req.user && req.user.role === 'admin') {
             next();
         } else {

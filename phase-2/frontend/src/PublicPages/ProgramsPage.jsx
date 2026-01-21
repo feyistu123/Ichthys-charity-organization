@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, NavLink, useNavigate } from "react-router-dom";
 import "../style.css";
 import Footer from "../components/Footer";
 import { useData } from "../context/DataContext";
 
 export const Projects = () => {
   const { projects } = useData();
+  const navigate = useNavigate();
   return (
     <div className="project-cards">
       {projects.length === 0 ? (
@@ -18,7 +19,9 @@ export const Projects = () => {
 
             <div className="project-tags">
               <p className="project-field">{p.category}</p>
-              <p className="project-status active">{p.status}</p>
+              <p className={`project-status ${p.status.toLowerCase()}`}>
+                {p.status}
+              </p>
             </div>
 
             <div className="project-description">
@@ -57,7 +60,7 @@ export const Projects = () => {
                 </p>
               </div>
 
-              <button className="support-btn">Support This Project</button>
+              <button className="support-btn" onClick={() => navigate('/donate')}>Support This Project</button>
             </div>
           </div>
         ))
@@ -67,6 +70,7 @@ export const Projects = () => {
 };
 export const Completed = () => {
   const { projects } = useData();
+  const navigate = useNavigate();
   const completedProjects = projects.filter((p) => p.status === "Completed");
 
   return (
@@ -112,13 +116,13 @@ export const Completed = () => {
               </div>
 
               <div className="date-info">
-                <i className="bi bi-calendar-date"></i>
                 <p className="project-date">
+                  <i className="bi bi-calendar-date"></i>
                   {p.startDate} – {p.endDate}
                 </p>
               </div>
 
-              <button className="support-btn">Support This Project</button>
+              <button className="support-btn" onClick={() => navigate('/donate')}>Support This Project</button>
             </div>
           </div>
         ))
@@ -129,6 +133,7 @@ export const Completed = () => {
 
 export const ActiveProjects = () => {
   const { projects } = useData();
+  const navigate = useNavigate();
   const activeProjects = projects.filter((p) => p.status === "Active");
   return (
     <div className="project-cards">
@@ -141,7 +146,7 @@ export const ActiveProjects = () => {
 
             <div className="project-tags">
               <p className="project-field">{p.category}</p>
-              <p className="project-status completed">{p.status}</p>
+              <p className="project-status active">{p.status}</p>
             </div>
 
             <div className="project-description">
@@ -179,7 +184,7 @@ export const ActiveProjects = () => {
                 </p>
               </div>
 
-              <button className="support-btn">Support This Project</button>
+              <button className="support-btn" onClick={() => navigate('/donate')}>Support This Project</button>
             </div>
           </div>
         ))
@@ -188,6 +193,24 @@ export const ActiveProjects = () => {
   );
 };
 const ProgramsPage = () => {
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [activeProjects, setActiveProjects] = useState(0);
+  const [completedProjects, setCompletedProjects] = useState(0);
+  const [peopleHelped, setPeopleHelped] = useState(0);
+  const [totalRaised, setTotalRaised] = useState(0);
+  const { projects } = useData();
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      setTotalProjects(projects.length);
+      setActiveProjects(projects.filter((p) => p.status === "Active").length);
+      setCompletedProjects(
+        projects.filter((p) => p.status === "Completed").length,
+      );
+      setPeopleHelped(projects.reduce((sum, p) => sum + p.peopleImpacted, 0));
+      setTotalRaised(projects.reduce((sum, p) => sum + p.raisedAmount, 0));
+    }
+  }, [projects]);
   return (
     <div className="programs-page">
       <NavBar />
@@ -204,36 +227,36 @@ const ProgramsPage = () => {
       <div className="programs-summary">
         <div className="summary-box">
           <h4>Total Projects</h4>
-          <p>4</p>
+          <p>{totalProjects}</p>
         </div>
         <div className="summary-box">
           <h4>Active</h4>
-          <p>3</p>
+          <p>{activeProjects}</p>
         </div>
         <div className="summary-box">
           <h4>Completed</h4>
-          <p>1</p>
+          <p>{completedProjects}</p>
         </div>
         <div className="summary-box">
           <h4>People Helped</h4>
-          <p>7000</p>
+          <p>{peopleHelped.toLocaleString()}</p>
         </div>
         <div className="summary-box">
           <h4>Total Raised</h4>
-          <p>$229,500</p>
+          <p>${totalRaised.toLocaleString()}</p>
         </div>
       </div>
 
       <nav className="programs-filter">
-        <Link className="filter-link active" to="project">
+        <NavLink className="filter-link" to="project">
           All Projects
-        </Link>
-        <Link className="filter-link" to="active">
+        </NavLink>
+        <NavLink className="filter-link" to="active">
           Active
-        </Link>
-        <Link className="filter-link" to="complete">
+        </NavLink>
+        <NavLink className="filter-link" to="complete">
           Completed
-        </Link>
+        </NavLink>
       </nav>
 
       <Outlet />

@@ -177,6 +177,7 @@ export const DataProvider = ({ children }) => {
         createProject,
         editProject,
         deleteProject,
+        allProjects, // Add refresh function
         events,
         createEvent,
         editEvent,

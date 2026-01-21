@@ -57,7 +57,7 @@ const App = () => {
         </Route>
         <Route path="/programs" element={<ProgramsPage />}>
           <Route index element={<Projects />} />
-          <Route path="program" element={<Projects />} />
+          <Route path="project" element={<Projects />} />
           <Route path="complete" element={<Completed />} />
           <Route path="active" element={<ActiveProjects />} />
         </Route>

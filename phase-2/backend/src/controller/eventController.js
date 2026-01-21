@@ -67,29 +67,25 @@ exports.archiveEvent = async (req, res, id) => {
 };
 
 // --- ADMIN: EDIT EVENT DETAILS ---
-exports.editEvent = (req, res, id) => {
-    let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
-    req.on('end', async () => {
-        try {
-            const data = JSON.parse(body);
-            const updatedEvent = await eventLogic.updateEventData(id, data);
-            
-            if (!updatedEvent) {
-                res.writeHead(404, { 'Content-Type': 'application/json' });
-                return res.end(JSON.stringify({ message: "Event not found" }));
-            }
-
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ 
-                message: "Event updated successfully!", 
-                event: updatedEvent 
-            }));
-        } catch (error) {
-            res.writeHead(400, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: "Invalid data format" }));
+exports.editEvent = async (req, res, id) => {
+    try {
+        const data = req.body;
+        const updatedEvent = await eventLogic.updateEventData(id, data);
+        
+        if (!updatedEvent) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ message: "Event not found" }));
         }
-    });
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ 
+            message: "Event updated successfully!", 
+            event: updatedEvent 
+        }));
+    } catch (error) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: "Invalid data format" }));
+    }
 };
 
 // --- ADMIN: DELETE EVENT ---

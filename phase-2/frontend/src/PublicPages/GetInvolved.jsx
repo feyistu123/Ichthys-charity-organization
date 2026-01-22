@@ -36,7 +36,7 @@ export const DonationForm = ({ onClose }) => {
       amount: amount.startsWith("$") ? Number(amount.slice(1)) : Number(amount),
       projectId: selectedProject || null,
       currency: "USD",
-      paymentMethod: "Credit Card"
+      paymentMethod: "Credit Card",
     };
 
     await createDonation(donationData);
@@ -46,165 +46,165 @@ export const DonationForm = ({ onClose }) => {
     <div>
       <NavBar />
       <form className="donation-page" onSubmit={handleSubmit}>
-      {/* INTRO */}
-      <div className="donation-intro">
-        <h3>Make a Donation</h3>
-        <p>
-          Your generosity helps us continue our mission to create positive
-          change. Every donation makes an impact.
-        </p>
-      </div>
-
-      {/* DONATION TYPE */}
-      <section className="donation-section">
-        <h3 className="section-title">Donation Type</h3>
-
-        <label className="donation-card">
-          <input
-            type="radio"
-            name="donationType"
-            value="one-time"
-            checked={donationType === "one-time"}
-            onChange={() => setDonationType("one-time")}
-          />
-          <div className="donation-content">
-            <h4>One-Time Donation</h4>
-            <p>Make a single contribution</p>
-          </div>
-        </label>
-
-        <label className="donation-card recommended">
-          <input
-            type="radio"
-            name="donationType"
-            value="monthly"
-            checked={donationType === "monthly"}
-            onChange={() => setDonationType("monthly")}
-          />
-          <div className="donation-content">
-            <h4>Monthly Donation</h4>
-            <p>Ongoing support every month</p>
-          </div>
-          <span className="recommended-badge">Recommended</span>
-        </label>
-      </section>
-
-      {/* AMOUNT */}
-      <section className="donation-section">
-        <h3 className="section-title">Choose Your Donation Amount</h3>
-
-        <div className="donation-grid">
-          {presetAmounts.map((amt) => (
-            <button
-              key={amt}
-              type="button"
-              className={amount === amt ? "active" : ""}
-              onClick={() => setAmount(amt)}
-            >
-              {amt}
-            </button>
-          ))}
+        {/* INTRO */}
+        <div className="donation-intro">
+          <h3>Make a Donation</h3>
+          <p>
+            Your generosity helps us continue our mission to create positive
+            change. Every donation makes an impact.
+          </p>
         </div>
 
-        <input
-          type="number"
-          className="custom-amount-input"
-          placeholder="Custom amount"
-          value={amount && amount.startsWith("$") ? "" : amount || ""}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-      </section>
+        {/* DONATION TYPE */}
+        <section className="donation-section">
+          <h3 className="section-title">Donation Type</h3>
 
-      {/* PROJECT SELECTION */}
-      <section className="donation-section">
-        <h3 className="section-title">Choose Where to Help</h3>
+          <label className="donation-card">
+            <input
+              type="radio"
+              name="donationType"
+              value="one-time"
+              checked={donationType === "one-time"}
+              onChange={() => setDonationType("one-time")}
+            />
+            <div className="donation-content">
+              <h4>One-Time Donation</h4>
+              <p>Make a single contribution</p>
+            </div>
+          </label>
 
-        <label className="donation-card">
-          <input
-            type="radio"
-            name="project"
-            value=""
-            checked={selectedProject === ""}
-            onChange={() => setSelectedProject("")}
-          />
-          <div className="donation-content">
-            <p>General Organization Fund (Where needed most)</p>
+          <label className="donation-card recommended">
+            <input
+              type="radio"
+              name="donationType"
+              value="monthly"
+              checked={donationType === "monthly"}
+              onChange={() => setDonationType("monthly")}
+            />
+            <div className="donation-content">
+              <h4>Monthly Donation</h4>
+              <p>Ongoing support every month</p>
+            </div>
+            <span className="recommended-badge">Recommended</span>
+          </label>
+        </section>
+
+        {/* AMOUNT */}
+        <section className="donation-section">
+          <h3 className="section-title">Choose Your Donation Amount</h3>
+
+          <div className="donation-grid">
+            {presetAmounts.map((amt) => (
+              <button
+                key={amt}
+                type="button"
+                className={amount === amt ? "active" : ""}
+                onClick={() => setAmount(amt)}
+              >
+                {amt}
+              </button>
+            ))}
           </div>
-        </label>
 
-        {projects.map((project) => (
-          <label key={project._id} className="donation-card">
+          <input
+            type="number"
+            className="custom-amount-input"
+            placeholder="Custom amount"
+            value={amount && amount.startsWith("$") ? "" : amount || ""}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+        </section>
+
+        {/* PROJECT SELECTION */}
+        <section className="donation-section">
+          <h3 className="section-title">Choose Where to Help</h3>
+
+          <label className="donation-card">
             <input
               type="radio"
               name="project"
-              value={project._id}
-              checked={selectedProject === project._id}
-              onChange={() => setSelectedProject(project._id)}
+              value=""
+              checked={selectedProject === ""}
+              onChange={() => setSelectedProject("")}
             />
             <div className="donation-content">
-              <p>{project.title}</p>
-              <small style={{color: '#666'}}>{project.category}</small>
+              <p>General Organization Fund (Where needed most)</p>
             </div>
           </label>
-        ))}
-      </section>
 
-      {/* DONOR INFO */}
-      <section className="donation-section donor-information">
-        <h3 className="section-title">Your Information</h3>
+          {projects.map((project) => (
+            <label key={project._id} className="donation-card">
+              <input
+                type="radio"
+                name="project"
+                value={project._id}
+                checked={selectedProject === project._id}
+                onChange={() => setSelectedProject(project._id)}
+              />
+              <div className="donation-content">
+                <p>{project.title}</p>
+                <small style={{ color: "#666" }}>{project.category}</small>
+              </div>
+            </label>
+          ))}
+        </section>
 
-        <label>Full Name *</label>
-        <input
-          required
-          onChange={(e) => setDonor({ ...donor, fullName: e.target.value })}
-        />
+        {/* DONOR INFO */}
+        <section className="donation-section donor-information">
+          <h3 className="section-title">Your Information</h3>
 
-        <label>Email *</label>
-        <input
-          type="email"
-          required
-          onChange={(e) => setDonor({ ...donor, email: e.target.value })}
-        />
+          <label>Full Name *</label>
+          <input
+            required
+            onChange={(e) => setDonor({ ...donor, fullName: e.target.value })}
+          />
 
-        <label>Phone</label>
-        <input
-          onChange={(e) => setDonor({ ...donor, phone: e.target.value })}
-        />
+          <label>Email *</label>
+          <input
+            type="email"
+            required
+            onChange={(e) => setDonor({ ...donor, email: e.target.value })}
+          />
 
-        <label>Country</label>
-        <input
-          onChange={(e) => setDonor({ ...donor, country: e.target.value })}
-        />
-      </section>
+          <label>Phone</label>
+          <input
+            onChange={(e) => setDonor({ ...donor, phone: e.target.value })}
+          />
 
-      {/* PAYMENT */}
-      <section className="donation-section donation-card">
-        <h3 className="section-title">Payment Method</h3>
+          <label>Country</label>
+          <input
+            onChange={(e) => setDonor({ ...donor, country: e.target.value })}
+          />
+        </section>
 
-        <div className="form-group">
-          <label>Card Number *</label>
-          <input placeholder="1234 5678 9012 3456" />
-        </div>
+        {/* PAYMENT */}
+        <section className="donation-section donation-card">
+          <h3 className="section-title">Payment Method</h3>
 
-        <div className="form-row">
           <div className="form-group">
-            <label>Expiry *</label>
-            <input placeholder="MM/YY" />
+            <label>Card Number *</label>
+            <input placeholder="1234 5678 9012 3456" />
           </div>
-          <div className="form-group">
-            <label>CVV *</label>
-            <input placeholder="123" />
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Expiry *</label>
+              <input placeholder="MM/YY" />
+            </div>
+            <div className="form-group">
+              <label>CVV *</label>
+              <input placeholder="123" />
+            </div>
           </div>
-        </div>
 
-        <p className="secure-text">
-          Secured by Stripe. Your payment is encrypted.
-        </p>
+          <p className="secure-text">
+            Secured by Stripe. Your payment is encrypted.
+          </p>
 
-        <button type="submit" className="main-btn">
-          Donate Now
-        </button>
-      </section>
+          <button type="submit" className="main-btn">
+            Donate Now
+          </button>
+        </section>
       </form>
       <Footer />
     </div>
@@ -399,6 +399,60 @@ const GetInvolved = () => {
             resource you share fuels our success
           </p>
         </div>
+      </div>
+      <div className="participate">
+        <h2>Ways to Make a Difference</h2>
+        <p>
+          There are many ways you can help children find love, safety, and hope.
+          Your support whether time, skills, or resources creates a brighter
+          future.
+        </p>
+        <section className="participate-sections">
+          <div className="card">
+            <i
+              className="fa-regular fa-heart"
+              style={{color: "rgb(241, 137, 17)", fontSize: "2rem"}}
+            ></i>
+            <h3>Volunteer Your Time</h3>
+            <p>
+              Join our team of dedicated volunteers and make a direct impact in
+              your community.
+            </p>
+          </div>
+          <div className="card">
+            <i
+              className="fa-regular fa-dollar-sign"
+              style={{color: "green", fontSize: "2rem"}}
+            ></i>
+            <h3>Make a Donation</h3>
+            <p>
+              Your financial support helps us continue and expand our vital
+              programs.
+            </p>
+          </div>
+          <div className="card">
+            <i
+              className="fa-solid fa-people-group"
+              style={{color: "blue", fontSize: "2rem"}}
+            ></i>
+            <h3>Become a Partner</h3>
+            <p>
+              Collaborate with us to amplify our impact and reach more children
+              in need.
+            </p>
+          </div>
+          <div className="card">
+            <i
+              className="fa-regular fa-calendar-days"
+              style={{color: "rgb(147, 35, 239)", fontSize: "2rem"}}
+            ></i>
+            <h3>Attend Events</h3>
+            <p>
+              Participate in our events to show your support and raise awareness
+              for our cause.
+            </p>
+          </div>
+        </section>
       </div>
 
       <section id="donation-form" className="donation-container">

@@ -49,14 +49,6 @@ const NavBar = () => {
           <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
           <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
         </div>
-
-        {/* Mobile donate button - shows only on small screens */}
-        <button 
-          className="mobile-donate-btn" 
-          onClick={() => navigate('/donate')}
-        >
-          Donate
-        </button>
       </header>
 
       {/* Mobile overlay */}

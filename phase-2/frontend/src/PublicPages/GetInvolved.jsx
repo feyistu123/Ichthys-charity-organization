@@ -47,6 +47,7 @@ export const DonationForm = ({ onClose }) => {
       <NavBar />
       <form className="donation-page" onSubmit={handleSubmit}>
       {/* INTRO */}
+
       <div className="donation-intro">
         <h3>Make a Donation</h3>
         <p>
@@ -180,7 +181,7 @@ export const DonationForm = ({ onClose }) => {
       {/* PAYMENT */}
       <section className="donation-section donation-card">
         <h3 className="section-title">Payment Method</h3>
-
+        <div className="form">
         <div className="form-group">
           <label>Card Number *</label>
           <input placeholder="1234 5678 9012 3456" />
@@ -196,13 +197,14 @@ export const DonationForm = ({ onClose }) => {
             <input placeholder="123" />
           </div>
         </div>
+        </div>
 
         <p className="secure-text">
           Secured by Stripe. Your payment is encrypted.
         </p>
 
         <button type="submit" className="main-btn">
-          Donate Now
+          Donate
         </button>
       </section>
       </form>
@@ -226,7 +228,6 @@ export const GetInvolvedDonation = () => {
 
   return (
     <section className="donation-section">
-      <h3 className="section-title">Choose Your Donation Amount</h3>
 
       <div className="donation-grid">
         {presetAmounts.map((amt) => (
@@ -482,6 +483,11 @@ const GetInvolved = () => {
 
       <div className="other-ways">
         <h2>Other Ways to Support</h2>
+        
+      <p>
+        Your involvement can take many forms. Explore additional ways to
+        contribute to our mission.
+      </p>
         <div className="help-methods">
           <div>
             <h3>Fundraising</h3>

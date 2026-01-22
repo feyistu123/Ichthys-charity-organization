@@ -1,7 +1,7 @@
 #intro-about {
   text-align: center;
   background-color: #f2efe7;
-  width: 100%;
+  width: 90%;
   margin: 3vw 0;
   padding: 3vw 3vw 6vw;
   border-radius: 12px;
@@ -26,7 +26,7 @@
   gap: 3vw;
   align-items: center;
   margin: 4vw auto;
-  width: 90%;
+  width: 95%;
 }
 
 #children-pic {
@@ -40,20 +40,11 @@
   grid-template-columns: 1fr 1fr;
   justify-content: center;
   gap: 5vw;
-  display: grid;
   margin: 3vw auto;
   width: 80%;
 }
 
-.values-one {
-  background-color: #fff;
-  border-radius: 15px;
-  padding: 2vw;
-  width: 95%;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
+.values-one,
 .values-two {
   background-color: #fff;
   border-radius: 15px;
@@ -215,6 +206,9 @@ button {
   cursor: pointer;
 }
 
+.our-story {
+  text-align: left;
+}
 .story-content {
   position: relative;
 }
@@ -233,6 +227,29 @@ button {
   color: #e7ad0e;
   text-decoration: none;
 }
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  #ngo-mission {
+    grid-template-columns: 1fr;
+    gap: 2vw;
+    text-align: center;
+  }
+
+  #principles {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .values-one,
+  .values-two {
+    width: 90%;
+  }
+  
+  .slider-image {
+    width: calc(33.333% - 10px);
+  }
+}
 
 /* Show read more link on smaller screens */
 @media (max-width: 768px) {
@@ -240,19 +257,9 @@ button {
     display: inline;
   }
   
-  #ngo-mission {
-    grid-template-columns: 1fr;
-    gap: 2vw;
-  }
-  
   .story-text {
     line-height: 1.6;
     margin-bottom: 0.5rem;
-  }
-  
-  #principles {
-    grid-template-columns: 1fr;
-    gap: 3vw;
   }
   
   #core-values {
@@ -261,7 +268,7 @@ button {
   
   .values-one,
   .values-two {
-    width: 100%;
+    width: 90%;
     margin-bottom: 2vw;
   }
   
@@ -273,57 +280,5 @@ button {
     width: 40px;
     height: 40px;
     font-size: 1rem;
-  }
-}
-
-/* Tablet adjustments */
-@media (min-width: 769px) and (max-width: 1024px) {
-  #ngo-mission {
-    gap: 2vw;
-  }
-  
-  #principles {
-    gap: 3vw;
-  }
-  
-  .values-one,
-  .values-two {
-    width: 100%;
-  }
-  
-  .slider-image {
-    width: calc(33.333% - 10px);
-  }
-}
-
-/* Large screen adjustments */
-@media (min-width: 1025px) {
-  #ngo-mission {
-    max-width: 1200px;
-    margin: 4vw auto;
-  }
-  
-  #principles {
-    max-width: 1000px;
-  }
-  
-  .story-text {
-    font-size: 1.1rem;
-    line-height: 1.7;
-  }
-  
-  .values-one,
-  .values-two {
-    width: 100%;
-    max-width: 450px;
-  }
-  
-  .values-one p,
-  .values-two p {
-    font-size: 1rem;
-  }
-  
-  .slider-image {
-    width: calc(33.333% - 10px);
   }
 }

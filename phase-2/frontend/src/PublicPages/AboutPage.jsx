@@ -53,7 +53,7 @@ const AboutPage = () => {
         </div>
         <div id="ngo-mission">
           <img src={images.children} alt="Children Image" id="children-pic" />
-          <div>
+          <div className="our-story">
             <h2>Our Story</h2>
             <div className="story-content">
               <p className="story-text">

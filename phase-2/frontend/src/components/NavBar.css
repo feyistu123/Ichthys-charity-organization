@@ -15,23 +15,23 @@
 .logo-title {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
+  gap: 10px;
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #c87202;
   margin: 0;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
 }
 
 .logo-title em {
   font-style: italic;
-  color: #666;
-  font-size: 0.9rem;
+  color: #e7ad0e;
+  font-size: 1.5rem;
 }
 
 /* DESKTOP NAVBAR */
@@ -41,14 +41,18 @@
   gap: 2rem;
 }
 
-/* HIDE NAVBAR ON MOBILE BY DEFAULT */
-@media (max-width: 1024px) {
+/* HIDE NAVBAR ON MOBILE AND TABLET BY DEFAULT */
+@media (max-width: 1300px) {
   .navbar {
     display: none;
   }
   
   .navbar-open {
     display: flex;
+  }
+
+  .navbar .donate {
+    display: block;
   }
 }
 
@@ -126,8 +130,8 @@
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* MOBILE STYLES */
-@media (max-width: 1024px) {
+/* MOBILE AND TABLET STYLES */
+@media (max-width: 1300px) {
   .header {
     padding: 1rem;
   }
@@ -225,26 +229,3 @@
   display: none;
 }
 
-/* MOBILE DONATE BUTTON */
-.mobile-donate-btn {
-  display: none;
-  background: linear-gradient(135deg, #e7ad0e, #c87202);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.mobile-donate-btn:hover {
-  transform: translateY(-1px);
-}
-
-@media (max-width: 768px) {
-  .mobile-donate-btn {
-    display: block;
-  }
-}

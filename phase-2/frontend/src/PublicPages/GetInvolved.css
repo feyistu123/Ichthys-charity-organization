@@ -1,3 +1,17 @@
+.get-involved-donation .donate-btn {
+  border-radius: 10px;
+}
+.get-involved-donation .custom-amount-input {
+  max-width: 370px;
+}
+
+.get-involved-donation {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 p {
   font-size: 1.3rem;
   line-height: 1.6;
@@ -113,36 +127,81 @@ p {
 
 .donation-site {
   background-color: white;
-  padding: 1rem 1.5rem;
+  padding: 2rem;
   border-radius: 10px;
-  max-width: 500px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .donation-amounts {
-  display: grid;
-  grid-template-columns: 3fr 0.5fr;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.donation-amounts button {
+
+.donation-amounts .custom-amount-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: white;
+  color: #1f2937;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.donation-amounts .custom-amount-input:focus {
+  outline: none;
+  border-color: #e7ad0e;
+  box-shadow: 0 0 0 3px rgba(231, 173, 14, 0.15);
+  transform: translateY(-1px);
+}
+
+.donation-amounts .donate-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #e7ad0e, #c87202);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(231, 173, 14, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.donation-amounts .donate-btn:hover {
+  background: linear-gradient(135deg, #c87202, #a85f02);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(231, 173, 14, 0.4);
+}
+
+
+.donation-amounts button:not(.donate-btn) {
   background: #ffffff;
   color: #1f2937;
   border: 2px solid #d1d5db;
-  padding: 0.8rem;
-  font-size: 1rem;
+  padding: 0.6rem;
+  font-size: 0.9rem;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
-.donation-amounts button:hover {
+.donation-amounts button:not(.donate-btn):hover {
   border-color: #e7ad0e;
   background: #fef3c7;
   color: #92400e;
 }
 
-.donation-amounts button.active {
+.donation-amounts button:not(.donate-btn).active {
   background: #e7ad0e;
   color: white;
   border-color: #e7ad0e;
@@ -426,7 +485,7 @@ h2 {
   }
 
   .donation-site {
-    max-width: 90%;
+    max-width: 400px;
   }
   .donation-text p {
     font-size: 18px;
@@ -499,6 +558,13 @@ h2 {
   .img-title h1 {
     font-size: 1.8rem;
   }
+  .get-involved-donation .donate-btn {
+  max-width: 250px;
+}
+.get-involved-donation .custom-amount-input {
+  max-width: 250px;
+}
+
 
   .impact-text {
     font-size: 1.1rem;
@@ -605,33 +671,6 @@ h2 {
     text-align: center;
   }
 }
-  .help-methods {
-    grid-template-columns: 1fr;
-    padding: 0 1rem; /* reduce side padding */
-    gap: 1rem;
-  }
-
-  .help-methods div {
-    max-width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .help-methods p,
-  .card p {
-    font-size: 0.95rem;
-    margin: 0 5px;
-  }
-
-  .other-ways h2 {
-    font-size: 1.5rem;
-  }
-
-  .other-ways p {
-    font-size: 1rem;
-    padding: 0 1rem;
-  }
-
 /* Payment Method Section Styling */
 .donation-section.donation-card {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -648,6 +687,9 @@ h2 {
   overflow: hidden;
 }
 
+.donation-section label {
+  text-align: left;
+}
 .donation-section.donation-card::before {
   content: '';
   position: absolute;
@@ -673,14 +715,9 @@ h2 {
   font-size: 1.2rem;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  max-width: 250px;
-}
-
 .form-group {
   margin-bottom: 1rem;
+  width: 300px;
 }
 
 .form-group label {
@@ -706,9 +743,6 @@ h2 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.form-row .form-group input {
-  max-width: 100px;
-}
 .form-group input:focus {
   outline: none;
   border-color: #e7ad0e;
@@ -723,7 +757,9 @@ h2 {
 
 .form-row {
   display: flex;
-  gap: 1.4rem;
+  gap: 1.5rem;
+  align-items: stretch;
+  max-width: 250px;
 }
 
 .form-row .form-group {
@@ -750,25 +786,6 @@ h2 {
   font-size: 1.1rem;
 }
 
-/* Make CVV input narrower for better balance */
-.form-row .form-group:nth-child(2) input {
-  max-width: 120px;
-}
-
-/* Add horizontal layout for expiry and CVV with gap */
-.donation-section.donation-card .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  align-items: stretch;
-}
-
-.donation-section.donation-card .form-row .form-group:nth-child(2) input {
-  max-width: none;
-  width: 100%;
-}
-
-/* Style donate button inside payment card */
 .donation-section.donation-card .main-btn {
   display: block;
   width: 100%;
@@ -776,71 +793,9 @@ h2 {
   border-radius: 10px;
   padding: 0.9rem 1rem;
   font-weight: 600;
+  margin-top: 1rem;
 }
 
-.secure-text {
-  text-align: center;
-  color: #666;
-  font-size: 0.9rem;
-  margin: 1rem 0;
-}
-
-.donation-section.donor-information label {
-  text-align: left;
-}
-
-/* Get Involved Page - Custom Amount Input and Donate Button */
-.donation-site input[type="number"] {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: white;
-  color: #1f2937;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.5rem;
-}
-
-.donation-site input[type="number"]:focus {
-  outline: none;
-  border-color: #e7ad0e;
-  box-shadow: 0 0 0 3px rgba(231, 173, 14, 0.15);
-  transform: translateY(-1px);
-}
-
-.donation-site input[type="number"]::placeholder {
-  color: #6b7280;
-  font-style: italic;
-}
-
-.donation-site .donate-btn {
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(135deg, #e7ad0e, #c87202);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(231, 173, 14, 0.3);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.donation-site .donate-btn:hover {
-  background: linear-gradient(135deg, #c87202, #a85f02);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(231, 173, 14, 0.4);
-}
-
-.donation-site .donate-btn:active {
-  transform: translateY(0);
-}
 @media (max-width: 768px) {
   .donation-section.donation-card {
     padding: 1.5rem;
@@ -859,17 +814,4 @@ h2 {
   .donation-section .section-title {
     font-size: 1.2rem;
   }
-  /* for payment section */
-  .donation-section.donation-card {
-    padding: 1.5rem;
-    margin-top: 1rem;
-  }
-  
-  .form-group input {
-    padding: 0.875rem;
-  }
-  
-  .donation-section .section-title {
-    font-size: 1.2rem;
-  }
-} 
+}

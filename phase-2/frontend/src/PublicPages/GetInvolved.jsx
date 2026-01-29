@@ -411,7 +411,7 @@ const GetInvolved = () => {
           <div className="card">
             <i
               className="fa-regular fa-heart"
-              style={{color: "rgb(241, 137, 17)", fontSize: "2rem"}}
+              style={{ color: "rgb(241, 137, 17)", fontSize: "2rem" }}
             ></i>
             <h3>Volunteer Your Time</h3>
             <p>
@@ -422,7 +422,7 @@ const GetInvolved = () => {
           <div className="card">
             <i
               className="fa-regular fa-dollar-sign"
-              style={{color: "green", fontSize: "2rem"}}
+              style={{ color: "green", fontSize: "2rem" }}
             ></i>
             <h3>Make a Donation</h3>
             <p>
@@ -433,7 +433,7 @@ const GetInvolved = () => {
           <div className="card">
             <i
               className="fa-solid fa-people-group"
-              style={{color: "blue", fontSize: "2rem"}}
+              style={{ color: "blue", fontSize: "2rem" }}
             ></i>
             <h3>Become a Partner</h3>
             <p>
@@ -444,7 +444,7 @@ const GetInvolved = () => {
           <div className="card">
             <i
               className="fa-regular fa-calendar-days"
-              style={{color: "rgb(147, 35, 239)", fontSize: "2rem"}}
+              style={{ color: "rgb(147, 35, 239)", fontSize: "2rem" }}
             ></i>
             <h3>Attend Events</h3>
             <p>
@@ -555,7 +555,6 @@ const GetInvolved = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

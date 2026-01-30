@@ -41,7 +41,7 @@
   justify-content: center;
   gap: 5vw;
   margin: 3vw auto;
-  width: 80%;
+  width: 95%;
 }
 
 .values-one,
@@ -49,7 +49,7 @@
   background-color: #fff;
   border-radius: 15px;
   padding: 2vw;
-  width: 95%;
+  width: 100%;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
@@ -87,10 +87,37 @@
 .core-value-two,
 .core-value-three,
 .core-value-four {
-  /* background-color: #fff; */
+  background-color: #fff;
   padding: 2vw;
   border-radius: 15px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.core-value-one i,
+.core-value-two i,
+.core-value-three i,
+.core-value-four i {
+  font-size: 2rem;
+  color: #ff7f50;
+  margin-bottom: 1vw;
+  display: block;
+}
+
+.core-value-one h3,
+.core-value-two h3,
+.core-value-three h3,
+.core-value-four h3 {
+  color: #4a4a4a;
+  margin-bottom: 0.5rem;
+}
+
+.core-value-one p,
+.core-value-two p,
+.core-value-three p,
+.core-value-four p {
+  line-height: 1.6;
+  color: #4a4a4a;
 }
 
 #Gallery {
@@ -229,21 +256,43 @@ button {
 }
 /* Tablet adjustments */
 @media (max-width: 1024px) {
+  #intro-about {
+    width: 95%;
+    padding: 2rem;
+  }
+  
+  #intro-about h1 {
+    font-size: 2rem;
+  }
+  
+  #intro-about p {
+    font-size: 1rem;
+  }
+  
   #ngo-mission {
     grid-template-columns: 1fr;
-    gap: 2vw;
+    gap: 2rem;
     text-align: center;
+    width: 90%;
   }
 
   #principles {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
     align-items: center;
+    width: 90%;
   }
   
   .values-one,
   .values-two {
-    width: 90%;
+    width: 100%;
+    padding: 1.5rem;
+    max-width: none;
+  }
+  
+  #cors {
+    padding: 3rem;
+    grid-column: 1;
   }
   
   .slider-image {
@@ -253,6 +302,32 @@ button {
 
 /* Show read more link on smaller screens */
 @media (max-width: 768px) {
+  #intro-about {
+    width: 95%;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  #intro-about h1 {
+    font-size: 1.8rem;
+  }
+  
+  #intro-about p {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+  
+  #ngo-mission {
+    width: 95%;
+    gap: 1.5rem;
+  }
+  
+  #principles {
+    width: 95%;
+    gap: 1.5rem;
+    grid-template-columns: 1fr !important;
+  }
+  
   .read-more-link {
     display: inline;
   }
@@ -264,12 +339,32 @@ button {
   
   #core-values {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
   .values-one,
   .values-two {
-    width: 90%;
-    margin-bottom: 2vw;
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    max-width: none;
+  }
+  
+  .values-one i,
+  .values-two i {
+    font-size: 1.5rem;
+  }
+  
+  #cors {
+    padding: 2rem 1rem;
+    grid-column: 1;
+  }
+  
+  .core-value-one,
+  .core-value-two,
+  .core-value-three,
+  .core-value-four {
+    padding: 1rem;
   }
   
   .slider-image {
@@ -280,5 +375,58 @@ button {
     width: 40px;
     height: 40px;
     font-size: 1rem;
+  }
+}
+/* Mobile specific adjustments */
+@media (max-width: 480px) {
+  #intro-about {
+    width: 98%;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  #intro-about h1 {
+    font-size: 1.5rem;
+  }
+  
+  #intro-about p {
+    font-size: 0.9rem;
+  }
+  
+  #ngo-mission {
+    width: 98%;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+  
+  #principles {
+    width: 98%;
+    gap: 1rem;
+  }
+  
+  .values-one,
+  .values-two {
+    padding: 0.75rem;
+  }
+  
+  .values-one h3,
+  .values-two h3 {
+    font-size: 1.1rem;
+  }
+  
+  .values-one p,
+  .values-two p {
+    font-size: 0.9rem;
+  }
+  
+  #cors {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .core-value-one,
+  .core-value-two,
+  .core-value-three,
+  .core-value-four {
+    padding: 0.75rem;
   }
 }

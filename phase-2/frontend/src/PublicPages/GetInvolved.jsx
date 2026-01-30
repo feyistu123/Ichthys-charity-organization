@@ -555,6 +555,7 @@ const GetInvolved = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

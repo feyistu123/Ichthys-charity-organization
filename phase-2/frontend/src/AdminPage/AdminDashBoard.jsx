@@ -89,7 +89,7 @@ const AdminDashBoard = () => {
             to="volunteer-approval"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
-            Volunteer Approval
+            Volunteers
           </NavLink>
           <NavLink
             to="donation-management"

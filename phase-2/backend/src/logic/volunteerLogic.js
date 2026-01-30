@@ -1,6 +1,7 @@
 const Volunteer = require("../models/Volunteer");
 const User = require("../models/User");
 const TaskAnnouncement = require("../models/TaskAnnouncement");
+const Message = require("../models/Message");
 const Report = require("../models/Report");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
@@ -135,14 +136,13 @@ exports.sendMessageToVolunteer = async (volunteerId, message) => {
   const volunteer = await Volunteer.findById(volunteerId);
   if (!volunteer) throw new Error("Volunteer not found");
   
-  // Save message to database
-  const taskMessage = new TaskAnnouncement({
-    type: "announcement",
-    message: message,
+  // Save message to Message table instead of TaskAnnouncement
+  const volunteerMessage = new Message({
     volunteerId: volunteerId,
     volunteerName: volunteer.fullName,
+    message: message,
   });
-  await taskMessage.save();
+  await volunteerMessage.save();
   
   const mailOptions = {
     from: `"Ichthys Charity" <${process.env.EMAIL_USER}>`,
@@ -222,20 +222,37 @@ exports.getVolunteerTasksAnnouncements = async (userId) => {
   
   console.log('Found volunteer:', volunteer._id);
   
-  // Get general announcements (for all volunteers) and specific messages/tasks
+  // Get general announcements (for all volunteers)
   const generalAnnouncements = await TaskAnnouncement.find({ 
     type: "announcement", 
     volunteerId: null 
   }).sort({ createdAt: -1 });
   
-  const personalItems = await TaskAnnouncement.find({ 
+  // Get personal tasks
+  const personalTasks = await TaskAnnouncement.find({ 
     volunteerId: volunteer._id 
   }).sort({ createdAt: -1 });
   
-  console.log('General announcements:', generalAnnouncements.length);
-  console.log('Personal items:', personalItems.length);
+  // Get personal messages
+  const personalMessages = await Message.find({ 
+    volunteerId: volunteer._id 
+  }).sort({ sentAt: -1 });
   
-  return [...generalAnnouncements, ...personalItems];
+  // Format messages to match the expected structure
+  const formattedMessages = personalMessages.map(msg => ({
+    _id: msg._id,
+    type: "message",
+    message: msg.message,
+    volunteerId: msg.volunteerId,
+    volunteerName: msg.volunteerName,
+    createdAt: msg.sentAt
+  }));
+  
+  console.log('General announcements:', generalAnnouncements.length);
+  console.log('Personal tasks:', personalTasks.length);
+  console.log('Personal messages:', personalMessages.length);
+  
+  return [...generalAnnouncements, ...personalTasks, ...formattedMessages];
 };
 // Submit volunteer report
 exports.submitVolunteerReport = async (userId, reportText) => {

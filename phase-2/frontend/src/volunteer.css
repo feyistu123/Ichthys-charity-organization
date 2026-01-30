@@ -217,3 +217,70 @@
 .report-submit:hover {
   background-color: #45a049;
 }
+
+/* Mobile and Tablet Responsive Design */
+@media (max-width: 768px) {
+  .upcoming-tasks-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tasks-section,
+  .report-section {
+    flex: 1;
+  }
+  
+  .report-section {
+    height: auto;
+    min-height: 300px;
+    max-height: none;
+  }
+  
+  .report-textarea {
+    min-height: 120px;
+  }
+  
+  .volunt-stats {
+    flex-direction: column;
+  }
+  
+  .stat-card {
+    flex: 1 1 auto;
+  }
+  
+  .task-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .task-status {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .volunteer-dashboard {
+    width: 95%;
+    margin: 1rem auto;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .report-section {
+    padding: 0.75rem;
+  }
+  
+  .report-textarea {
+    min-height: 100px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .report-submit {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}

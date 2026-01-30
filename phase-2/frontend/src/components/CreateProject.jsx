@@ -128,39 +128,31 @@ const CreateProject = ({ onClose }) => {
             value={project.endDate}
             required
           />
-          <br />
-          <div className="status-field">
-            <label htmlFor="status">Status:</label>
-            <select
-              className="project-input"
-              name="status"
-              id="status"
-              onChange={handleChange}
-              value={project.status}
-            >
-              <option value="Active">Active</option>
-              <option value="Completed">Completed</option>
-            </select>
-            {/* <input
-              type="file"
-              name="avatar"
-              id="image"
-              accept="image/*"
-              onChange={handleImageChange}
-            /> */}
-            <input
-              type="file"
-              name="image"
-              id="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="project-input"
-            />
-          </div>
-          <button type="submit" className="project-submit-btn">
-            Add Project
-          </button>
         </div>
+        <div className="status-field">
+          <label htmlFor="status">Status:</label>
+          <select
+            className="project-input"
+            name="status"
+            id="status"
+            onChange={handleChange}
+            value={project.status}
+          >
+            <option value="Active">Active</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="project-input"
+          />
+        </div>
+        <button type="submit" className="project-submit-btn">
+          Add Project
+        </button>
       </form>
     </div>
   );

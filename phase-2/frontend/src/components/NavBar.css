@@ -41,8 +41,8 @@
   gap: 2rem;
 }
 
-/* HIDE NAVBAR ON MOBILE AND TABLET BY DEFAULT */
-@media (max-width: 768px) {
+/* HIDE NAVBAR ON SCREENS LESS THAN 1300PX BY DEFAULT */
+@media (max-width: 1300px) {
   .navbar {
     display: none;
   }
@@ -142,7 +142,7 @@
 }
 
 /* MOBILE AND TABLET STYLES */
-@media (max-width: 768px) {
+@media (max-width: 1300px) {
   .header {
     padding: 1rem;
   }
@@ -225,7 +225,7 @@
 }
 
 /* OVERLAY FOR MOBILE MENU */
-@media (max-width: 768px) {
+@media (max-width: 1300px) {
   .navbar-open::before {
     display: none;
   }

@@ -158,7 +158,7 @@ const ReportCard = ({ report }) => {
           {new Date(report.submittedAt).toLocaleDateString()}
         </span>
       </div>
-      <p style={{ margin: "10px 0", lineHeight: "1.5", color: "#333" }}>
+      <p style={{ margin: '10px 0', lineHeight: '1.5', color: '#333', textAlign: 'left' }}>
         {report.report}
       </p>
       <div style={{ fontSize: "12px", color: "#888" }}>
@@ -278,10 +278,10 @@ const AnnouncementAssignmentCard = ({ item, onEdit, onDelete }) => {
         </span>
       </div>
       
-      <p style={{ margin: '10px 0', lineHeight: '1.5' }}>{item.message}</p>
+      <p style={{ margin: '10px 0', lineHeight: '1.5', textAlign: 'left' }}>{item.message}</p>
       
       {item.projectTitle && (
-        <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#28a745' }}>Project: {item.projectTitle}</p>
+        <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#28a745', textAlign: 'left' }}>Project: {item.projectTitle}</p>
       )}
       
       <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
@@ -394,14 +394,24 @@ const VolunteerInfo = ({ volunteer }) => {
   );
 };
 
-const VolunteerCard = ({ volunteer }) => {
+const VolunteerCard = ({ volunteer, onRefresh }) => {
   const [showInfo, setShowInfo] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [showAssign, setShowAssign] = useState(false);
   const { approveVolunteer } = useUserData();
 
-  const handleApprove = () => {
-    approveVolunteer(volunteer._id);
+  const handleApprove = async () => {
+    try {
+      console.log('Attempting to approve volunteer:', volunteer._id);
+      const success = await approveVolunteer(volunteer._id);
+      console.log('Approval result:', success);
+      if (success) {
+        console.log('Refreshing volunteer list...');
+        onRefresh();
+      }
+    } catch (error) {
+      console.error('Error in handleApprove:', error);
+    }
   };
 
   return (
@@ -510,17 +520,19 @@ const Volunteer = () => {
 
   return (
     <div>
-      <h3>Volunteer Management</h3>
-      <p>Review and manage volunteer applications</p>
-
-      <div style={{ marginBottom: "20px" }}>
+      <div className="events-header">
+        <h2>Volunteer Management</h2>
         <button
           className="btn-primary"
           onClick={() => setShowAnnouncement(true)}
         >
           New Announcement
         </button>
+      </div>
+      <h3>Approve Volunteers</h3>
+      <p>Review and manage volunteer applications</p>
 
+      <div style={{ marginBottom: "20px" }}>
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -550,7 +562,11 @@ const Volunteer = () => {
       ) : (
         <div className="volunteers-grid">
           {filteredVolunteers.map((volunteer) => (
-            <VolunteerCard key={volunteer._id} volunteer={volunteer} />
+            <VolunteerCard 
+              key={volunteer._id} 
+              volunteer={volunteer} 
+              onRefresh={() => fetchAllVolunteers()}
+            />
           ))}
         </div>
       )}

@@ -20,25 +20,27 @@ const EventCard = ({ event }) => {
       />
       <p>{event.category}</p>
       <h4 className="event-title">{event.title}</h4>
-      <p className="event-date">
-        <i className="bi bi-calendar-event"></i>
-        <span> {event.date}</span>
-      </p>
-      <p className="event-time">
-        <i className="bi bi-clock"></i>
-        <span> {event.time}</span>
-      </p>
-      <p className="event-status completed">
-        {" "}
-        <i className="bi bi-calendar-check"></i>
-        <span>{event.isPast ? "Past Event" : "Upcoming Event"}</span>
-      </p>
-
-      {typeof event.totalSpots === "number" && (
-        <p className="event-spots">
-          👥 {event.spotsTaken || 0}/{event.totalSpots} spots
+      <div className="event-datetime-row">
+        <p className="event-date">
+          <i className="bi bi-calendar-event"></i>
+          <span> {event.date}</span>
         </p>
-      )}
+        <p className="event-time">
+          <i className="bi bi-clock"></i>
+          <span> {event.time}</span>
+        </p>
+      </div>
+      <div className="event-status-row">
+        <p className="event-status completed">
+          <i className="bi bi-calendar-check"></i>
+          <span>{event.isPast ? "Past Event" : "Upcoming Event"}</span>
+        </p>
+        {typeof event.totalSpots === "number" && (
+          <p className="event-spots">
+            👥 {event.spotsTaken || 0}/{event.totalSpots} spots
+          </p>
+        )}
+      </div>
 
       {!event.isPast && (
         <button
@@ -83,7 +85,7 @@ export const Events = () => {
         <h3 className="events-heading">Past Events</h3>
         <div className="events-grid">
           {pastEvents.length === 0 ? (
-            <h3>No upcoming events at the moment. Check back soon.</h3>
+            <h3>No past events at the moment.</h3>
           ) : (
             pastEvents.map((e) => <EventCard key={e._id} event={e} />)
           )}
@@ -103,7 +105,7 @@ const EventPage = () => {
         <p>
           Join us at our upcoming events and be part of the change. From
           fundraising galas to volunteer training sessions, there's always
-          something happening at HopeTogether.
+          something happening at Ichthys.
         </p>
       </header>
 

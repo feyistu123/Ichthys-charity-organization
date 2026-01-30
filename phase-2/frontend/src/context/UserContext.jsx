@@ -32,12 +32,16 @@ export const UserProvider = ({ children }) => {
   // Approve volunteer
   const approveVolunteer = async (volunteerId) => {
     try {
+      console.log('Calling approval API for volunteer:', volunteerId);
       const res = await api.patch(`/admin/approve/${volunteerId}`);
+      console.log('Approval API response:', res.data);
       alert(res.data.message);
-      fetchAllVolunteers(); // Refresh list to show updated status
+      return true;
     } catch (err) {
       console.error("Error approving volunteer:", err);
+      console.error("Error response:", err.response?.data);
       alert(err.response?.data?.error || "Failed to approve volunteer");
+      return false;
     }
   };
 

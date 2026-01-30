@@ -40,7 +40,7 @@ const Blogs = () => {
 
   return (
     <div className="blogs-container">
-      <div className="blogs-header">
+      <div className="events-header">
         <h2>Blog Management</h2>
         <button className="new-blog" onClick={() => setCreatePost(true)}>
           <i className="bi bi-plus-circle"></i> Add New Post

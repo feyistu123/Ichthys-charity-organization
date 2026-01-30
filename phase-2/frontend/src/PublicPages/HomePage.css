@@ -25,7 +25,7 @@ button {
 }
 
 /* BACKGROUND HERO  */
-#background {
+.background {
   position: relative;
   padding: 120px 0px;
   background-image: url("../assets/Images/mother2.jpg");
@@ -36,7 +36,7 @@ button {
   color: white;
 }
 
-#background::after {
+.background::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -61,7 +61,7 @@ button {
   }
 }
 
-#background h1 {
+.background h1 {
   position: relative;
   text-align: center;
   z-index: 1;
@@ -73,7 +73,7 @@ button {
   animation: softGlow 3s ease-in-out;
 }
 
-#background p {
+.background p {
   position: relative;
   text-align: center;
   z-index: 1;
@@ -84,7 +84,7 @@ button {
   color: rgb(194, 194, 191);
 }
 
-#background .button-group {
+.background .button-group {
   position: relative;
   text-align: center;
   z-index: 1;
@@ -125,7 +125,7 @@ a {
 }
 
 /* -MISSION SECTION */
-#mission {
+.mission {
   width: 90%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -135,34 +135,34 @@ a {
   gap: 50px;
 }
 
-#para {
+.para {
   max-width: 600px;
   color: rgb(65, 61, 61);
   font-size: 1.1rem;
 }
-#para .one {
+.para .one {
   font-size: 2rem;
   color: black;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-#para ul {
+.para ul {
   padding-left: 20px;
 }
-#para ul li {
+.para ul li {
   margin-bottom: 10px;
   line-height: 1.4;
 }
 
-#para-image img {
+.para-image img {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
 }
 
 /*  CORE VALUES - OUR PROGRAMS */
-#cores {
+.cores {
   background-color: #f9f4ef;
   padding: 50px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
@@ -171,20 +171,20 @@ a {
   width: 80%;
 }
 
-#core-head {
+.core-head {
   text-align: center;
   padding-bottom: 2rem;
 }
 
-#core-head h2 {
+.core-head h2 {
   font-size: 2.5rem;
-  color: #663300;
+  color: 0.6633;
   margin-bottom: 1rem;
 }
 
-#core-head p {
+.core-head p {
   font-size: 1.2rem;
-  color: #666666;
+  color: 0.666666;
 }
 
 .core-value-one,
@@ -226,7 +226,7 @@ a {
 }
 
 /*  DIFFERENCE SECTION */
-#difference-section {
+.difference-section {
   display: flex;
   justify-content: center;
   gap: 40px;
@@ -238,34 +238,34 @@ a {
   text-align: left;
 }
 
-#diff-head {
+.diff-head {
   max-width: 500px;
   background: rgba(255, 255, 255, 0.15);
   padding: 40px;
   border-radius: 20px;
 }
 
-#difference-section h3 {
+.difference-section h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
   color: white;
 }
 
-#diff-head p {
+.diff-head p {
   font-size: 1.15rem;
   line-height: 1.6;
   margin-bottom: 2rem;
   color: white;
 }
 
-#range {
+.range {
   max-width: 450px;
   background: rgba(255, 255, 255, 0.15);
   padding: 40px;
   border-radius: 20px;
 }
 
-#range h2 {
+.range h2 {
   font-size: 1.8rem;
   margin-bottom: 2rem;
   color: white;

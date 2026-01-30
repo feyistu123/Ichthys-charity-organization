@@ -1,33 +1,31 @@
-const jwt = require('jsonwebtoken');
-
-// Ensure you use 'exports.' for both functions
+const jwt = require("jsonwebtoken");
 exports.verifyToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-    if (!token) {
-        res.writeHead(401, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ error: "No token provided" }));
+  if (!token) {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: "No token provided" }));
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify({ error: "Invalid token" }));
     }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            res.writeHead(403, { 'Content-Type': 'application/json' });
-            return res.end(JSON.stringify({ error: "Invalid token" }));
-        }
-        req.user = decoded;
-        next();
-    });
+    req.user = decoded;
+    next();
+  });
 };
 
 exports.verifyAdmin = (req, res, next) => {
-    // We call verifyToken first to get the user data
-    exports.verifyToken(req, res, () => {
-        if (req.user && req.user.role === 'admin') {
-            next();
-        } else {
-            res.writeHead(403, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: "Access Denied: Admins Only" }));
-        }
-    });
+  // We call verifyToken first to get the user data
+  exports.verifyToken(req, res, () => {
+    if (req.user && req.user.role === "admin") {
+      next();
+    } else {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Access Denied: Admins Only" }));
+    }
+  });
 };

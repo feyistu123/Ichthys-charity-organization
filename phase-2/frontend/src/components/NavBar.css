@@ -46,7 +46,7 @@
   .navbar {
     display: none;
   }
-  
+
   .navbar-open {
     display: flex;
   }
@@ -69,7 +69,7 @@
 }
 
 .navbar a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 0;
@@ -83,6 +83,15 @@
   width: 100%;
 }
 
+/* Persistent underline for active route links (NavLink provides 'active' class) */
+.navbar a.active::after {
+  width: 100%;
+}
+
+.navbar a.active {
+  color: #e7ad0e;
+}
+
 .donate {
   background: linear-gradient(135deg, #e7ad0e, #c87202);
   color: white;
@@ -91,7 +100,9 @@
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .donate:hover {
@@ -228,4 +239,3 @@
 .mobile-overlay.active {
   display: none;
 }
-

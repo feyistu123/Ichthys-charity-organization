@@ -24,16 +24,16 @@ export const DataProvider = ({ children }) => {
   const createProject = async (newProject) => {
     try {
       const formData = new FormData();
-      Object.keys(newProject).forEach(key => {
+      Object.keys(newProject).forEach((key) => {
         if (newProject[key] != null) {
           formData.append(key, newProject[key]);
         }
       });
-      
+
       await api.post("/programs/add", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       alert("Successfully created new project");
       allProjects();
@@ -78,16 +78,16 @@ export const DataProvider = ({ children }) => {
   const createEvent = async (newEvent) => {
     try {
       const formData = new FormData();
-      Object.keys(newEvent).forEach(key => {
+      Object.keys(newEvent).forEach((key) => {
         if (newEvent[key] != null) {
           formData.append(key, newEvent[key]);
         }
       });
-      
+
       await api.post("/events/add", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       alert("Successfully created new event");
       allEvents();
@@ -117,6 +117,21 @@ export const DataProvider = ({ children }) => {
       // alert("Failed to delete event");
     }
   };
+
+  const bookEvent = async (id) => {
+    try {
+      const res = await api.post(`/events/book/${id}`);
+      if (res.status === 200) {
+        alert(res.data.message || "Seat booked");
+        allEvents();
+      }
+    } catch (err) {
+      console.error("Error booking event:", err?.response?.data || err.message);
+      const msg = err?.response?.data?.error || "Failed to book seat";
+      alert(msg);
+    }
+  };
+
   const allPosts = async () => {
     try {
       const res = await api.get("/blogs");
@@ -132,16 +147,16 @@ export const DataProvider = ({ children }) => {
   const createPost = async (newPost) => {
     try {
       const formData = new FormData();
-      Object.keys(newPost).forEach(key => {
+      Object.keys(newPost).forEach((key) => {
         if (newPost[key] != null) {
           formData.append(key, newPost[key]);
         }
       });
-      
+
       await api.post("/blogs/add", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       alert("Successfully created new Post");
       allPosts();
@@ -153,21 +168,18 @@ export const DataProvider = ({ children }) => {
   const editPost = async ({ id, upDatedData }) => {
     try {
       await api.patch(`/blogs/${id}`, upDatedData);
-      // alert("Successfully edited Post");
       allPosts();
     } catch (err) {
       console.error("Error editing post:", err);
-      // alert("Failed to edit post");
     }
   };
   const deletePost = async (id) => {
     try {
       await api.delete(`/blogs/${id}`);
-      // alert("Successfully deleted post");
+
       allPosts();
     } catch (err) {
       console.error("Error deleting post:", err);
-      // alert("Failed to delete post");
     }
   };
   return (
@@ -179,6 +191,7 @@ export const DataProvider = ({ children }) => {
         deleteProject,
         allProjects, // Add refresh function
         events,
+        bookEvent,
         createEvent,
         editEvent,
         deleteEvent,

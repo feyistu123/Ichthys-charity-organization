@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { images } from "../assets/Images/images";
 import "./NavBar.css";
 
@@ -20,23 +20,40 @@ const NavBar = () => {
       <header className="header">
         <h1 className="logo-title">
           <img className="logo" src={images.Ichtus} alt="Ichthys logo" />
-          Ichthys <em>(ἰχθύς)</em>
+          <p style={{ marginLeft: "3px" }}>Ichthys</p>
+          <em style={{ fontSize: "12px", marginRight: "30px" }}>(ἰχθύς)</em>
         </h1>
 
-        <nav className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}>
-          <Link to="/home" onClick={closeMenu}>Home</Link>
-          <Link to="/about" onClick={closeMenu}>About</Link>
-          <Link to="/events" onClick={closeMenu}>Events</Link>
-          <Link to="/blogs" onClick={closeMenu}>Blog</Link>
-          <Link to="/programs" onClick={closeMenu}>Programs</Link>
-          <Link to="/get-involved" onClick={closeMenu}>Get Involved</Link>
-          <Link to="/contact-us" onClick={closeMenu}>Contact us</Link>
-          <Link to="/accounts" onClick={closeMenu}>Log in</Link>
+        <nav className={`navbar ${isMenuOpen ? "navbar-open" : ""}`}>
+          <NavLink to="/home" onClick={closeMenu}>
+            Home
+          </NavLink>
+          <NavLink to="/about" onClick={closeMenu}>
+            About
+          </NavLink>
+          <NavLink to="/events" onClick={closeMenu}>
+            Events
+          </NavLink>
+          <NavLink to="/blogs" onClick={closeMenu}>
+            Blog
+          </NavLink>
+          <NavLink to="/programs" onClick={closeMenu}>
+            Programs
+          </NavLink>
+          <NavLink to="/get-involved" onClick={closeMenu}>
+            Get Involved
+          </NavLink>
+          <NavLink to="/contact-us" onClick={closeMenu}>
+            Contact us
+          </NavLink>
+          <NavLink to="/accounts" onClick={closeMenu}>
+            Log in
+          </NavLink>
 
-          <button 
-            className="donate" 
+          <button
+            className="donate"
             onClick={() => {
-              navigate('/donate');
+              navigate("/donate");
               closeMenu();
             }}
           >
@@ -45,15 +62,21 @@ const NavBar = () => {
         </nav>
 
         <div className="hamburger" onClick={toggleMenu}>
-          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`hamburger-line ${isMenuOpen ? 'active' : ''}`}></span>
+          <span
+            className={`hamburger-line ${isMenuOpen ? "active" : ""}`}
+          ></span>
+          <span
+            className={`hamburger-line ${isMenuOpen ? "active" : ""}`}
+          ></span>
+          <span
+            className={`hamburger-line ${isMenuOpen ? "active" : ""}`}
+          ></span>
         </div>
       </header>
 
       {/* Mobile overlay */}
-      <div 
-        className={`mobile-overlay ${isMenuOpen ? 'active' : ''}`}
+      <div
+        className={`mobile-overlay ${isMenuOpen ? "active" : ""}`}
         onClick={closeMenu}
       ></div>
     </>

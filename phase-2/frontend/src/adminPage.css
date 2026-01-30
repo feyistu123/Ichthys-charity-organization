@@ -86,7 +86,7 @@
   background: #797c82;
   color: white;
   padding: 7px;
-  border-radius: 10px;
+  border-radius: 20px;
   text-align: center;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -96,6 +96,18 @@
   background: #787a80;
   transform: translateY(-2px);
 }
+
+.quick-actions-nav a.active {
+  background: #ffffff;
+  color: #374151;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+}
+.quick-actions-nav a.active:hover {
+  background: #ffffff;
+  transform: translateY(0);
+}
+
 /* ===== Create Project Container ===== */
 .create-project-container {
   max-width: 700px;
@@ -464,7 +476,8 @@
   text-decoration: none;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   flex: 1;
   padding: 0.6rem 1rem;
   border-radius: 8px;
@@ -504,13 +517,13 @@
   .projects-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .projects-header {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
   }
-  
+
   .project-actions {
     flex-direction: column;
   }
@@ -856,10 +869,11 @@
 }
 
 .blog-card {
-  background: #fff;
+  background: #ffffff;
   border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #eee;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
 }
 
 .blog-header {
@@ -945,7 +959,9 @@
   border-radius: 10px;
   border: 1px solid #d1d5db;
   font-size: 0.95rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .post-input:focus {
@@ -971,7 +987,9 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .post-submit-btn:hover {
@@ -984,7 +1002,11 @@
   max-width: 720px;
   margin: 4rem auto;
   padding: 1rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 /* INTRO */
@@ -1084,6 +1106,7 @@
   border-radius: 10px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
+  color: #000000; /* preset amount text black */
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1469,12 +1492,12 @@
   .donation-stats {
     grid-template-columns: 1fr;
   }
-  
+
   .donation-details {
     flex-direction: column;
     gap: 0.25rem;
   }
-  
+
   .donation-head {
     flex-direction: column;
     align-items: flex-start;

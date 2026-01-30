@@ -1,31 +1,53 @@
-const Event = require('../models/Event'); // Assuming you have an Event model
+const Event = require("../models/Event"); // Assuming you have an Event model
 
 // Fetch events by their status (Upcoming or Past)
 exports.getEventsByStatus = async (isPast) => {
-    return await Event.find({ isPast: isPast }).sort({ date: isPast ? -1 : 1 });
+  return await Event.find({ isPast: isPast }).sort({ date: isPast ? -1 : 1 });
 };
 
 // Create a new event
 exports.createEvent = async (eventData) => {
-    const newEvent = new Event(eventData);
-    return await newEvent.save();
+  const newEvent = new Event(eventData);
+  return await newEvent.save();
 };
 
 // Move an event to the "Past" category
 exports.moveToPast = async (eventId) => {
-    return await Event.findByIdAndUpdate(eventId, { isPast: true }, { new: true });
+  return await Event.findByIdAndUpdate(
+    eventId,
+    { isPast: true },
+    { new: true },
+  );
 };
 
 // Updates any event field dynamically
 exports.updateEventData = async (id, updateData) => {
-    return await Event.findByIdAndUpdate(
-        id, 
-        { $set: updateData },
-        { new: true, runValidators: true }
-    );
+  return await Event.findByIdAndUpdate(
+    id,
+    { $set: updateData },
+    { new: true, runValidators: true },
+  );
 };
 
 // Permanently remove an event
 exports.deleteEventById = async (eventId) => {
-    return await Event.findByIdAndDelete(eventId);
+  return await Event.findByIdAndDelete(eventId);
+};
+
+// Book a seat for an event. Returns the updated event or an error object.
+exports.bookSeat = async (eventId) => {
+  const ev = await Event.findById(eventId);
+  if (!ev) {
+    return { error: "Event not found" };
+  }
+
+  if (typeof ev.totalSpots === "number" && ev.totalSpots > 0) {
+    if ((ev.spotsTaken || 0) >= ev.totalSpots) {
+      return { error: "Event is fully booked" };
+    }
+  }
+
+  ev.spotsTaken = (ev.spotsTaken || 0) + 1;
+  await ev.save();
+  return ev;
 };

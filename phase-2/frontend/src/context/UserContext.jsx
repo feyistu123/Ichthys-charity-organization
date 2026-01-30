@@ -207,7 +207,9 @@ export const UserProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      const res = await api.post("/users/forgot-password", { email });
+      const e = (email || "").trim().toLowerCase();
+      console.log("Forgot password requested for:", e);
+      const res = await api.post("/users/forgot-password", { email: e });
       alert(res.data.message);
       return true;
     } catch (err) {
@@ -219,7 +221,10 @@ export const UserProvider = ({ children }) => {
 
   const verifyResetCode = async (email, code) => {
     try {
-      const res = await api.post("/users/verify-code", { email, code });
+      const e = (email || "").trim().toLowerCase();
+      const c = (code || "").toString().trim();
+      console.log("Verify reset code for:", e, "code:", c);
+      const res = await api.post("/users/verify-code", { email: e, code: c });
       alert(res.data.message);
       return true;
     } catch (err) {
@@ -231,9 +236,12 @@ export const UserProvider = ({ children }) => {
 
   const resetPassword = async (email, code, newPassword) => {
     try {
+      const e = (email || "").trim().toLowerCase();
+      const c = (code || "").toString().trim();
+      console.log("Reset password requested for:", e, "code:", c);
       const res = await api.post("/users/reset-password", {
-        email,
-        code,
+        email: e,
+        code: c,
         newPassword,
       });
       alert(res.data.message);

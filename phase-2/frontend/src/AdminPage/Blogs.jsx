@@ -14,12 +14,12 @@ const Blogs = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.dropdown-container')) {
+      if (!event.target.closest(".dropdown-container")) {
         setDropdownOpen(null);
       }
     };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const toggleDropdown = (postId) => {
@@ -27,15 +27,15 @@ const Blogs = () => {
   };
 
   const toggleDescription = (postId) => {
-    setExpandedDescriptions(prev => ({
+    setExpandedDescriptions((prev) => ({
       ...prev,
-      [postId]: !prev[postId]
+      [postId]: !prev[postId],
     }));
   };
 
   const truncateText = (text, limit = 100) => {
     if (text.length <= limit) return text;
-    return text.substring(0, limit) + '...';
+    return text.substring(0, limit) + "...";
   };
 
   return (
@@ -46,77 +46,77 @@ const Blogs = () => {
           <i className="bi bi-plus-circle"></i> Add New Post
         </button>
       </div>
-      
+
       <div className="blogs-list">
         {!posts || posts.length === 0 ? (
           <h3>No blog posts available</h3>
         ) : (
           posts.map((post) => (
-          <div key={post._id} className="blog-card">
-            <div className="blog-header">
-              <h3 className="blog-title">{post.title}</h3>
-              <span className="blog-badge">{post.category}</span>
-            </div>
+            <div key={post._id} className="blog-card event-card">
+              <div className="blog-header">
+                <h3 className="blog-title">{post.title}</h3>
+                <span className="blog-badge">{post.category}</span>
+              </div>
 
-            <div className="blog-description">
-              {expandedDescriptions[post._id] ? (
-                <p>{post.content}</p>
-              ) : (
-                <p>{truncateText(post.content)}</p>
-              )}
-              {post.content.length > 100 && (
-                <span 
-                  className="read-more-link"
-                  onClick={() => toggleDescription(post._id)}
-                >
-                  {expandedDescriptions[post._id] ? 'Show less' : 'Read more'}
-                </span>
-              )}
-            </div>
-
-            <div className="blog-footer">
-              <span>By {post.author}</span>
-              <span>• {post.publishedDate}</span>
-            </div>
-
-            <div className="blog-actions">
-              <div className="dropdown-container">
-                <button
-                  className="dropdown-toggle"
-                  onClick={() => toggleDropdown(post._id)}
-                >
-                  <i className="bi bi-three-dots-vertical"></i>
-                </button>
-                {dropdownOpen === post._id && (
-                  <div className="dropdown-menu">
-                    <button
-                      className="dropdown-item edit-item"
-                      onClick={() => {
-                        setSelectedPost(post);
-                        setEditingPost(true);
-                        setDropdownOpen(null);
-                      }}
-                    >
-                      <i className="bi bi-pencil-square"></i> Edit
-                    </button>
-                    <button
-                      className="dropdown-item delete-item"
-                      onClick={() => {
-                        deletePost(post._id);
-                        setDropdownOpen(null);
-                      }}
-                    >
-                      <i className="bi bi-trash"></i> Delete
-                    </button>
-                  </div>
+              <div className="blog-description">
+                {expandedDescriptions[post._id] ? (
+                  <p>{post.content}</p>
+                ) : (
+                  <p>{truncateText(post.content)}</p>
+                )}
+                {post.content.length > 100 && (
+                  <span
+                    className="read-more-link"
+                    onClick={() => toggleDescription(post._id)}
+                  >
+                    {expandedDescriptions[post._id] ? "Show less" : "Read more"}
+                  </span>
                 )}
               </div>
+
+              <div className="blog-footer">
+                <span>By {post.author}</span>
+                <span>• {post.publishedDate}</span>
+              </div>
+
+              <div className="blog-actions">
+                <div className="dropdown-container">
+                  <button
+                    className="dropdown-toggle"
+                    onClick={() => toggleDropdown(post._id)}
+                  >
+                    <i className="bi bi-three-dots-vertical"></i>
+                  </button>
+                  {dropdownOpen === post._id && (
+                    <div className="dropdown-menu">
+                      <button
+                        className="dropdown-item edit-item"
+                        onClick={() => {
+                          setSelectedPost(post);
+                          setEditingPost(true);
+                          setDropdownOpen(null);
+                        }}
+                      >
+                        <i className="bi bi-pencil-square"></i> Edit
+                      </button>
+                      <button
+                        className="dropdown-item delete-item"
+                        onClick={() => {
+                          deletePost(post._id);
+                          setDropdownOpen(null);
+                        }}
+                      >
+                        <i className="bi bi-trash"></i> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
           ))
         )}
       </div>
-      
+
       {createPost && (
         <Modal onClose={() => setCreatePost(false)}>
           <CreatePost onClose={() => setCreatePost(false)} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import "../adminPage.css";
@@ -9,8 +9,6 @@ const AdminDashBoard = () => {
   const [totalDonors, setTotalDonors] = useState(245);
   const [volunteers, setVolunteers] = useState(18);
   const [activeProjects, setActiveProjects] = useState(3);
-
-
 
   return (
     <div className="admin-dashboard">
@@ -69,11 +67,36 @@ const AdminDashBoard = () => {
         <h3>Quick Actions</h3>
 
         <nav className="quick-actions-nav">
-          <Link to="projects">Projects</Link>
-          <Link to="events">Events</Link>
-          <Link to="posts">Blog Posts</Link>
-          <Link to="volunteer-approval">Volunteer Approval</Link>
-          <Link to="donation-management">Donation Management</Link>
+          <NavLink
+            to="projects"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Projects
+          </NavLink>
+          <NavLink
+            to="events"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Events
+          </NavLink>
+          <NavLink
+            to="posts"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Blog Posts
+          </NavLink>
+          <NavLink
+            to="volunteer-approval"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Volunteer Approval
+          </NavLink>
+          <NavLink
+            to="donation-management"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Donation Management
+          </NavLink>
         </nav>
 
         <Outlet />

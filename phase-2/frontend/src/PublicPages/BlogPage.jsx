@@ -2,13 +2,17 @@ import React from "react";
 import { images } from "../assets/Images/images";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import { Link, Outlet, useOutletContext } from "react-router-dom";
+import { NavLink, Outlet, useOutletContext } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { useState } from "react";
 const NewsCard = ({ post }) => {
   return (
     <div className="news-card">
-      <img className="news-image" src={post.imageUrl || images.image6} alt="post Image" />
+      <img
+        className="news-image"
+        src={post.imageUrl || images.image6}
+        alt="post Image"
+      />
 
       <p className="news-category">{post.category}</p>
 
@@ -37,9 +41,8 @@ export const AllNews = () => {
   const { posts } = useData();
   const { searchTerm = "" } = useOutletContext() || {};
 
-  const filteredPosts = posts.filter(
-    (p) =>
-      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPosts = posts.filter((p) =>
+    (p?.title || "").toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -56,14 +59,15 @@ export const AllNews = () => {
 export const EducationNews = () => {
   const { posts } = useData();
   const { searchTerm = "" } = useOutletContext() || {};
-  
+
   const filteredPosts = posts.filter((p) => {
     const matchesCategory = p.category === "Education";
-    const matchesSearch = searchTerm === "" || 
-      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      searchTerm === "" ||
+      (p?.title || "").toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-  
+
   return (
     <div className="news-grid education-news">
       {filteredPosts.length === 0 ? (
@@ -78,11 +82,12 @@ export const EducationNews = () => {
 export const HealthNews = () => {
   const { posts } = useData();
   const { searchTerm = "" } = useOutletContext() || {};
-  
+
   const filteredPosts = posts.filter((p) => {
     const matchesCategory = p.category === "Health";
-    const matchesSearch = searchTerm === "" || 
-      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      searchTerm === "" ||
+      (p?.title || "").toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -100,14 +105,15 @@ export const HealthNews = () => {
 export const EmergencyNews = () => {
   const { posts } = useData();
   const { searchTerm = "" } = useOutletContext() || {};
-  
+
   const filteredPosts = posts.filter((p) => {
     const matchesCategory = p.category === "Emergency";
-    const matchesSearch = searchTerm === "" || 
-      (p?.title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      searchTerm === "" ||
+      (p?.title || "").toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-  
+
   return (
     <div className="news-grid emergency-news">
       {filteredPosts.length === 0 ? (
@@ -127,11 +133,13 @@ const BlogPage = () => {
       <NavBar />
 
       <header className="blogs-header">
-        <h4>News & Impact Stories</h4>
-        <p>
-          Read the latest updates from the field and discover the real impact of
-          your support.
-        </p>
+        <div className="blogs-heading-text">
+          <h4>News & Impact Stories</h4>
+          <p>
+            Read the latest updates from the field and discover the real impact
+            of your support.
+          </p>
+        </div>
 
         <input
           className="search-input"
@@ -143,18 +151,38 @@ const BlogPage = () => {
       </header>
 
       <nav className="blogs-nav">
-        <Link to="articles" className="blog-link">
+        <NavLink
+          to="articles"
+          className={({ isActive }) =>
+            isActive ? "blog-link active" : "blog-link"
+          }
+        >
           All Articles
-        </Link>
-        <Link to="education" className="blog-link">
+        </NavLink>
+        <NavLink
+          to="education"
+          className={({ isActive }) =>
+            isActive ? "blog-link active" : "blog-link"
+          }
+        >
           Education
-        </Link>
-        <Link to="health" className="blog-link">
+        </NavLink>
+        <NavLink
+          to="health"
+          className={({ isActive }) =>
+            isActive ? "blog-link active" : "blog-link"
+          }
+        >
           Health
-        </Link>
-        <Link to="emergency" className="blog-link">
+        </NavLink>
+        <NavLink
+          to="emergency"
+          className={({ isActive }) =>
+            isActive ? "blog-link active" : "blog-link"
+          }
+        >
           Emergency
-        </Link>
+        </NavLink>
       </nav>
 
       <section className="blogs-content">

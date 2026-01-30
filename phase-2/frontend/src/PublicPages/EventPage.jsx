@@ -5,6 +5,12 @@ import NavBar from "../components/NavBar";
 import { useData } from "../context/DataContext";
 
 const EventCard = ({ event }) => {
+  const { bookEvent } = useData();
+
+  const isFull =
+    typeof event.totalSpots === "number" &&
+    (event.spotsTaken || 0) >= event.totalSpots;
+
   return (
     <div className="event-card">
       <img
@@ -27,6 +33,25 @@ const EventCard = ({ event }) => {
         <i className="bi bi-calendar-check"></i>
         <span>{event.isPast ? "Past Event" : "Upcoming Event"}</span>
       </p>
+
+      {typeof event.totalSpots === "number" && (
+        <p className="event-spots">
+          👥 {event.spotsTaken || 0}/{event.totalSpots} spots
+        </p>
+      )}
+
+      {!event.isPast && (
+        <button
+          className={`book-seat ${isFull ? "disabled" : ""}`}
+          onClick={async () => {
+            if (isFull) return;
+            await bookEvent(event._id);
+          }}
+          disabled={isFull}
+        >
+          {isFull ? "Full" : "Book a Seat"}
+        </button>
+      )}
     </div>
   );
 };

@@ -8,10 +8,10 @@ import { images } from "../assets/Images/images";
 const HomePage = () => {
   const navigate = useNavigate();
   return (
-    <div id="home">
+    <div className="home">
       <NavBar />
 
-      <div id="background">
+      <div className="background">
         <div className="overlay"></div>
         <h1>Building Hope, Transforming Lives</h1>
         <p className="one">
@@ -23,12 +23,19 @@ const HomePage = () => {
           </em>
         </p>
         <div className="button-group">
-          <button className="btn involved" onClick={() => navigate('/get-involved')}>Get Involved</button>
-          <button className="btn learn" onClick={() => navigate('/about')}>Learn More</button>
+          <button
+            className="btn involved"
+            onClick={() => navigate("/get-involved")}
+          >
+            Get Involved
+          </button>
+          <button className="btn learn" onClick={() => navigate("/about")}>
+            Learn More
+          </button>
         </div>
       </div>
-      <div id="mission">
-        <div id="para">
+      <div className="mission">
+        <div className="para">
           <h1 className="one">Our Mission</h1>
           <p>
             At Ichthys (ἰχθύς) Charity, our mission is to reflect the love of
@@ -64,23 +71,25 @@ const HomePage = () => {
             family, and one act of love at a time.
           </p>
         </div>
-        <div id="para-image">
+        <div className="para-image">
           <img src={images.mission} alt="children image" />
         </div>
       </div>
-      <div id="cores">
-        <div id="core-head">
+      <div className="cores">
+        <div className="core-head">
           <h2>Our Programs</h2>
           <p>
-            Comprehensive initiatives designed to create meaningful and lasting change
+            Comprehensive initiatives designed to create meaningful and lasting
+            change
           </p>
         </div>
-        <div id="core-values">
+        <div className="core-values">
           <div className="core-value-one">
             <i className="bi bi-heart"></i>
             <h3>Education Support</h3>
             <p>
-              Providing quality education resources and scholarships to underserved communities.{" "}
+              Providing quality education resources and scholarships to
+              underserved communities.{" "}
             </p>
           </div>
 
@@ -88,7 +97,8 @@ const HomePage = () => {
             <i className="bi bi-people"></i>
             <h3>Community Building</h3>
             <p>
-              Creating spaces and opportunities for communities to grow and thrive together.
+              Creating spaces and opportunities for communities to grow and
+              thrive together.
             </p>
           </div>
 
@@ -96,13 +106,14 @@ const HomePage = () => {
             <i className="bi bi-trophy"></i>
             <h3>Skill Training</h3>
             <p>
-              Empowering individuals with practical skills for sustainable livelihoods.
+              Empowering individuals with practical skills for sustainable
+              livelihoods.
             </p>
           </div>
         </div>
       </div>
-      <div id="difference-section">
-        <div id="diff-head">
+      <div className="difference-section">
+        <div className="diff-head">
           <h3>Make a Difference Today</h3>
           <p>
             Your generous donation helps us continue our vital work nurturing
@@ -111,13 +122,23 @@ const HomePage = () => {
           </p>
 
           <div className="button-group">
-            <button className="donate-btn one-time" onClick={() => navigate('/donate')}>One-Time Donation</button>
-            <button className="donate-btn monthly" onClick={() => navigate('/donate')}>Monthly Giving</button>
+            <button
+              className="donate-btn one-time"
+              onClick={() => navigate("/donate")}
+            >
+              One-Time Donation
+            </button>
+            <button
+              className="donate-btn monthly"
+              onClick={() => navigate("/donate")}
+            >
+              Monthly Giving
+            </button>
           </div>
         </div>
 
         <div className="sec">
-          <div id="range">
+          <div className="range">
             <h3>Where Your Donation Goes</h3>
 
             <form>

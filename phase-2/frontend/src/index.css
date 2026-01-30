@@ -124,6 +124,8 @@ button.donate:hover {
   }
 } */
 
+
+
 #footer {
   width: 100%;
   background-color: #333;
@@ -133,13 +135,13 @@ button.donate:hover {
   margin-top: 3vw;
   height: auto;
   max-height: 100vh;
+  text-align: left;
 }
 #footer-container {
   display: grid;
-  grid-template-columns: 3fr 3fr 3fr;
   gap: 1vw;
+  text-align: left;
 }
-
 #footer i {
   color: #ffae7f;
   margin-right: 8px;
@@ -152,11 +154,28 @@ button.donate:hover {
   grid-column: span 3;
   text-align: center;
   margin: 50px auto 20px;
+  width: 100%;
 }
 #footer p {
   color: white;
   font-size: medium;
+  padding-bottom: 10px;
 }
 #footer h3 {
   font-weight: bold;
+  padding-bottom: 10px;
 }
+
+
+@media (max-width: 800px) {
+  #footer-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-right: 2vw;
+  }
+  
+  #footer-copy {
+    grid-column: span 1;
+  }
+}
+

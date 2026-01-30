@@ -59,18 +59,28 @@ const NavBar = () => {
             Contact us
           </NavLink>
           <span onClick={handleAuthAction} className="auth-link">
-            {currentUser ? "Logout" : "Log in"}
+            {currentUser ? "Logout" : "Login"}
           </span>
 
-          <button
-            className="donate"
-            onClick={() => {
-              navigate("/donate");
-              closeMenu();
-            }}
-          >
-            Donate Now
-          </button>
+          {currentUser && currentUser.userType === "Volunteer" ? (
+            <NavLink to="/volunteer-dashboard" onClick={closeMenu}>
+              Volunteer Board
+            </NavLink>
+          ) : currentUser && currentUser.role === "admin" ? (
+            <NavLink to="/admin-dashboard" onClick={closeMenu}>
+              Admin Board
+            </NavLink>
+          ) : (
+            <button
+              className="donate"
+              onClick={() => {
+                navigate("/donate");
+                closeMenu();
+              }}
+            >
+              Donate Now
+            </button>
+          )}
         </nav>
 
         <div className="hamburger" onClick={toggleMenu}>

@@ -28,7 +28,6 @@ const ReportCard = ({ report }) => {
       <p
         style={{
           margin: "10px 0",
-          lineHeight: "1.5",
           color: "#333",
           textAlign: "left",
         }}

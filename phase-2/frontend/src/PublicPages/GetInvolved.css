@@ -383,47 +383,6 @@ h2 {
   margin: 0 10px;
 }
 
-#footer {
-  width: 100%;
-  background-color: #333;
-  color: white;
-  padding-top: 2vw;
-  padding-left: 2vw;
-  margin-top: 3vw;
-  height: auto;
-  max-height: 100vh;
-  text-align: left;
-}
-#footer-container {
-  display: grid;
-  grid-template-columns: 3fr 3fr 3fr;
-  gap: 1vw;
-  text-align: left;
-}
-#footer i {
-  color: #ffae7f;
-  margin-right: 8px;
-}
-
-#foot-intro {
-  max-width: 250px;
-}
-#footer-copy {
-  grid-column: span 3;
-  text-align: center;
-  margin: 50px auto 20px;
-  width: 100%;
-}
-#footer p {
-  color: white;
-  font-size: medium;
-  padding-bottom: 10px;
-}
-#footer h3 {
-  font-weight: bold;
-  padding-bottom: 10px;
-}
-
 @media (max-width: 900px) {
   header h1 {
     margin: 10px;
@@ -506,21 +465,7 @@ h2 {
     padding: 0 50px;
     grid-template-columns: repeat(2, 1fr);
   }
-  #footer-container {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 2rem;
-    justify-items: start;
-  }
-  #footer-container div {
-    max-width: 200px;
-  }
-  #foot-intro {
-    max-width: 200px !important;
-  }
-  #footer-copy {
-    text-align: center;
-  }
+  
 }
 
 @media (max-width: 600px) {
@@ -651,22 +596,6 @@ h2 {
     padding: 0 1rem;
   }
 
-  /* Footer mobile styles */
-  #footer-container {
-    grid-template-columns: 1fr;
-    text-align: left;
-    gap: 2rem;
-    justify-items: start;
-  }
-  #footer-container div {
-    max-width: 200px;
-  }
-  #foot-intro {
-    max-width: 200px !important;
-  }
-  #footer-copy {
-    text-align: center;
-  }
 }
 /* Payment Method Section Styling */
 .donation-section.donation-card {

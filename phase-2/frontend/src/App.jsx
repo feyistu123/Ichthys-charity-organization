@@ -62,14 +62,13 @@ const App = () => {
           <Route path="complete" element={<Completed />} />
           <Route path="active" element={<ActiveProjects />} />
         </Route>
-        <Route path="adminDashboard" element={<AdminDashBoard />}>
+        <Route path="/admin-dashboard" element={<AdminDashBoard />}>
           <Route index element={<AdminProjects />} />
           <Route path="projects" element={<AdminProjects />} />
           <Route path="events" element={<Events />} />
           <Route path="volunteer-approval" element={<Volunteer />} />
           <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" element={<Donation />} />
-          <Route path="volunteer-reports" element={<VolunteerReports />} />
         </Route>
         <Route path="/volunteer-dashboard" element={<VolunteerDashboard />} />
       </Routes>

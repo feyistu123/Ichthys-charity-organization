@@ -11,7 +11,7 @@ export const DonationProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return; // Skip if not logged in
-      
+
       const res = await api.get("/donations");
       setDonations(res.data);
     } catch (err) {
@@ -20,7 +20,7 @@ export const DonationProvider = ({ children }) => {
       }
     }
   };
-  
+
   useEffect(() => {
     getAllDonations();
   }, []);
@@ -36,9 +36,20 @@ export const DonationProvider = ({ children }) => {
     }
   };
 
+  const confirmDonation = async (donationId) => {
+    try {
+      await api.patch(`/admin/donations/confirm/${donationId}`);
+      getAllDonations();
+      alert("Donation confirmed and recorded.");
+    } catch (err) {
+      console.error("Confirm donation error:", err);
+      alert("Failed to confirm donation.");
+    }
+  };
+
   return (
     <DonationContext.Provider
-      value={{ amount, setAmount, createDonation, donations }}
+      value={{ amount, setAmount, createDonation, donations, confirmDonation }}
     >
       {children}
     </DonationContext.Provider>

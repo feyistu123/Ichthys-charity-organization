@@ -30,6 +30,7 @@ import Events from "./AdminPage/Events";
 import Blogs from "./AdminPage/Blogs";
 import Donation from "./AdminPage/Donation";
 import Volunteer from "./AdminPage/Volunteer";
+import VolunteerReports from "./AdminPage/VolunteerReports";
 import VolunteerDashboard from "./VolunteerDashboard/VolunteerDashboard";
 const App = () => {
   return (
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="volunteer-approval" element={<Volunteer />} />
           <Route path="posts" element={<Blogs />} />
           <Route path="donation-management" element={<Donation />} />
+          <Route path="volunteer-reports" element={<VolunteerReports />} />
         </Route>
         <Route path="/volunteer-dashboard" element={<VolunteerDashboard />} />
       </Routes>

@@ -134,69 +134,6 @@ const AssignProject = ({ volunteer, onClose }) => {
   );
 };
 
-const ReportCard = ({ report }) => {
-  return (
-    <div
-      className="report-card"
-      style={{
-        border: "1px solid #ddd",
-        padding: "15px",
-        margin: "10px 0",
-        borderRadius: "8px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "10px",
-        }}
-      >
-        <h4 style={{ margin: 0, color: "#2c3e50" }}>{report.volunteerName}</h4>
-        <span style={{ fontSize: "12px", color: "#666" }}>
-          {new Date(report.submittedAt).toLocaleDateString()}
-        </span>
-      </div>
-      <p style={{ margin: '10px 0', lineHeight: '1.5', color: '#333', textAlign: 'left' }}>
-        {report.report}
-      </p>
-      <div style={{ fontSize: "12px", color: "#888" }}>
-        Status: {report.status}
-      </div>
-    </div>
-  );
-};
-
-const VolunteerReports = () => {
-  const [reports, setReports] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { getAllReports } = useUserData();
-
-  useEffect(() => {
-    const fetchReports = async () => {
-      const data = await getAllReports();
-      setReports(data);
-      setLoading(false);
-    };
-    fetchReports();
-  }, [getAllReports]);
-
-  if (loading) return <div>Loading reports...</div>;
-
-  return (
-    <div style={{ marginTop: "30px" }}>
-      <h3>Volunteer Reports</h3>
-      <p>Reports submitted by volunteers</p>
-      {reports.length === 0 ? (
-        <p>No reports submitted yet.</p>
-      ) : (
-        reports.map((report) => <ReportCard key={report._id} report={report} />)
-      )}
-    </div>
-  );
-};
-
 const EditAnnouncementForm = ({ item, onClose, onSave }) => {
   const [message, setMessage] = useState(item.message);
   const [projectTitle, setProjectTitle] = useState(item.projectTitle || "");
@@ -211,8 +148,10 @@ const EditAnnouncementForm = ({ item, onClose, onSave }) => {
 
   return (
     <div className="edit-form">
-      <h4>Edit {item.type === "announcement" ? "Announcement" : "Assignment"}</h4>
-      
+      <h4>
+        Edit {item.type === "announcement" ? "Announcement" : "Assignment"}
+      </h4>
+
       <form onSubmit={handleSubmit}>
         <label>Message</label>
         <textarea
@@ -220,9 +159,9 @@ const EditAnnouncementForm = ({ item, onClose, onSave }) => {
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={4}
-          style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+          style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
         />
-        
+
         {item.type === "task" && (
           <>
             <label>Project Title</label>
@@ -230,14 +169,18 @@ const EditAnnouncementForm = ({ item, onClose, onSave }) => {
               type="text"
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
-              style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+              style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
             />
           </>
         )}
-        
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button type="submit" className="btn-primary">Save</button>
-          <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
+
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button type="submit" className="btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn-secondary" onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>
@@ -246,54 +189,95 @@ const EditAnnouncementForm = ({ item, onClose, onSave }) => {
 
 const AnnouncementAssignmentCard = ({ item, onEdit, onDelete }) => {
   const formatDate = (date) => new Date(date).toLocaleDateString();
-  
+
   return (
-    <div style={{ 
-      border: '1px solid #ddd', 
-      padding: '15px', 
-      margin: '10px 0', 
-      borderRadius: '8px',
-      backgroundColor: item.type === 'announcement' ? '#f8f9fa' : '#fff3cd'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+    <div
+      style={{
+        border: "1px solid #ddd",
+        padding: "15px",
+        margin: "10px 0",
+        borderRadius: "8px",
+        backgroundColor: item.type === "announcement" ? "#f8f9fa" : "#fff3cd",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
         <div>
-          <span style={{ 
-            backgroundColor: item.type === 'announcement' ? '#007bff' : '#28a745',
-            color: 'white',
-            padding: '2px 8px',
-            borderRadius: '4px',
-            fontSize: '12px',
-            marginRight: '10px'
-          }}>
-            {item.type === 'announcement' ? 'Announcement' : 'Assignment'}
+          <span
+            style={{
+              backgroundColor:
+                item.type === "announcement" ? "#007bff" : "#28a745",
+              color: "white",
+              padding: "2px 8px",
+              borderRadius: "4px",
+              fontSize: "12px",
+              marginRight: "10px",
+            }}
+          >
+            {item.type === "announcement" ? "Announcement" : "Assignment"}
           </span>
           {item.volunteerName ? (
-            <span style={{ fontWeight: 'bold', color: '#333' }}>To: {item.volunteerName}</span>
+            <span style={{ fontWeight: "bold", color: "#333" }}>
+              To: {item.volunteerName}
+            </span>
           ) : (
-            <span style={{ fontStyle: 'italic', color: '#666' }}>To: All Volunteers</span>
+            <span style={{ fontStyle: "italic", color: "#666" }}>
+              To: All Volunteers
+            </span>
           )}
         </div>
-        <span style={{ fontSize: '12px', color: '#666' }}>
+        <span style={{ fontSize: "12px", color: "#666" }}>
           {formatDate(item.createdAt)}
         </span>
       </div>
-      
-      <p style={{ margin: '10px 0', lineHeight: '1.5', textAlign: 'left' }}>{item.message}</p>
-      
+
+      <p style={{ margin: "10px 0", lineHeight: "1.5", textAlign: "left" }}>
+        {item.message}
+      </p>
+
       {item.projectTitle && (
-        <p style={{ margin: '5px 0', fontWeight: 'bold', color: '#28a745', textAlign: 'left' }}>Project: {item.projectTitle}</p>
+        <p
+          style={{
+            margin: "5px 0",
+            fontWeight: "bold",
+            color: "#28a745",
+            textAlign: "left",
+          }}
+        >
+          Project: {item.projectTitle}
+        </p>
       )}
-      
-      <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-        <button 
+
+      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+        <button
           onClick={() => onEdit(item)}
-          style={{ padding: '5px 10px', backgroundColor: '#ffc107', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+          style={{
+            padding: "5px 10px",
+            backgroundColor: "#ffc107",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
         >
           Edit
         </button>
-        <button 
+        <button
           onClick={() => onDelete(item._id)}
-          style={{ padding: '5px 10px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+          style={{
+            padding: "5px 10px",
+            backgroundColor: "#dc3545",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
         >
           Delete
         </button>
@@ -306,7 +290,8 @@ const AnnouncementsAssignmentsManager = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState(null);
-  const { getAllAnnouncementsAssignments, deleteAnnouncementAssignment } = useUserData();
+  const { getAllAnnouncementsAssignments, deleteAnnouncementAssignment } =
+    useUserData();
 
   const loadItems = async () => {
     setLoading(true);
@@ -324,7 +309,7 @@ const AnnouncementsAssignmentsManager = () => {
   };
 
   const handleDelete = async (itemId) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (window.confirm("Are you sure you want to delete this item?")) {
       await deleteAnnouncementAssignment(itemId);
       loadItems();
     }
@@ -337,26 +322,26 @@ const AnnouncementsAssignmentsManager = () => {
   if (loading) return <div>Loading announcements and assignments...</div>;
 
   return (
-    <div style={{ marginTop: '30px' }}>
+    <div style={{ marginTop: "30px" }}>
       <h3>Manage Announcements & Assignments</h3>
       <p>Edit or delete announcements and project assignments</p>
-      
+
       {items.length === 0 ? (
         <p>No announcements or assignments found.</p>
       ) : (
         items.map((item) => (
-          <AnnouncementAssignmentCard 
-            key={item._id} 
-            item={item} 
+          <AnnouncementAssignmentCard
+            key={item._id}
+            item={item}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
         ))
       )}
-      
+
       {editingItem && (
         <Modal onClose={() => setEditingItem(null)}>
-          <EditAnnouncementForm 
+          <EditAnnouncementForm
             item={editingItem}
             onClose={() => setEditingItem(null)}
             onSave={handleSave}
@@ -402,15 +387,15 @@ const VolunteerCard = ({ volunteer, onRefresh }) => {
 
   const handleApprove = async () => {
     try {
-      console.log('Attempting to approve volunteer:', volunteer._id);
+      console.log("Attempting to approve volunteer:", volunteer._id);
       const success = await approveVolunteer(volunteer._id);
-      console.log('Approval result:', success);
+      console.log("Approval result:", success);
       if (success) {
-        console.log('Refreshing volunteer list...');
+        console.log("Refreshing volunteer list...");
         onRefresh();
       }
     } catch (error) {
-      console.error('Error in handleApprove:', error);
+      console.error("Error in handleApprove:", error);
     }
   };
 
@@ -562,16 +547,14 @@ const Volunteer = () => {
       ) : (
         <div className="volunteers-grid">
           {filteredVolunteers.map((volunteer) => (
-            <VolunteerCard 
-              key={volunteer._id} 
-              volunteer={volunteer} 
+            <VolunteerCard
+              key={volunteer._id}
+              volunteer={volunteer}
               onRefresh={() => fetchAllVolunteers()}
             />
           ))}
         </div>
       )}
-
-      <VolunteerReports />
 
       <AnnouncementsAssignmentsManager />
 

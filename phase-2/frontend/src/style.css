@@ -8,8 +8,12 @@
 /* HEADER */
 .programs-header {
   text-align: center;
-  max-width: 700px;
-  margin: auto;
+  max-width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4672d0, #765ec6);
+  padding: 1rem 0;
+  margin: 10px auto;
 }
 
 .programs-header h2 {
@@ -188,10 +192,13 @@
 
 /* HEADER */
 .event-header {
-  text-align: center;
-  max-width: 800px;
+  /* text-align: center; */
+  max-width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4672d0, #765ec6);
+  padding: 1rem 0;
   margin: 3rem auto;
-  padding: 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -378,8 +385,11 @@
   gap: 0.75rem;
   max-width: 900px;
   margin: 3rem auto 2rem;
-  padding: 0 1rem;
-  text-align: center;
+  max-width: 100%;
+  height: 170px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4672d0, #765ec6);
+  padding: 1rem 0;
 }
 
 .blogs-heading-text {
@@ -406,6 +416,7 @@
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 720px) {

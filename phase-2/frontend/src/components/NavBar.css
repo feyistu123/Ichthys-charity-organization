@@ -14,8 +14,8 @@
 
 .logo-title {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: left;
+  gap: 1px;
   font-size: 2rem;
   font-weight: bold;
   color: #c87202;
@@ -31,7 +31,6 @@
 .logo-title em {
   font-style: italic;
   color: #e7ad0e;
-  font-size: 1.5rem;
 }
 
 /* DESKTOP NAVBAR */
@@ -89,6 +88,19 @@
 }
 
 .navbar a.active {
+  color: #e7ad0e;
+}
+
+.auth-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.auth-link:hover {
   color: #e7ad0e;
 }
 
@@ -238,4 +250,15 @@
 
 .mobile-overlay.active {
   display: none;
+}
+
+/* Ichthys brand styling */
+.ichthys-brand {
+  font-weight: bold;
+  color: #c87202;
+  font-size: 1.2em;
+}
+
+.ichthys-greek {
+  font-size: 2rem;
 }

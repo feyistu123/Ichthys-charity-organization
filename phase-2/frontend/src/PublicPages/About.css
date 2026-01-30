@@ -87,11 +87,13 @@
 .core-value-two,
 .core-value-three,
 .core-value-four {
-  background-color: #fff;
+  background: linear-gradient(135deg, #fefdf6, #ede9db);
   padding: 2vw;
   border-radius: 15px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 350px;
+  margin: 0 auto;
 }
 
 .core-value-one i,
@@ -254,6 +256,17 @@ button {
   color: #e7ad0e;
   text-decoration: none;
 }
+
+/* Ichthys brand styling */
+.ichthys-brand {
+  font-weight: bold;
+  color: #c87202;
+  font-size: 1.2em;
+}
+
+.ichthys-greek {
+  font-size: 2rem;
+}
 /* Tablet adjustments */
 @media (max-width: 1024px) {
   #intro-about {
@@ -293,6 +306,14 @@ button {
   #cors {
     padding: 3rem;
     grid-column: 1;
+  }
+  
+  .core-value-one,
+  .core-value-two,
+  .core-value-three,
+  .core-value-four {
+    width: 350px;
+    margin: 0 auto;
   }
   
   .slider-image {
@@ -365,6 +386,8 @@ button {
   .core-value-three,
   .core-value-four {
     padding: 1rem;
+    width: 300px;
+    margin: 0 auto;
   }
   
   .slider-image {
@@ -428,5 +451,7 @@ button {
   .core-value-three,
   .core-value-four {
     padding: 0.75rem;
+    width: 280px;
+    margin: 0 auto;
   }
 }

@@ -83,8 +83,8 @@ const HomePage = () => {
             change
           </p>
         </div>
-        <div className="core-values">
-          <div className="core-value-one">
+        <div className="programs">
+          <div className="program-one">
             <i className="bi bi-heart"></i>
             <h3>Education Support</h3>
             <p>
@@ -93,7 +93,7 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="core-value-two">
+          <div className="program-two">
             <i className="bi bi-people"></i>
             <h3>Community Building</h3>
             <p>
@@ -102,7 +102,7 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="core-value-three">
+          <div className="program-three">
             <i className="bi bi-trophy"></i>
             <h3>Skill Training</h3>
             <p>

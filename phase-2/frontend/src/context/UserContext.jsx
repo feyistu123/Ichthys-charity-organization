@@ -4,6 +4,16 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [volunteers, setVolunteers] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Check for existing token on app load
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("userData");
+    if (token && userData) {
+      setCurrentUser(JSON.parse(userData));
+    }
+  }, []);
 
   // Fetch all volunteers for admin
   const fetchAllVolunteers = async () => {
@@ -178,6 +188,8 @@ export const UserProvider = ({ children }) => {
       console.log("Login success:", data);
       alert(data.message || "Logged in successfully!");
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userData", JSON.stringify(data.user));
+      setCurrentUser(data.user);
       return data.user;
     } catch (err) {
       console.error("Login error:", err);
@@ -186,6 +198,12 @@ export const UserProvider = ({ children }) => {
 
       return null;
     }
+  };
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
+    setCurrentUser(null);
   };
 
   const signUpVolunteer = async (newVolunteer) => {
@@ -262,6 +280,8 @@ export const UserProvider = ({ children }) => {
       value={{
         RegisterUser,
         loginUser,
+        logoutUser,
+        currentUser,
         signUpVolunteer,
         sendFeedBack,
         volunteers,

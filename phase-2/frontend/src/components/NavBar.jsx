@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { images } from "../assets/Images/images";
+import { useUserData } from "../context/UserContext";
 import "./NavBar.css";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { currentUser, logoutUser } = useUserData();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,13 +17,23 @@ const NavBar = () => {
     setIsMenuOpen(false);
   };
 
+  const handleAuthAction = () => {
+    if (currentUser) {
+      logoutUser();
+      navigate("/");
+    } else {
+      navigate("/accounts");
+    }
+    closeMenu();
+  };
+
   return (
     <>
       <header className="header">
         <h1 className="logo-title">
           <img className="logo" src={images.Ichtus} alt="Ichthys logo" />
-          <p style={{ marginLeft: "3px" }}>Ichthys</p>
-          <em style={{ fontSize: "12px", marginRight: "30px" }}>(ἰχθύς)</em>
+          <p style={{ fontSize: "24px" }}><span className="ichthys-brand">Ichthys</span></p>
+          <em style={{ fontSize: "18px", marginRight: "30px" }} className="ichthys-greek">(ἰχθύς)</em>
         </h1>
 
         <nav className={`navbar ${isMenuOpen ? "navbar-open" : ""}`}>
@@ -46,9 +58,9 @@ const NavBar = () => {
           <NavLink to="/contact-us" onClick={closeMenu}>
             Contact us
           </NavLink>
-          <NavLink to="/accounts" onClick={closeMenu}>
-            Log in
-          </NavLink>
+          <span onClick={handleAuthAction} className="auth-link">
+            {currentUser ? "Logout" : "Log in"}
+          </span>
 
           <button
             className="donate"

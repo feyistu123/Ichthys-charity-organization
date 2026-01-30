@@ -168,7 +168,7 @@ a {
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   margin: 50px auto;
-  width: 80%;
+  width: min(90%, 100vw - 4rem);
 }
 
 .core-head {
@@ -187,39 +187,40 @@ a {
   color: 0.666666;
 }
 
-.core-value-one,
-.core-value-two,
-.core-value-three {
+.program-one,
+.program-two,
+.program-three {
   background: linear-gradient(135deg, #fefdf6, #ede9db);
   padding: 2rem;
   color: #663300;
   border-radius: 15px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   align-items: center;
-  max-width: 350px;
+  width: 70%;
+  max-width: 300px;
 }
 
-.core-values {
+.programs {
   width: 100%;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
-  gap: 10px;
+  gap: 1rem;
   padding: 0 1rem;
 }
 
-.core-value-one i,
-.core-value-two i,
-.core-value-three i {
+.program-one i,
+.program-two i,
+.program-three i {
   font-size: 1.8rem;
   color: #e7ad0e;
   margin-bottom: 1rem;
 }
 
-.core-value-one h3,
-.core-value-two h3,
-.core-value-three h3 {
+.program-one h3,
+.program-two h3,
+.program-three h3 {
   font-size: 1.3rem;
   margin-bottom: 1rem;
   color: #663300;
@@ -472,6 +473,20 @@ a {
 }
 
 /* TABLET */
+@media (max-width: 1024px) {
+  .programs {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .program-one,
+  .program-two,
+  .program-three {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 900px) {
   header h1 {
     margin: 10px;
@@ -575,15 +590,22 @@ a {
     font-size: 1rem;
   }
   
-  .core-value-one,
-  .core-value-two,
-  .core-value-three {
-    padding: 1.5rem;
+  .programs {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
   
-  .core-value-one h3,
-  .core-value-two h3,
-  .core-value-three h3 {
+  .program-one,
+  .program-two,
+  .program-three {
+    padding: 1.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .program-one h3,
+  .program-two h3,
+  .program-three h3 {
     font-size: 1.1rem;
   }
 
@@ -652,4 +674,15 @@ a {
   .donate-btn {
     width: 100%;
   }
+}
+
+/* Ichthys brand styling */
+.ichthys-brand {
+  font-weight: bold;
+  color: #c87202;
+  font-size: 1.2em;
+}
+
+.ichthys-greek {
+  font-size: 2rem;
 }

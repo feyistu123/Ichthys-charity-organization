@@ -168,6 +168,11 @@ button.donate:hover {
 
 
 @media (max-width: 800px) {
+  #footer {
+    max-height: none;
+    height: auto;
+  }
+  
   #footer-container {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -176,6 +181,10 @@ button.donate:hover {
   
   #footer-copy {
     grid-column: span 1;
+    display: block;
+    visibility: visible;
+    margin: 20px auto;
+    padding-bottom: 20px;
   }
 }
 

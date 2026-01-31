@@ -6,7 +6,8 @@ import ForgotPassword from "./ForgotPassword";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Donor");
+  const [role, setRole] = useState("user");
+  const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const { loginUser } = useUserData();
   const navigate = useNavigate();
@@ -65,27 +66,33 @@ const Login = () => {
           <label className="login-label" htmlFor="password">
             Password
           </label>
-          <input
-            type="password"
-            id="password"
-            className="login-input password-input"
-            placeholder="*****"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <label className="login-label" htmlFor="role">
-            Login as
-          </label>
-          <select
-            id="role"
-            className="login-select"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option>Volunteer</option>
-            <option>Admin</option>
-          </select>
+          <div style={{ position: 'relative', width: '90%' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              className="login-input password-input"
+              placeholder="*****"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: '100%', paddingRight: '12px' }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '-30px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              {showPassword ? '👁️' : '👁️‍🗨️'}
+            </button>
+          </div>
 
           <button type="submit" className="login-btn">
             Log In

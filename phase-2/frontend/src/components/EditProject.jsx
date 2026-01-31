@@ -18,7 +18,7 @@ const EditProject = ({ projectData, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await editProject({ id: projectData.id, upDatedData: project });
+    await editProject({ id: projectData._id, upDatedData: project });
     console.log("Project edited:", project);
     onClose();
   };
@@ -26,96 +26,97 @@ const EditProject = ({ projectData, onClose }) => {
   return (
     <div className="create-project-container">
       <h2 className="form-title">Edit Project</h2>
-      <form className="event-form" onSubmit={handleSubmit}>
+      <form className="project-form" onSubmit={handleSubmit}>
         <input
-          className="event-input"
-          placeholder="Event Title"
+          className="project-input"
+          placeholder="Project Title"
           type="text"
-          name="eventTitle"
+          name="title"
           onChange={handleChange}
-          value={event.eventTitle}
+          value={project.title}
           required
         />
 
         <textarea
-          className="event-input textarea"
-          placeholder="Event Description"
-          name="eventDescription"
+          className="project-input textarea"
+          placeholder="Project Description"
+          name="description"
           onChange={handleChange}
-          value={event.eventDescription}
+          value={project.description}
           required
         />
 
         <input
-          className="event-input"
-          placeholder="Event Category"
+          className="project-input"
+          placeholder="Project Category"
           type="text"
-          name="eventCategory"
-          list="event-list"
+          name="category"
+          list="project-list"
           onChange={handleChange}
-          value={event.eventCategory}
+          value={project.category}
           required
         />
-        <datalist id="event-list">
-          <option value="Fundraising" />
-          <option value="Training" />
-          <option value="Awareness" />
+        <datalist id="project-list">
+          <option value="Education" />
+          <option value="Health" />
+          <option value="Environment" />
+          <option value="Community" />
         </datalist>
 
         <input
-          className="event-input"
+          className="project-input"
           placeholder="Location"
           type="text"
           name="location"
           onChange={handleChange}
-          value={event.location}
+          value={project.location}
           required
         />
 
-        <div className="event-grid">
+        <div className="date-status">
           <input
-            className="event-input"
+            className="project-input"
             type="date"
-            name="date"
+            name="startDate"
             onChange={handleChange}
-            value={event.date}
+            value={project.startDate}
             required
           />
 
           <input
-            className="event-input"
-            type="time"
-            name="time"
+            className="project-input"
+            type="date"
+            name="endDate"
             onChange={handleChange}
-            value={event.time}
+            value={project.endDate}
           />
 
           <input
-            className="event-input"
-            placeholder="Total Spots"
+            className="project-input"
+            placeholder="Goal Amount"
             type="number"
-            name="TotalSpot"
+            name="goalAmount"
             onChange={handleChange}
-            value={event.TotalSpot}
+            value={project.goalAmount}
             required
           />
 
           <div className="status-field">
             <label>Status</label>
             <select
-              className="event-input"
+              className="project-input"
               name="status"
               onChange={handleChange}
-              value={event.status}
+              value={project.status}
             >
-              <option value="upcoming">Upcoming Event</option>
-              <option value="completed">Past Event</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
             </select>
           </div>
         </div>
 
         <button type="submit" className="project-submit-btn">
-          Save Changes
+          Update Project
         </button>
       </form>
     </div>

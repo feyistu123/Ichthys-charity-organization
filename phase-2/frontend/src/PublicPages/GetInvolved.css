@@ -684,12 +684,12 @@ h2 {
 .form-row {
   display: flex;
   gap: 1.5rem;
-  align-items: stretch;
+  align-items: center;
   max-width: 250px;
 }
 
 .form-row .form-group {
-  margin-bottom: 0;
+  margin: auto 1rem;
 }
 
 .secure-text {

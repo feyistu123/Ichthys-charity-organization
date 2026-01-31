@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { useData } from "../context/DataContext";
 
 const EditPost = ({ postData, onClose }) => {
   const { editPost } = useData();
 
-  const [post, setPost] = useState({ ...projectData });
+  const [post, setPost] = useState({ ...postData });
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -12,13 +13,14 @@ const EditPost = ({ postData, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await editPost({ id: postData.id, upDatedData: postData });
-    console.log("Post edited:", postData);
+    await editPost({ id: postData._id, upDatedData: post });
+    console.log("Post edited:", post);
     onClose();
   };
+  
   return (
     <div>
-      <h2 className="form-title">Create New Post</h2>
+      <h2 className="form-title">Edit Post</h2>
       <form className="post-form" onSubmit={handleSubmit}>
         <input
           className="post-input"
@@ -62,6 +64,9 @@ const EditPost = ({ postData, onClose }) => {
           value={post.author}
           required
         />
+        <button type="submit" className="post-submit-btn">
+          Update Post
+        </button>
       </form>
     </div>
   );

@@ -12,12 +12,19 @@ const Signup = () => {
   };
   const { RegisterUser } = useUserData();
   const [user, setUser] = useState(userInitial);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (user.password.length < 8) {
+      alert("Password must be at least 8 characters long!");
+      return;
+    }
 
     if (user.password !== user.confirmPassword) {
       alert("Passwords do not match!");
@@ -72,29 +79,67 @@ const Signup = () => {
           <label className="signup-label" htmlFor="password">
             Password
           </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={user.password}
-            className="signup-input password-input"
-            placeholder="*****"
-            onChange={handleChange}
-            required
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              value={user.password}
+              className="signup-input password-input"
+              placeholder="*****"
+              onChange={handleChange}
+              required
+              style={{ paddingRight: '40px' }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '-100px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              {showPassword ? '👁️' : '👁️‍🗨️'}
+            </button>
+          </div>
 
           <label className="signup-label" htmlFor="confirm-password">
             Confirm Password
           </label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="confirmPassword"
-            value={user.confirmPassword}
-            className="signup-input confirm-password-input"
-            placeholder="*****"
-            onChange={handleChange}
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="confirm-password"
+              name="confirmPassword"
+              value={user.confirmPassword}
+              className="signup-input confirm-password-input"
+              placeholder="*****"
+              onChange={handleChange}
+              style={{ maxWidth: '100%', paddingRight: '40px' }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: 'absolute',
+                right: '-100px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+            </button>
+          </div>
 
           <label className="signup-label" htmlFor="userType">
             Sign Up As

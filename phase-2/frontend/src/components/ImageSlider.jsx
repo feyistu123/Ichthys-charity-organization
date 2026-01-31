@@ -11,18 +11,18 @@ const ImageSlider = () => {
     images.image6,
   ];
 
-  const imagesPerView = 3;
+  const imagesPerView = 1;
   const [current, setCurrent] = useState(0);
 
   const nextImage = () => {
     setCurrent((prev) =>
-      prev + imagesPerView >= sliderImages.length ? 0 : prev + imagesPerView
+      prev + 1 >= sliderImages.length ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
     setCurrent((prev) =>
-      prev === 0 ? Math.max(0, sliderImages.length - imagesPerView) : prev - imagesPerView
+      prev === 0 ? sliderImages.length - 1 : prev - 1
     );
   };
 
